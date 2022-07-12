@@ -1,0 +1,172 @@
+="" valueType="REG_SZ" value="Microsoft ActiveX Gallery" />
+    </registryKey>
+    <registryKey keyName="HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer\Plugins\PluginsPage">
+      <registryValue name="" valueType="REG_SZ" value="http://activex.microsoft.com/controls/find.asp?ext=%s&amp;mime=%s" />
+    </registryKey>
+    <registryKey keyName="HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer\Main">
+      <registryValue name="Default_Page_URL" valueType="REG_SZ" value="http://go.microsoft.com/fwlink/p/?LinkId=255141" />
+      <registryValue name="Default_Secondary_Page_URL" valueType="REG_MULTI_SZ" value="" />
+      <registryValue name="Default_Search_URL" valueType="REG_SZ" value="http://go.microsoft.com/fwlink/?LinkId=54896" />
+      <registryValue name="Search Page" valueType="REG_SZ" value="http://go.microsoft.com/fwlink/?LinkId=54896" />
+      <registryValue name="Extensions Off Page" valueType="REG_SZ" value="about:NoAdd-ons" />
+      <registryValue name="Security Risk Page" valueType="REG_SZ" value="about:SecurityRisk" />
+      <registryValue name="Enable_Disk_Cache" valueType="REG_SZ" value="yes" />
+      <registryValue name="Cache_Percent_of_Disk" valueType="REG_BINARY" value="0A000000" />
+      <registryValue name="Delete_Temp_Files_On_Exit" valueType="REG_SZ" value="yes" />
+      <registryValue name="Local Page" valueType="REG_SZ" value="$(runtime.system32)\blank.htm" />
+      <registryValue name="Anchor_Visitation_Horizon" valueType="REG_BINARY" value="01000000" />
+      <registryValue name="Use_Async_DNS" valueType="REG_SZ" value="yes" />
+      <registryValue name="Placeholder_Width" valueType="REG_BINARY" value="1A000000" />
+      <registryValue name="Placeholder_Height" valueType="REG_BINARY" value="1A000000" />
+      <registryValue name="x86AppPath" valueType="REG_SZ" value="$(runtime.programFilesX86)\Internet Explorer\IEXPLORE.EXE" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.exe">
+      <registryValue name="Content Type" valueType="REG_SZ" value="application/x-msdownload" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.dll">
+      <registryValue name="Content Type" valueType="REG_SZ" value="application/x-msdownload" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\MIME\Database\Content Type\application/x-mix-transfer">
+      <registryValue name="Extension" valueType="REG_SZ" value=".nix" />
+      <registryValue name="CLSID" valueType="REG_SZ" value="{10000000-0000-0000-0000-000000000001}" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.tar">
+      <registryValue name="Content Type" valueType="REG_SZ" value="application/x-tar" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\MIME\Database\Content Type\application/x-tar">
+      <registryValue name="Extension" valueType="REG_SZ" value=".tar" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.tgz">
+      <registryValue name="Content Type" valueType="REG_SZ" value="application/x-compressed" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\MIME\Database\Content Type\application/x-compressed">
+      <registryValue name="Extension" valueType="REG_SZ" value=".tgz" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.man">
+      <registryValue name="Content Type" valueType="REG_SZ" value="application/x-troff-man" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\MIME\Database\Content Type\application/x-troff-man">
+      <registryValue name="Extension" valueType="REG_SZ" value=".man" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.latex">
+      <registryValue name="Content Type" valueType="REG_SZ" value="application/x-latex" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\MIME\Database\Content Type\application/x-latex">
+      <registryValue name="Extension" valueType="REG_SZ" value=".latex" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.ps">
+      <registryValue name="Content Type" valueType="REG_SZ" value="application/postscript" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.eps">
+      <registryValue name="Content Type" valueType="REG_SZ" value="application/postscript" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.ai">
+      <registryValue name="Content Type" valueType="REG_SZ" value="application/postscript" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\MIME\Database\Content Type\application/postscript">
+      <registryValue name="Extension" valueType="REG_SZ" value=".ps" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.sit">
+      <registryValue name="Content Type" valueType="REG_SZ" value="application/x-stuffit" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\MIME\Database\Content Type\application/x-stuffit">
+      <registryValue name="Extension" valueType="REG_SZ" value=".sit" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.hqx">
+      <registryValue name="Content Type" valueType="REG_SZ" value="application/mac-binhex40" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\MIME\Database\Content Type\application/mac-binhex40">
+      <registryValue name="Extension" valueType="REG_SZ" value=".hqx" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.fif">
+      <registryValue name="Content Type" valueType="REG_SZ" value="application/fractals" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\MIME\Database\Content Type\application/fractals">
+      <registryValue name="Extension" valueType="REG_SZ" value=".fif" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.gz">
+      <registryValue name="Content Type" valueType="REG_SZ" value="application/x-gzip" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\MIME\Database\Content Type\application/x-gzip">
+      <registryValue name="Extension" valueType="REG_SZ" value=".gz" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.z">
+      <registryValue name="Content Type" valueType="REG_SZ" value="application/x-compress" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\MIME\Database\Content Type\application/x-compress">
+      <registryValue name="Extension" valueType="REG_SZ" value=".z" />
+    </registryKey>
+    <registryKey keyName="HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer\EmbedExtnToClsidMappings\.dcr">
+      <registryValue name="" valueType="REG_SZ" value="clsid:166B1BCA-3F9C-11CF-8075-444553540000" />
+    </registryKey>
+    <registryKey keyName="HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer\EmbedExtnToClsidMappings\.dir">
+      <registryValue name="" valueType="REG_SZ" value="clsid:166B1BCA-3F9C-11CF-8075-444553540000" />
+    </registryKey>
+    <registryKey keyName="HKEY_LOCAL_MACHINE\Software\Clients\StartMenuInternet\IEXPLORE.EXE\InstallInfo">
+      <registryValue name="HideIconsCommand" valueType="REG_EXPAND_SZ" value="&quot;%Systemroot%\system32\ie4ushowIE.exe&quot; -hide" />
+      <registryValue name="ShowIconsCommand" valueType="REG_EXPAND_SZ" value="&quot;%Systemroot%\system32\ie4ushowIE.exe&quot; -show" />
+      <registryValue name="ReinstallCommand" valueType="REG_SZ" value="&quot;$(runtime.system32)\ie4uinit.exe&quot; -reinstall" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.htm\OpenWithProgIds">
+      <registryValue name="IE.AssocFile.HTM" valueType="REG_SZ" value="" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.html\OpenWithProgIds">
+      <registryValue name="IE.AssocFile.HTM" valueType="REG_SZ" value="" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.mht\OpenWithProgIds">
+      <registryValue name="mhtmlfile" valueType="REG_SZ" value="" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.mhtml\OpenWithProgIds">
+      <registryValue name="mhtmlfile" valueType="REG_SZ" value="" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.partial\OpenWithProgIds">
+      <registryValue name="IE.AssocFile.PARTIAL" valueType="REG_SZ" value="" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.svg\OpenWithProgIds">
+      <registryValue name="svgfile" valueType="REG_SZ" value="" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.xht\OpenWithProgIds">
+      <registryValue name="xhtmlfile" valueType="REG_SZ" value="" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.xhtml\OpenWithProgIds">
+      <registryValue name="xhtmlfile" valueType="REG_SZ" value="" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.url\OpenWithProgIds">
+      <registryValue name="InternetShortcut" valueType="REG_SZ" value="" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\.website\OpenWithProgIds">
+      <registryValue name="Microsoft.Website" valueType="REG_SZ" value="" />
+    </registryKey>
+    <registryKey keyName="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\Capabilities">
+      <registryValue name="ApplicationDescription" valueType="REG_SZ" value="@$(runtime.ProgramFiles)\Internet Explorer\iexplore.exe,-706" />
+    </registryKey>
+    <registryKey keyName="HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer\Capabilities\FileAssociations">
+      <registryValue name=".htm" valueType="REG_SZ" value="IE.AssocFile.HTM" />
+      <registryValue name=".html" valueType="REG_SZ" value="IE.AssocFile.HTM" />
+      <registryValue name=".mht" valueType="REG_SZ" value="IE.AssocFile.MHT" />
+      <registryValue name=".mhtml" valueType="REG_SZ" value="IE.AssocFile.MHT" />
+      <registryValue name=".partial" valueType="REG_SZ" value="IE.AssocFile.PARTIAL" />
+      <registryValue name=".svg" valueType="REG_SZ" value="IE.AssocFile.SVG" />
+      <registryValue name=".xht" valueType="REG_SZ" value="IE.AssocFile.XHT" />
+      <registryValue name=".xhtml" valueType="REG_SZ" value="IE.AssocFile.XHT" />
+      <registryValue name=".url" valueType="REG_SZ" value="IE.AssocFile.URL" />
+      <registryValue name=".website" valueType="REG_SZ" value="IE.AssocFile.WEBSITE" />
+    </registryKey>
+    <registryKey keyName="HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer\Capabilities\UrlAssociations">
+      <registryValue name="http" valueType="REG_SZ" value="IE.HTTP" />
+      <registryValue name="https" valueType="REG_SZ" value="IE.HTTPS" />
+      <registryValue name="ftp" valueType="REG_SZ" value="IE.FTP" />
+      <registryValue name="res" valueType="REG_SZ" value="IE.HTTP" />
+      <registryValue name="mk" valueType="REG_SZ" value="IE.HTTP" />
+    </registryKey>
+    <registryKey keyName="HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer\Capabilities\MIMEAssociations">
+      <registryValue name="message/rfc822" valueType="REG_SZ" value="IE.message/rfc822" />
+      <registryValue name="text/html" valueType="REG_SZ" value="IE.text/html" />
+    </registryKey>
+    <registryKey keyName="HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer\Capabilities\SearchSuggestions\History">
+      <registryValue name="Protocol" valueType="REG_EXPAND_SZ" value="iehistory:" />
+    </registryKey>
+    <registryKey keyName="HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer\Capabilities\SearchSuggestions\Favorites">
+      <registryValue name="KnownFolderId" valueType="REG_EXPAND_SZ" value="{1777F761-68AD-4D8A-87BD-30B759FA33DD}" />
+    </registryKey>
+    <registryKey keyName="HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer\Capabilit

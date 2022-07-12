@@ -1,0 +1,30 @@
+int izqA = 7; 
+int izqB = 3; 
+int derA = 5; 
+int derB = 4; 
+int vel = 85; // Velocidad de los motores (0-255)
+
+void setup()  { 
+  pinMode(derA, OUTPUT);
+    pinMode(6, OUTPUT);
+  pinMode(derB, OUTPUT);
+  pinMode(izqA, OUTPUT);
+  pinMode(izqB, OUTPUT);
+ } 
+ 
+void loop()  { 
+ 
+    digitalWrite(7,HIGH);yyy
+    for (vel = 0; vel <= 180; vel += 1) { // goes from 0 degrees to 180 degrees
+    // in steps of 1 degree
+   
+    analogWrite(3,vel);   
+    delay(1500);                       // waits 15ms for the servo to reach the velition
+  }
+
+    for (vel = 180; vel >= 0; vel -= 1) { // goes from 180 degrees to 0 degrees
+     digitalWrite(7,LOW);
+    analogWrite(3,vel);     
+    delay(1500);                       // waits 15ms for the servo to reach the velition
+  }           
+}

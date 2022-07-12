@@ -1,0 +1,24 @@
+[$RootKey$\Packages\{9edcc1af-8aa7-481e-a39d-0515a4f22707}]
+@="Microsoft.VisualStudio.SharePoint.Designers.List.DesignerFramework.VsPackage"
+"InprocServer32"="$WinDir$\SYSTEM32\MSCOREE.DLL"
+"Class"="Microsoft.VisualStudio.SharePoint.Designers.List.DesignerFramework.VsPackage"
+"CodeBase"="$PackageFolder$\Microsoft.VisualStudio.SharePoint.Designers.List.dll"
+
+[$RootKey$\Editors\{9633b024-11ce-4cb7-a9ee-9e1e5ae077a1}]
+@="Visual Studio SharePoint Project Item Designer"
+"Package"="{9edcc1af-8aa7-481e-a39d-0515a4f22707}"
+"DeferUntilIntellisenseIsReady"=dword:00000000
+
+[$RootKey$\Editors\{A265BDD6-4640-4911-B542-3BC85FA14344}]
+@="Apps for SharePoint Manifest Designer"
+"Package"="{9edcc1af-8aa7-481e-a39d-0515a4f22707}"
+
+[$RootKey$\Editors\{77253FB2-E8D3-4954-8E43-6C166FAD0760}]
+@="Apps for Office Manifest Designer"
+"Package"="{9edcc1af-8aa7-481e-a39d-0515a4f22707}"
+
+[$RootKey$\Editors\{9633b024-11ce-4cb7-a9ee-9e1e5ae077a1}]
+"CommonPhysicalViewAttributes"=dword:3
+
+[$RootKey$\BindingPaths\{9edcc1af-8aa7-481e-a39d-0515a4f22707}]
+"$PackageFolder$"=""

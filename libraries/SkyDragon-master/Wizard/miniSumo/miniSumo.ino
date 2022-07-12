@@ -1,0 +1,22 @@
+et238\fprq2 Cambria Math CE{\*\falt Calisto MT};}{\f396\fbidi \froman\fcharset204\fprq2 Cambria Math Cyr{\*\falt Calisto MT};}
+{\f398\fbidi \froman\fcharset161\fprq2 Cambria Math Greek{\*\falt Calisto MT};}{\f399\fbidi \froman\fcharset162\fprq2 Cambria Math Tur{\*\falt Calisto MT};}{\f402\fbidi \froman\fcharset186\fprq2 Cambria Math Baltic{\*\falt Calisto MT};}
+{\f403\fbidi \froman\fcharset163\fprq2 Cambria Math (Vietnamese){\*\falt Calisto MT};}{\f455\fbidi \fswiss\fcharset238\fprq2 Tahoma CE{\*\falt ?? ??};}{\f456\fbidi \fswiss\fcharset204\fprq2 Tahoma Cyr{\*\falt ?? ??};}
+{\f458\fbidi \fswiss\fcharset161\fprq2 Tahoma Greek{\*\falt ?? ??};}{\f459\fbidi \fswiss\fcharset162\fprq2 Tahoma Tur{\*\falt ?? ??};}{\f460\fbidi \fswiss\fcharset177\fprq2 Tahoma (Hebrew){\*\falt ?? ??};}
+{\f461\fbidi \fswiss\fcharset178\fprq2 Tahoma (Arabic){\*\falt ?? ??};}{\f462\fbidi \fswiss\fcharset186\fprq2 Tahoma Baltic{\*\falt ?? ??};}{\f463\fbidi \fswiss\fcharset163\fprq2 Tahoma (Vietnamese){\*\falt ?? ??};}
+{\f464\fbidi \fswiss\fcharset222\fprq2 Tahoma (Thai){\*\falt ?? ??};}{\f465\fbidi \fswiss\fcharset238\fprq2 Segoe UI CE{\*\falt Century Gothic};}{\f466\fbidi \fswiss\fcharset204\fprq2 Segoe UI Cyr{\*\falt Century Gothic};}
+{\f468\fbidi \fswiss\fcharset161\fprq2 Segoe UI Greek{\*\falt Century Gothic};}{\f469\fbidi \fswiss\fcharset162\fprq2 Segoe UI Tur{\*\falt Century Gothic};}{\f470\fbidi \fswiss\fcharset177\fprq2 Segoe UI (Hebrew){\*\falt Century Gothic};}
+{\f471\fbidi \fswiss\fcharset178\fprq2 Segoe UI (Arabic){\*\falt Century Gothic};}{\f472\fbidi \fswiss\fcharset186\fprq2 Segoe UI Baltic{\*\falt Century Gothic};}{\f473\fbidi \fswiss\fcharset163\fprq2 Segoe UI (Vietnamese){\*\falt Century Gothic};}
+{\f517\fbidi \fnil\fcharset0\fprq2 @SimSun Western{\*\falt Minion Web};}{\f575\fbidi \fswiss\fcharset238\fprq2 Trebuchet MS CE{\*\falt Univers};}{\f576\fbidi \fswiss\fcharset204\fprq2 Trebuchet MS Cyr{\*\falt Univers};}
+{\f578\fbidi \fswiss\fcharset161\fprq2 Trebuchet MS Greek{\*\falt Univers};}{\f579\fbidi \fswiss\fcharset162\fprq2 Trebuchet MS Tur{\*\falt Univers};}{\f582\fbidi \fswiss\fcharset186\fprq2 Trebuchet MS Baltic{\*\falt Univers};}
+{\flomajor\f31508\fbidi \froman\fcharset238\fprq2 Times New Roman CE{\*\falt Times};}{\flomajor\f31509\fbidi \froman\fcharset204\fprq2 Times New Roman Cyr{\*\falt Times};}
+{\flomajor\f31511\fbidi \froman\fcharset161\fprq2 Times New Roman Greek{\*\falt Times};}{\flomajor\f31512\fbidi \froman\fcharset162\fprq2 Times New Roman Tur{\*\falt Times};}
+{\flomajor\f31513\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew){\*\falt Times};}{\flomajor\f31514\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic){\*\falt Times};}
+{\flomajor\f31515\fbidi \froman\fcharset186\fprq2 Times New Roman Baltic{\*\falt Times};}{\flomajor\f31516\fbidi \froman\fcharset163\fprq2 Times New Roman (Vietnamese){\*\falt Times};}
+{\fdbmajor\f31520\fbidi \fnil\fcharset0\fprq2 SimSun Western{\*\falt ????????????????????????\'a8\'ac??????};}{\fhimajor\f31528\fbidi \froman\fcharset238\fprq2 Cambria CE;}{\fhimajor\f31529\fbidi \froman\fcharset204\fprq2 Cambria Cyr;}
+{\fhimajor\f31531\fbidi \froman\fcharset161\fprq2 Cambria Greek;}{\fhimajor\f31532\fbidi \froman\fcharset162\fprq2 Cambria Tur;}{\fhimajor\f31535\fbidi \froman\fcharset186\fprq2 Cambria Baltic;}
+{\fhimajor\f31536\fbidi \froman\fcharset163\fprq2 Cambria (Vietnamese);}{\flominor\f31548\fbidi \froman\fcharset238\fprq2 Times New Roman CE{\*\falt Times};}{\flominor\f31549\fbidi \froman\fcharset204\fprq2 Times New Roman Cyr{\*\falt Times};}
+{\flominor\f31551\fbidi \froman\fcharset161\fprq2 Times New Roman Greek{\*\falt Times};}{\flominor\f31552\fbidi \froman\fcharset162\fprq2 Times New Roman Tur{\*\falt Times};}
+{\flominor\f31553\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew){\*\falt Times};}{\flominor\f31554\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic){\*\falt Times};}
+{\flominor\f31555\fbidi \froman\fcharset186\fprq2 Times New Roman Baltic{\*\falt Times};}{\flominor\f31556\fbidi \froman\fcharset163\fprq2 Times New Roman (Vietnamese){\*\falt Times};}
+{\fdbminor\f31560\fbidi \fnil\fcharset0\fprq2 SimSun Western{\*\falt ????????????????????????\'a8\'ac??????};}{\fhiminor\f31568\fbidi \fswiss\fcharset238\fprq2 Calibri CE;}{\fhiminor\f31569\fbidi \fswiss\fcharset204\fprq2 Calibri Cyr;}
+{\fhiminor\f31571\fbidi \fswiss\fcharset161\fprq2 Calibri Greek;}{\fhiminor\f31572\fbidi \fswiss\fcharset162\fprq2 Calibri Tur;}{\fhimino

@@ -1,0 +1,23 @@
+#######################################
+# Syntax Coloring Map barrera
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+barrera	KEYWORD1	barrera
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+unoBarrera	KEYWORD2
+Boton1	KEYWORD2
+Boton2	KEYWORD2
+activarele	KEYWORD2
+barrera.ino	KEYWORD2
+desactivarele	KEYWORD2
+motores 	KEYWORD2
+#######################################
+# Constants (LITERAL1)
+#######################################

@@ -1,0 +1,344 @@
+
+#define LCD_CS A3 // Chip Select goes to Analog 3
+#define LCD_CD A2 // Command/Data goes to Analog 2
+#define LCD_WR A1 // LCD Write goes to Analog 1
+#define LCD_RD A0 // LCD Read goes to Analog 0
+
+#include "Adafruit_GFX.h"// Hardware-specific library
+#include <MCUFRIEND_kbv.h>
+MCUFRIEND_kbv tft;
+
+
+#include <Wire.h>
+
+
+
+bool BT3 = false;
+byte StN = 0;          // Номер станции из массива биндов станций
+int StFreq [] = {9190, 10340, 9640,9860,10090,9320,10450,10780,9910};
+
+                    // 13 символов
+char StName[][14] = { "  Humor FM   ", "    ROCKS    ", "Radio Mogilev", "Russkoe radio", "  Radius FM  ",
+                    "   Pilot FM  ", "  Radio BA   ", "     Mir     ", "   Culture   "  };
+
+// датчик температуры, давления и влажности
+
+   float temp(NAN), hum(NAN), pres(NAN);
+  // uint8_t pressureUnit(5);    
+
+
+
+
+#include <TouchScreen.h>
+// калибровка тачскрина
+#define TS_MINX 84
+#define TS_MINY 62
+#define TS_MAXX 953
+#define TS_MAXY 904
+
+// Сила нажатия на дисплей
+#define MINPRESSURE 10
+#define MAXPRESSURE 1000
+
+// Последним параметром указывается сопротивление между X+ и X-
+// Для данных дисплеев 300 подойдет
+uint8_t YP = A1;  // must be an analog pin, use "An" notation!
+uint8_t XM = A2;  // must be an analog pin, use "An" notation!
+uint8_t YM = 7;   // can be a digital pin
+uint8_t XP = 6;   // can be a digital pin
+
+TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
+
+/* some RGB color definitions            */                                  
+#define Black           0x0000      /*   0,   0,   0 */
+#define Navy            0x000F      /*   0,   0, 128 */
+#define DarkGreen       0x03E0      /*   0, 128,   0 */
+#define DarkCyan        0x03EF      /*   0, 128, 128 */
+#define Maroon          0x7800      /* 128,   0,   0 */
+#define Purple          0x780F      /* 128,   0, 128 */
+#define Olive           0x7BE0      /* 128, 128,   0 */
+#define LightGrey       0xC618      /* 192, 192, 192 */
+#define DarkGrey        0x7BEF      /* 128, 128, 128 */
+#define Blue            0x001F      /*   0,   0, 255 */
+#define Green           0x07E0      /*   0, 255,   0 */
+#define Cyan            0x07FF      /*   0, 255, 255 */
+#define Red             0xF800      /* 255,   0,   0 */
+#define Magenta         0xF81F      /* 255,   0, 255 */
+#define Yellow          0xFFE0      /* 255, 255,   0 */
+#define White           0xFFFF      /* 255, 255, 255 */
+#define Orange          0xFD20      /* 255, 165,   0 */
+#define GreenYellow     0xAFE5      /* 173, 255,  47 */
+
+
+int p_X, p_Y, Vol;
+byte P_X, P_Y, P_Button;
+
+void setup(void) {
+    pinMode(10, OUTPUT); //реле
+    digitalWrite(10, HIGH); //Отключаем реле
+    pinMode(13, OUTPUT);
+    uint16_t ID = tft.readID(); //
+    tft.begin(ID);
+    tft.setRotation(1);    //Landscape
+    tft.fillScreen(Black);
+   
+     
+  // установка времени                  
+  // time.settime(0,6,8,13,06,17,2);  // _ сек, _ мин, _ час, _ день месяца, _ месяц, _ год, день недели 0-вск 6-суб
+
+    tft.drawRoundRect(1,1,318,46,10, Cyan);
+    tft.drawTriangle(40, 8, 40, 38, 8,24 , Cyan);
+    tft.drawTriangle(280, 8, 280, 38, 310, 24, Cyan);
+    delay(200);
+ // Initialize the Radio 
+
+ // Set all radio setting to the fixed values.
+ 
+    tft.fillCircle(160, 108, 4, White); //Точки между час и мин
+    tft.fillCircle(160, 130, 4, White);
+     
+//    tft.fillCircle(265, 126, 2, LightGrey); //Точки между мин и сек
+//    tft.fillCircle(265, 136, 2, LightGrey);
+           
+         tft.setTextSize(2);
+         tft.setTextColor(Green, Black);
+         tft.setCursor(71,210);
+         tft.print("2");       
+         tft.fillTriangle(64, 238, 255, 238, 255, 206, Black);  
+         tft.drawTriangle(64, 238, 255, 238, 255, 206, Green);
+   
+         
+          tft.setTextSize(2);
+          tft.setCursor(8,70);          
+          tft.drawRect(1,61,48,34,DarkGrey);
+          tft.setTextColor(DarkGrey, Black);
+          tft.print("BT1"); 
+                 
+          tft.setCursor(8,118);          
+          tft.drawRect(1,109,48,34, DarkGrey);
+          tft.setTextColor(DarkGrey, Black);
+          tft.print("BT2"); 
+       
+          tft.setCursor(8,166);          
+          tft.drawRoundRect(1,157,48,34,8, DarkGrey);
+          tft.setTextColor(DarkGrey, Black);
+          tft.print("FAN"); 
+          
+          tft.setCursor(8,214);          
+          tft.drawRoundRect(1,205,48,34,8, DarkGrey);
+          tft.setTextColor(DarkGrey, Black);
+          tft.print("MUT");  
+
+          tft.setCursor(276,70); 
+          tft.drawRoundRect(271,109,48,34,8, DarkGrey);
+          tft.setTextColor(DarkGrey, Black);
+          tft.print("BT4");  
+
+          tft.setCursor(276,118); 
+          tft.drawRoundRect(271,61,48,34,8, DarkGrey);
+          tft.setTextColor(DarkGrey, Black);
+          tft.print("BT5");  
+          
+          tft.setCursor(276,166); 
+          tft.drawRoundRect(271,157,48,34,8, DarkGrey);
+          tft.setTextColor(DarkGrey, Black);
+          tft.print("BT6");   
+
+          tft.setCursor(276,214); 
+          tft.drawRoundRect(271,205,48,34,8, DarkGrey);
+          tft.setTextColor(DarkGrey, Black);
+          tft.print("BAS");   
+
+ }
+
+
+void loop()
+{
+       // Отображаем Дату и время
+        if(millis()%1000==0){ // если прошла 1 секунда
+        tft.setTextColor(White, Black);
+        tft.setTextSize(7);
+        tft.setCursor(67, 92);           // выводим время - час
+     
+ //       tft.setCursor(160, 90);           // выводим :
+ //       tft.print(":");  
+        tft.setCursor(175, 92);           // выводим время - мин
+       
+       
+        tft.setCursor(274,120);
+        tft.setTextColor(LightGrey, Black);
+        tft.setTextSize(3);
+  //      tft.println(time.gettime("s"));
+        tft.setTextColor(Yellow, Black);
+        tft.setTextSize(2);
+        tft.setCursor(72, 156);
+       
+//        tft.println(time.gettime("d.m.Y")); // выводим дату
+        delay(1); // приостанавливаем на 1 мс, чтоб не выводить время несколько раз за 1мс
+ // Отображаем данные с датчика BME-280
+    
+      tft.setTextColor(Orange, Black);
+      tft.setTextSize(2);
+      tft.setCursor(82, 60);
+      tft.print(temp,1);
+      tft.print("'C  ");
+      tft.setTextColor(Blue, Black);
+      tft.print(hum,1);
+      tft.print("% ");
+      tft.setCursor(108, 180);
+      tft.setTextColor(Olive, Black);
+      tft.print(pres,1);
+      tft.print(" torr");       
+        
+        
+        } // Конецблока вывода даты/времени
+
+ 
+  digitalWrite(13, HIGH);
+  // Считываем координаты нажатия
+  TSPoint p = ts.getPoint();
+  digitalWrite(13, LOW);
+  pinMode(XM, OUTPUT);
+  pinMode(YP, OUTPUT);
+
+ 
+  // **************************** ОБРАБОТКА НАЖАТИЯ НА ТАЧСКРИН ********************************************
+  // Если сила нажатия попадает в допустимый диапазон то начинаем обработку
+ if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {
+  // Переводим координаты в размеры разрешения дисплея
+  p.x = map(p.x, TS_MINX, TS_MAXX, tft.height(), 0);
+  p.y = map(p.y, TS_MINY, TS_MAXY, tft.width(), 0);
+
+  // Преобразуем снятые координаты в координаты экрана
+  p_X=320-p.y;
+  p_Y=p.x;
+  // Получаем координаты кнопок в поле 5х4
+  P_X = p_X/64;
+  P_Y = p_Y/48;
+  P_Button = P_X*10+P_Y; // Формируем номер кнопки
+
+ // Если попали в зону меню то очищаем экран
+ //  if (p_X > tft.width()) {  tft.fillScreen(Black);   }
+           
+ //-------------- ОБРАБОТКА ВИРТУАЛЬНЫХ КНОПОК --------------
+
+switch ( P_Button ) {
+    case 0: { // Если нажата кнопка "0"
+          if (StN==0) StN=8;
+          else --StN;
+          StChange (StN);
+
+    tft.fillTriangle(40, 8, 40, 38, 8,24 , Cyan);
+     delay (300); // ждем 0,3 сек чтобы предотвратить повторное нажатие
+    tft.fillTriangle(40, 8, 40, 38, 8,24 , Black);
+    tft.drawTriangle(40, 8, 40, 38, 8,24 , Cyan);
+            }   break;
+    case 40: { // Если нажата кнопка "40"
+           if (StN==8) StN=0;
+           else ++StN;
+           StChange (StN);
+    tft.fillTriangle(280, 8, 280, 38, 310, 24, Cyan);
+    delay (300); // ждем 0,3 сек чтобы предотвратить повторное нажатие
+    tft.fillTriangle(280, 8, 280, 38, 310, 24, Black);    
+    tft.drawTriangle(280, 8, 280, 38, 310, 24, Cyan);
+             }   break;
+
+    case 3: { // Если нажата кнопка "3"
+   
+     BT3 = !BT3;
+     tft.setTextSize(2);
+     tft.setCursor(7,214); 
+          tft.setCursor(8,166);     
+     if (BT3) { 
+          digitalWrite(10, LOW); //Включаем реле (5 Вольт подаем на катушку реле и притягиваем к земле через эмиттер-коллектор транзистора)
+          tft.drawRoundRect(1,157,48,34,8, White);   //(ток через катушку  ~ 50 мА)
+          tft.setTextColor(White);
+          tft.print("FAN");  
+          }
+     else {
+          digitalWrite(10, HIGH); //Отключаем реле
+          tft.drawRoundRect(1,157,48,34,8, DarkGrey);
+          tft.setTextColor(DarkGrey);
+          tft.print("FAN");   
+           }
+     delay (300); // ждем 0,3 сек чтобы предотвратить повторное нажатие
+          }   break;  
+    
+    
+    
+    
+    case 4: { // Если нажата кнопка "4" включаем/отключаем громкость (MUTE)
+   
+  
+          }   break;
+
+  // --- Область ползунка громкости занимает 3 нижних кнопки ---
+    case 14: { // Если нажата кнопка "13"
+    Volume (p_X);   
+            }   break;
+    case 24: { // Если нажата кнопка "23"
+    Volume (p_X);  
+            }   break;
+    case 34: { // Если нажата кнопка "33"
+    Volume (p_X);   
+            }   break;
+  
+   // --- Область ползунка громкости ---
+    case 44: { // Если нажата кнопка "43"
+    
+
+    
+            }   break;
+  
+                } //-------------- КОНЕЦ ОБРАБОТКИ ВИРТУАЛЬНЫХ КНОПОК --------------
+
+
+
+  
+  } // **************************** КОНЕЦ ОБРАБОТКИ НАЖАТИЯ НА ТАЧСКРИН ********************************************
+  
+ }
+
+
+
+  void Volume (int Vol_p_X) //функция установки значения громкости и отображения информации о громкости на экране
+   {
+ //        tft.setContrast(12); 
+         
+        
+         if (((Vol_p_X-64)/12) != Vol )
+         {   
+          
+         Vol = ((Vol_p_X-64)/12);
+         // Отображаем на экране значение громкости 
+         tft.setTextSize(2);
+         tft.setTextColor(Green, Black);
+         tft.setCursor(71,210);
+         tft.print(Vol); 
+         if (Vol<10)tft.print(" ");
+         tft.fillTriangle(64, 238, 255, 238, 255, 206, Black);  
+         tft.drawTriangle(64, 238, 255, 238, 255, 206, Green);
+         tft.fillTriangle( 64, 238, 63+((Vol+1)*12), 238,63+((Vol+1)*12), 238-((Vol+1)*2), Green);
+         } 
+   }
+  
+  void StChange (int St) //функция смены радиостанции и отображения информации о новой станции на экране
+   {
+   
+      char s[12];
+      tft.setTextColor(Cyan, Black);
+      tft.setTextSize(4);
+      tft.setCursor(68, 10);
+      tft.print((St+1));
+      tft.setTextSize(2);
+      tft.setTextColor(Cyan, Black);
+      tft.setCursor(120, 6);
+     
+
+      tft.println(s);
+      tft.setTextSize(2);
+      tft.setTextColor(Cyan, Black);
+      tft.setCursor(106, 28);
+      tft.println((StName[St]));
+  //  tft.println(utf8rus(StName[St]));
+    }

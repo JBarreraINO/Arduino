@@ -1,0 +1,77 @@
+#include "pitches.h" //add Equivalent frequency for musical note
+#include "themes.h"
+
+void Play_Pirates()
+{ 
+  for (int thisNote = 0; thisNote < (sizeof(Pirates_note)/sizeof(int)); thisNote++) {
+
+    int noteDuration = 1000 / Pirates_duration[thisNote];//convert duration to time delay
+    tone(9, Pirates_note[thisNote], noteDuration);
+
+    int pauseBetweenNotes = noteDuration * 1.05; //Here 1.05 is tempo, increase to play it slower
+    delay(pauseBetweenNotes);
+    noTone(9); //stop music on pin 9 
+    }
+}
+
+void Play_CrazyFrog()
+{
+  for (int thisNote = 0; thisNote < (sizeof(CrazyFrog_note)/sizeof(int)); thisNote++) {
+
+    int noteDuration = 1000 / CrazyFrog_duration[thisNote]; //convert duration to time delay
+    tone(9, CrazyFrog_note[thisNote], noteDuration);
+
+    int pauseBetweenNotes = noteDuration * 1.30;//Here 1.30 is tempo, decrease to play it faster
+    delay(pauseBetweenNotes);
+    noTone(9); //stop music on pin 9 
+    }
+}
+
+void Play_MarioUW()
+{
+    for (int thisNote = 0; thisNote < (sizeof(MarioUW_note)/sizeof(int)); thisNote++) {
+
+    int noteDuration = 1000 / MarioUW_duration[thisNote];//convert duration to time delay
+    tone(9, MarioUW_note[thisNote], noteDuration);
+
+    int pauseBetweenNotes = noteDuration * 1.90;
+    delay(pauseBetweenNotes);
+    noTone(9); //stop music on pin 9 
+    }
+}
+
+void Play_Titanic()
+{
+    for (int thisNote = 0; thisNote < (sizeof(Titanic_note)/sizeof(int)); thisNote++) {
+
+    int noteDuration = 1000 / Titanic_duration[thisNote];//convert duration to time delay
+    tone(9, Titanic_note[thisNote], noteDuration);
+
+    int pauseBetweenNotes = noteDuration * 2.70;
+    delay(pauseBetweenNotes);
+    noTone(9); //stop music on pin 9 
+    }
+}
+
+void setup() {
+pinMode(10, INPUT); //Button 1 with internal pull up
+pinMode(11, INPUT); //Button 2 with internal pull up
+pinMode(4, INPUT_PULLUP); //Button 3 with internal pull up
+pinMode(5, INPUT_PULLUP); //Button 4 with internal pull up
+Serial.begin(9600);
+}
+
+void loop() {
+int buttonState = digitalRead(10);
+
+  // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
+ /* if (buttonState == HIGH) {
+    // turn LED on:
+  Play_MarioUW();
+  } */
+  if(digitalRead(11) == LOW)
+  {
+    // turn LED off:
+ Play_Pirates();
+  }
+}

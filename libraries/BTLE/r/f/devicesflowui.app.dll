@@ -1,0 +1,426 @@
+ instruction." descriptionID="20886" detailLevel="standard" id="1637" name="Emulated Instructions Forwarding Cost" nameID="20884" symbol="VpEmulatedInstructionsForwardingTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Emulated Instructions Forwarding Cost" />
+          <counter defaultScale="0" description="The rate of debug register accesses forwarded to the nested hypervisor on the virtual processor." descriptionID="20890" detailLevel="standard" id="1638" name="Debug Register Accesses Forwarded/sec" nameID="20888" symbol="VpDebugRegisterAccessesForwardedCount" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Debug Register Accesses Forwarded" />
+          <counter baseID="9830" defaultScale="0" description="The average time (in nanoseconds) spent forwarding a debug register access." descriptionID="20898" detailLevel="standard" id="1639" name="Debug Register Accesses Forwarding Cost" nameID="20896" symbol="VpDebugRegisterAccessesForwardingTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Debug Register Accesses Forwarding Cost" />
+          <counter defaultScale="0" description="The rate of page fault exceptions forwarded to the nested hypervisor while executing guest code on the virtual processor." descriptionID="20902" detailLevel="standard" id="1640" name="Page Fault Intercepts Forwarded/sec" nameID="20900" symbol="VpPageFaultInterceptsForwardedCount" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Page Fault Intercepts Forwarded" />
+          <counter baseID="9832" defaultScale="0" description="The average time (in nanoseconds) spent forwarding a page fault intercept." descriptionID="20910" detailLevel="standard" id="1641" name="Page Fault Intercepts Forwarding Cost" nameID="20908" symbol="VpPageFaultInterceptsForwardingTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Page Fault Intercepts Forwarding Cost" />
+          <counter defaultScale="0" description="The rate of VMCLEAR instructions emulated while executing guest code on the virtual processor." descriptionID="20914" detailLevel="standard" id="1642" name="VMCLEAR Emulation Intercepts/sec" nameID="20912" symbol="VpVmclearEmulationCount" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMCLEAR Emulation Intercepts" />
+          <counter baseID="9834" defaultScale="0" description="The average time (in nanoseconds) spent enumulating a VMCLEAR instruction." descriptionID="20922" detailLevel="standard" id="1643" name="VMCLEAR Instruction Emulation Cost" nameID="20920" symbol="VpVmclearEmulationTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMCLEAR Instruction Emulation Cost" />
+          <counter defaultScale="0" description="The rate of VMPTRLD instructions emulated while executing guest code on the virtual processor." descriptionID="20926" detailLevel="standard" id="1644" name="VMPTRLD Emulation Intercepts/sec" nameID="20924" symbol="VpVmptrldEmulationCount" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMPTRLD Emulation Intercepts" />
+          <counter baseID="9836" defaultScale="0" description="The average time (in nanoseconds) spent enumulating a VMPTRLD instruction." descriptionID="20934" detailLevel="standard" id="1645" name="VMPTRLD Instruction Emulation Cost" nameID="20932" symbol="VpVmptrldEmulationTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMPTRLD Instruction Emulation Cost" />
+          <counter defaultScale="0" description="The rate of VMPTRST instructions emulated while executing guest code on the virtual processor." descriptionID="20938" detailLevel="standard" id="1646" name="VMPTRST Emulation Intercepts/sec" nameID="20936" symbol="VpVmptrstEmulationCount" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMPTRST Emulation Intercepts" />
+          <counter baseID="9838" defaultScale="0" description="The average time (in nanoseconds) spent enumulating a VMPTRST instruction." descriptionID="20946" detailLevel="standard" id="1647" name="VMPTRST Instruction Emulation Cost" nameID="20944" symbol="VpVmptrstEmulationTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMPTRST Instruction Emulation Cost" />
+          <counter defaultScale="0" description="The rate of VMREAD instructions emulated while executing guest code on the virtual processor." descriptionID="20950" detailLevel="standard" id="1648" name="VMREAD Emulation Intercepts/sec" nameID="20948" symbol="VpVmreadEmulationCount" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMREAD Emulation Intercepts" />
+          <counter baseID="9840" defaultScale="0" description="The average time (in nanoseconds) spent enumulating a VMREAD instruction." descriptionID="20958" detailLevel="standard" id="1649" name="VMREAD Instruction Emulation Cost" nameID="20956" symbol="VpVmreadEmulationTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMREAD Instruction Emulation Cost" />
+          <counter defaultScale="0" description="The rate of VMWRITE instructions emulated while executing guest code on the virtual processor." descriptionID="20962" detailLevel="standard" id="1650" name="VMWRITE Emulation Intercepts/sec" nameID="20960" symbol="VpVmwriteEmulationCount" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMWRITE Emulation Intercepts" />
+          <counter baseID="9842" defaultScale="0" description="The average time (in nanoseconds) spent enumulating a VMWRITE instruction." descriptionID="20970" detailLevel="standard" id="1651" name="VMWRITE Instruction Emulation Cost" nameID="20968" symbol="VpVmwriteEmulationTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMWRITE Instruction Emulation Cost" />
+          <counter defaultScale="0" description="The rate of VMXOFF instructions emulated while executing guest code on the virtual processor." descriptionID="20974" detailLevel="standard" id="1652" name="VMXOFF Emulation Intercepts/sec" nameID="20972" symbol="VpVmxoffEmulationCount" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMXOFF Emulation Intercepts" />
+          <counter baseID="9844" defaultScale="0" description="The average time (in nanoseconds) spent enumulating a VMXOFF instruction." descriptionID="20982" detailLevel="standard" id="1653" name="VMXOFF Instruction Emulation Cost" nameID="20980" symbol="VpVmxoffEmulationTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMXOFF Instruction Emulation Cost" />
+          <counter defaultScale="0" description="The rate of VMXON instructions emulated while executing guest code on the virtual processor." descriptionID="20986" detailLevel="standard" id="1654" name="VMXON Emulation Intercepts/sec" nameID="20984" symbol="VpVmxonEmulationCount" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMXON Emulation Intercepts" />
+          <counter baseID="9846" defaultScale="0" description="The average time (in nanoseconds) spent enumulating a VMXON instruction." descriptionID="20994" detailLevel="standard" id="1655" name="VMXON Instruction Emulation Cost" nameID="20992" symbol="VpVmxonEmulationTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMXON Instruction Emulation Cost" />
+          <counter defaultScale="0" description="The rate of nested VM entries while executing guest code on the virtual processor." descriptionID="20998" detailLevel="standard" id="1656" name="Nested VM Entries/sec" nameID="20996" symbol="VpNestedVMEntriesCount" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Nested VM Entries" />
+          <counter baseID="9848" defaultScale="0" description="The average time (in nanoseconds) spent processing a nested VM entry." descriptionID="21006" detailLevel="standard" id="1657" name="Nested VM Entries Cost" nameID="21004" symbol="VpNestedVMEntriesTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Nested VM Entries Cost" />
+          <counter defaultScale="0" description="The rate of nested SLAT soft page faults while executing guest code on the virtual processor." descriptionID="21010" detailLevel="standard" id="1658" name="Nested SLAT Soft Page Faults/sec" nameID="21008" symbol="VpNestedSLATSoftPageFaultsCount" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Nested SLAT Soft Page Faults" />
+          <counter baseID="9850" defaultScale="0" description="The average time (in nanoseconds) spent processing a nested SLAT soft page fault." descriptionID="21018" detailLevel="standard" id="1659" name="Nested SLAT Soft Page Faults Cost" nameID="21016" symbol="VpNestedSLATSoftPageFaultsTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Nested SLAT Soft Page Faults Cost" />
+          <counter defaultScale="0" description="The rate of nested SLAT hard page faults while executing guest code on the virtual processor." descriptionID="21022" detailLevel="standard" id="1660" name="Nested SLAT Hard Page Faults/sec" nameID="21020" symbol="VpNestedSLATHardPageFaultsCount" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Nested SLAT Hard Page Faults" />
+          <counter baseID="9852" defaultScale="0" description="The average time (in nanoseconds) spent processing a nested SLAT hard page fault." descriptionID="21030" detailLevel="standard" id="1661" name="Nested SLAT Hard Page Faults Cost" nameID="21028" symbol="VpNestedSLATHardPageFaultsTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Nested SLAT Hard Page Faults Cost" />
+          <counter defaultScale="0" description="The rate of InvEpt All Context instructions emulated while executing guest code on the virtual processor." descriptionID="21034" detailLevel="standard" id="1662" name="InvEpt All Context Emulation Intercepts/sec" nameID="21032" symbol="VpInvEptAllContextEmulationCount" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.InvEpt All Context Emulation Intercepts" />
+          <counter baseID="9854" defaultScale="0" description="The average time (in nanoseconds) spent emulating an InvEpt All Context intercept." descriptionID="21042" detailLevel="standard" id="1663" name="InvEpt All Context Instruction Emulation Cost" nameID="21040" symbol="VpInvEptAllContextEmulationTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.InvEpt All Context Instruction Emulation Cost" />
+          <counter defaultScale="0" description="The rate of InvEpt Single Context instructions emulated while executing guest code on the virtual processor." descriptionID="21046" detailLevel="standard" id="1664" name="InvEpt Single Context Emulation Intercepts/sec" nameID="21044" symbol="VpInvEptSingleContextEmulationCount" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.InvEpt Single Context Emulation Intercepts" />
+          <counter baseID="9856" defaultScale="0" description="The average time (in nanoseconds) spent emulating an InvEpt Single Context intercept." descriptionID="21054" detailLevel="standard" id="1665" name="InvEpt Single Context Instruction Emulation Cost" nameID="21052" symbol="VpInvEptSingleContextEmulationTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.InvEpt Single Context Instruction Emulation Cost" />
+          <counter defaultScale="0" description="The rate of InvVpid All Context instructions emulated while executing guest code on the virtual processor." descriptionID="21058" detailLevel="standard" id="1666" name="InvVpid All Context Emulation Intercepts/sec" nameID="21056" symbol="VpInvVpidAllContextEmulationCount" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.InvVpid All Context Emulation Intercepts" />
+          <counter baseID="9858" defaultScale="0" description="The average time (in nanoseconds) spent emulating an InvVpid All Context intercept." descriptionID="21066" detailLevel="standard" id="1667" name="InvVpid All Context Instruction Emulation Cost" nameID="21064" symbol="VpInvVpidAllContextEmulationTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.InvVpid All Context Instruction Emulation Cost" />
+          <counter defaultScale="0" description="The rate of InvVpid Single Context instructions emulated while executing guest code on the virtual processor." descriptionID="21070" detailLevel="standard" id="1668" name="InvVpid Single Context Emulation Intercepts/sec" nameID="21068" symbol="VpInvVpidSingleContextEmulationCount" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.InvVpid Single Context Emulation Intercepts" />
+          <counter baseID="9860" defaultScale="0" description="The average time (in nanoseconds) spent emulating an InvVpid Single Context intercept." descriptionID="21078" detailLevel="standard" id="1669" name="InvVpid Single Context Instruction Emulation Cost" nameID="21076" symbol="VpInvVpidSingleContextEmulationTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.InvVpid Single Context Instruction Emulation Cost" />
+          <counter defaultScale="0" description="The rate of InvVpid Single Address instructions emulated while executing guest code on the virtual processor." descriptionID="21082" detailLevel="standard" id="1670" name="InvVpid Single Address Emulation Intercepts/sec" nameID="21080" symbol="VpInvVpidSingleAddressEmulationCount" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.InvVpid Single Address Emulation Intercepts" />
+          <counter baseID="9862" defaultScale="0" description="The average time (in nanoseconds) spent emulating an InvVpid Single Address intercept." descriptionID="21090" detailLevel="standard" id="1671" name="InvVpid Single Address Instruction Emulation Cost" nameID="21088" symbol="VpInvVpidSingleAddressEmulationTime" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.InvVpid Single Address Instruction Emulation Cost" />
+          <counter defaultScale="0" description="The rate of reclamations of unlinked page tables in the nested TLB." descriptionID="21094" detailLevel="standard" id="1672" name="Nested TLB Page Table Reclamations/sec" nameID="21092" symbol="VpNestedTlbPageTableReclamations" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Nested TLB Page Table Reclamations" />
+          <counter defaultScale="0" description="The rate of page table evictions in the nested TLB." descriptionID="21098" detailLevel="standard" id="1673" name="Nested TLB Page Table Evictions/sec" nameID="21096" symbol="VpNestedTlbPageTableEvictions" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Nested TLB Page Table Evictions" />
+          <counter defaultScale="0" description="The rate of Flush Guest Physical Adress Space hypercalls made by the guest hypervisor on the virtual processor." descriptionID="21102" detailLevel="standard" id="1674" name="Flush Physical Address Space Hypercalls/sec" nameID="21100" symbol="VpFlushGuestPhysicalAddressSpaceHypercalls" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Flush Guest Physical Address Space Hypercalls" />
+          <counter defaultScale="0" description="The rate of Flush Guest Physical Address List hypercalls made by the guest hypervisor on the virtual processor." descriptionID="21106" detailLevel="standard" id="1675" name="Flush Physical Address List Hypercalls/sec" nameID="21104" symbol="VpFlushGuestPhysicalAddressListHypercalls" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Flush Guest Physical Address List Hypercalls" />
+          <counter defaultScale="0" description="The rate of posted interrupt notifications on the virtual processor." descriptionID="21110" detailLevel="standard" id="1676" name="Posted Interrupt Notifications/sec" nameID="21108" symbol="VpPostedInterruptNotifications" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Posted Interrupt Notifications" />
+          <counter defaultScale="0" description="The rate of posted interrupt scanning on the virtual processor." descriptionID="21114" detailLevel="standard" id="1677" name="Posted Interrupt Scans/sec" nameID="21112" symbol="VpPostedInterruptScans" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Posted Interrupt Scans" />
+          <counter defaultScale="0" description="The total time (in 100ns) spent by the virtual processor in guest code." descriptionID="21118" detailLevel="standard" id="7681" name="Guest Run Time" nameID="21116" symbol="VpGuestRunTime" type="perf_counter_large_rawcount" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Guest Run Time">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter baseID="7693" defaultScale="0" description="The percentage of time spent by the virtual processor in guest and hypervisor code." descriptionID="21122" detailLevel="standard" id="7682" name="% Total Run Time" nameID="21120" symbol="VpTotalRunTimePercent" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.% Total Run Time" />
+          <counter baseID="7693" defaultScale="0" description="The percentage of time spent by the virtual processor in hypervisor code." descriptionID="21126" detailLevel="standard" id="7683" name="% Hypervisor Run Time" nameID="21124" symbol="VpHypervisorRunTimePercent" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.% Hypervisor Run Time" />
+          <counter baseID="7693" defaultScale="0" description="The percentage of time spent by the virtual processor in guest code." descriptionID="21130" detailLevel="standard" id="7684" name="% Guest Run Time" nameID="21128" symbol="VpGuestRunTimePercent" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.% Guest Run Time" />
+          <counter defaultScale="0" description="The rate of total messages sent to the parent partition." descriptionID="21134" detailLevel="standard" id="7685" name="Total Messages/sec" nameID="21132" symbol="VpTotalMessages" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Total Messages" />
+          <counter defaultScale="0" description="The total count of all the hypervisor intercepts messages." descriptionID="21138" detailLevel="standard" id="7686" name="Total Intercepts Base" nameID="21136" symbol="VpTotalInterceptsBase" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Total Intercepts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The rate of hypervisor intercepts messages." descriptionID="21142" detailLevel="standard" id="7687" name="Total Intercepts/sec" nameID="21140" symbol="VpTotalIntercepts" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Total Intercepts" />
+          <counter baseID="7686" defaultScale="0" description="The average time (in nanoseconds) spent handling a hypervisor intercept." descriptionID="21146" detailLevel="standard" id="7688" name="Total Intercepts Cost" nameID="21144" symbol="VpTotalInterceptsCost" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Total Intercepts Cost" />
+          <counter baseID="7693" defaultScale="0" description="The percentage of time spent by the virtual processor running on a remote node." descriptionID="21150" detailLevel="standard" id="7689" name="% Remote Run Time" nameID="21148" symbol="VpRemoteRunTimePercent" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.% Remote Run Time" />
+          <counter defaultScale="0" description="The total count of virtualization instructions emulated on the virtual processor." descriptionID="21154" detailLevel="standard" id="7690" name="Total Virtualization Instructions Emulated Base" nameID="21152" symbol="VpTotalVirtualizationInstructionsEmulatedBase" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Total Virtualization Instructions Emulated Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The rate of virtualization instructions emulated." descriptionID="21158" detailLevel="standard" id="7691" name="Total Virtualization Instructions Emulated/sec" nameID="21156" symbol="VpTotalVirtualizationInstructionsEmulated" type="perf_counter_bulk_count" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Total Virtualization Instructions Emulated" />
+          <counter baseID="7690" defaultScale="0" description="The average time (in nanoseconds) spent emulating a virtualization extension instruction." descriptionID="21162" detailLevel="standard" id="7692" name="Total Virtualization Instructions Emulation Cost" nameID="21160" symbol="VpTotalVirtualizationInstructionsEmulationCost" type="perf_precision_100ns_timer" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Total Virtualization Instructions Emulation Cost" />
+          <counter defaultScale="0" description="A constant rate time source that is used as by a number of performance counters for duration calculations." descriptionID="21166" detailLevel="standard" id="7693" name="Global Reference Time" nameID="21164" symbol="VpGlobalReferenceTime" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor:Global Reference Time">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of hypercalls made by guest code on the virtual processor." descriptionID="20370" detailLevel="standard" id="9729" name="Hypercalls Base" nameID="20368" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Hypercalls Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of INVLPG instructions executed by guest code on the virtual processor." descriptionID="20382" detailLevel="standard" id="9731" name="Page Invalidations Base" nameID="20380" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Page Invalidations Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of control register accesses by guest code on the virtual processor." descriptionID="20394" detailLevel="standard" id="9733" name="Control Register Accesses Base" nameID="20392" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Control Register Accesses Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of IO instructions executed by guest code on the virtual processor." descriptionID="20406" detailLevel="standard" id="9735" name="IO Instructions Base" nameID="20404" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.IO Instructions Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of HLT instructions executed by guest code on the virtual processor." descriptionID="20418" detailLevel="standard" id="9737" name="HLT Instructions Base" nameID="20416" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.HLT Instructions Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of MWAIT instructions executed by guest code on the virtual processor." descriptionID="20430" detailLevel="standard" id="9739" name="MWAIT Instructions Base" nameID="20428" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.MWAIT Instructions Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of CPUID instructions executed by guest code on the virtual processor." descriptionID="20442" detailLevel="standard" id="9741" name="CPUID Instructions Base" nameID="20440" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.CPUID Instructions Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of MSR instructions by guest code on the virtual processor." descriptionID="20454" detailLevel="standard" id="9743" name="MSR Accesses Base" nameID="20452" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.MSR Accesses Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of other intercepts triggered by guest code on the virtual processor." descriptionID="20466" detailLevel="standard" id="9745" name="Other Intercepts Base" nameID="20464" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Other Intercepts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of external interrupts received by the hypervisor while executing guest code on the virtual processor." descriptionID="20478" detailLevel="standard" id="9747" name="External Interrupts Base" nameID="20476" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.External Interrupts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of intercepts due to a task priority (TPR) reduction by guest code on the virtual processor." descriptionID="20490" detailLevel="standard" id="9749" name="Pending Interrupts Base" nameID="20488" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Pending Interrupts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of emulated instructions while executing guest code on the virtual processor." descriptionID="20502" detailLevel="standard" id="9751" name="Emulated Instructions Base" nameID="20500" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Emulated Instructions Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of debug register accesses by guest code on the virtual processor." descriptionID="20514" detailLevel="standard" id="9753" name="Debug Register Accesses Base" nameID="20512" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Debug Register Accesses Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of page fault exceptions intercepted by the hypervisor while executing guest code on the virtual processor." descriptionID="20526" detailLevel="standard" id="9755" name="Page Fault Intercepts Base" nameID="20524" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Page Fault Intercepts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of nested page fault exceptions intercepted by the hypervisor while executing the virtual processor." descriptionID="20682" detailLevel="standard" id="9793" name="Nested Page Fault Intercepts Base" nameID="20680" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Nested Page Fault Intercepts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of dispatches of this virtual processor onto logical processors." descriptionID="20698" detailLevel="standard" id="9796" name="Logical Processor Dispatches Base" nameID="20696" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Logical Processor Dispatches Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of flushes of I/O TLBs for all PASIDs made by the virtual processor." descriptionID="20726" detailLevel="standard" id="9802" name="Global I/O TLB Flushes Base" nameID="20724" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Global IO TLB Flushes Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of flushes of I/O TLBs for one PASID made by the virtual processor." descriptionID="20738" detailLevel="standard" id="9804" name="Local I/O TLB Flushes Base" nameID="20736" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Local IO TLB Flushes Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of hypercalls forwarded to the nested hypervisor on the virtual processor." descriptionID="20750" detailLevel="standard" id="9806" name="Hypercalls Forwarded Base" nameID="20748" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Hypercalls Forwarded Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of INVLPG instructions forwarded to the nested hypervisor on the virtual processor." descriptionID="20762" detailLevel="standard" id="9808" name="Page Invalidations Forwarded Base" nameID="20760" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Page Invalidations Forwarded Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of control register accesses forwarded to the nested hypervisor on the virtual processor." descriptionID="20774" detailLevel="standard" id="9810" name="Control Register Accesses Forwarded Base" nameID="20772" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Control Register Accesses Forwarded Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of IO instructions forwarded to the nested hypervisor on the virtual processor." descriptionID="20786" detailLevel="standard" id="9812" name="IO Instructions Forwarded Base" nameID="20784" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.IO Instructions Forwarded Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of HLT instructions forwarded to the nested hypervisor on the virtual processor." descriptionID="20798" detailLevel="standard" id="9814" name="HLT Instructions Forwarded Base" nameID="20796" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.HLT Instructions Forwarded Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of MWAIT instructions forwarded to the nested hypervisor on the virtual processor." descriptionID="20810" detailLevel="standard" id="9816" name="MWAIT Instructions Forwarded Base" nameID="20808" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.MWAIT Instructions Forwarded Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of CPUID instructions forwarded to the nested hypervisor on the virtual processor." descriptionID="20822" detailLevel="standard" id="9818" name="CPUID Instructions Forwarded Base" nameID="20820" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.CPUID Instructions Forwarded Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of MSR instructions forwarded to the nested hypervisor on the virtual processor." descriptionID="20834" detailLevel="standard" id="9820" name="MSR Accesses Forwarded Base" nameID="20832" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.MSR Accesses Forwarded Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of other intercepts forwarded to the nested hypervisor on the virtual processor." descriptionID="20846" detailLevel="standard" id="9822" name="Other Intercepts Forwarded Base" nameID="20844" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Other Intercepts Forwarded Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of external interrupts forwarded to the nested hypervisor on the virtual processor." descriptionID="20858" detailLevel="standard" id="9824" name="External Interrupts Forwarded Base" nameID="20856" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.External Interrupts Forwarded Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of intercepts due to a task priority (TPR) reduction forwarded to the nested hypervisor on the virtual processor." descriptionID="20870" detailLevel="standard" id="9826" name="Pending Interrupts Forwarded Base" nameID="20868" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Pending Interrupts Forwarded Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of emulated instructions forwarded to the nested hypervisor on the virtual processor." descriptionID="20882" detailLevel="standard" id="9828" name="Emulated Instructions Forwarded Base" nameID="20880" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Emulated Instructions Forwarded Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of debug register accesses forwarded to the nested hypervisor on the virtual processor." descriptionID="20894" detailLevel="standard" id="9830" name="Debug Register Accesses Forwarded Base" nameID="20892" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Debug Register Accesses Forwarded Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of page fault exceptions forwarded to the nested hypervisor on the virtual processor." descriptionID="20906" detailLevel="standard" id="9832" name="Page Fault Intercepts Forwarded Base" nameID="20904" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Page Fault Intercepts Forwarded Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of VMCLEAR instructions emulated on the virtual processor." descriptionID="20918" detailLevel="standard" id="9834" name="VMCLEAR Emulation Intercepts Base" nameID="20916" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMCLEAR Emulation Intercepts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of VMPTRLD instructions emulated on the virtual processor." descriptionID="20930" detailLevel="standard" id="9836" name="VMPTRLD Emulation Intercepts Base" nameID="20928" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMPTRLD Emulation Intercepts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of VMPTRST instructions emulated on the virtual processor." descriptionID="20942" detailLevel="standard" id="9838" name="VMPTRST Emulation Intercepts Base" nameID="20940" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMPTRST Emulation Intercepts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of VMREAD instructions emulated on the virtual processor." descriptionID="20954" detailLevel="standard" id="9840" name="VMREAD Emulation Intercepts Base" nameID="20952" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMWRITE Emulation Intercepts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of VMWRITE instructions emulated on the virtual processor." descriptionID="20966" detailLevel="standard" id="9842" name="VMWRITE Emulation Intercepts Base" nameID="20964" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMREAD Emulation Intercepts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of VMXOFF instructions emulated on the virtual processor." descriptionID="20978" detailLevel="standard" id="9844" name="VMXOFF Emulation Intercepts Base" nameID="20976" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMXOFF Emulation Intercepts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of VMXON instructions emulated on the virtual processor." descriptionID="20990" detailLevel="standard" id="9846" name="VMXON Emulation Intercepts Base" nameID="20988" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.VMXON Emulation Intercepts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of nested VM entries on the virtual processor." descriptionID="21002" detailLevel="standard" id="9848" name="Nested VM Entries Base" nameID="21000" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Nested VM Entries Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of nested SLAT soft page faults on the virtual processor." descriptionID="21014" detailLevel="standard" id="9850" name="Nested SLAT Soft Page Faults Base" nameID="21012" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Nested SLAT Soft Page Faults Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of nested SLAT hard page faults on the virtual processor." descriptionID="21026" detailLevel="standard" id="9852" name="Nested SLAT Hard Page Faults Base" nameID="21024" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.Nested SLAT Hard Page Faults Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of InvEpt All Context instructions emulated on the virtual processor." descriptionID="21038" detailLevel="standard" id="9854" name="InvEpt All Context Emulation Intercepts Base" nameID="21036" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.InvEpt All Context Emulation Intercepts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of InvEpt Single Context instructions emulated on the virtual processor." descriptionID="21050" detailLevel="standard" id="9856" name="InvEpt Single Context Emulation Intercepts Base" nameID="21048" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.InvEpt Single Context Emulation Intercepts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of InvVpid All Context instructions emulated on the virtual processor." descriptionID="21062" detailLevel="standard" id="9858" name="InvVpid All Context Emulation Intercepts Base" nameID="21060" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.InvVpid All Context Emulation Intercepts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of InvVpid Single Context instructions emulated on the virtual processor." descriptionID="21074" detailLevel="standard" id="9860" name="InvVpid Single Context Emulation Intercepts Base" nameID="21072" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.InvVpid Single Context Emulation Intercepts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of InvVpid Single Address instructions emulated on the virtual processor." descriptionID="21086" detailLevel="standard" id="9862" name="InvVpid Single Address Emulation Intercepts Base" nameID="21084" type="perf_large_raw_base" uri="Microsoft.Windows.Virtualization.VirtualMachines.PerfCounters.Hyper-V:VirtualProcessor.InvVpid Single Address Emulation Intercepts Base">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+        </counterSet>
+      </provider>
+      <provider applicationIdentity="vmwp.exe" providerGuid="{49A12452-CE52-484d-81F8-68FC22126FA0}" providerName="GmoPerfProvider" providerType="userMode" symbol="GmoPerfProvider">
+        <counterSet description="Performance counters for a virtual machine's save, snapshot, and restore systems." descriptionID="40002" guid="{C35CDE36-EFF7-46b2-8EB3-F62FD16CFAE3}" instances="multiple" name="Hyper-V VM Save, Snapshot, and Restore" nameID="40000" symbol="HvVmSaveSnapshotAndRestoreCounterSet" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:GmoPerfCounters">
+          <counter defaultScale="0" description="The number of threads currently spawned" descriptionID="40006" detailLevel="standard" id="1" name="Threads Spawned" nameID="40004" type="perf_counter_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:GmoPerfCounters.ThreadsSpawned" />
+          <counter defaultScale="0" description="The number of requests currently being processed" descriptionID="40010" detailLevel="standard" id="2" name="Requests Active" nameID="40008" type="perf_counter_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:GmoPerfCounters.RequestsActive" />
+          <counter defaultScale="0" description="The total number of requests that have been dispatched" descriptionID="40014" detailLevel="standard" id="3" name="Requests Dispatched" nameID="40012" type="perf_counter_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:GmoPerfCounters.RequestsDispatched" />
+          <counter defaultScale="0" description="The total number of requests that have been processed" descriptionID="40018" detailLevel="standard" id="4" name="Requests Processed" nameID="40016" type="perf_counter_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:GmoPerfCounters.RequestsProcessed" />
+          <counter defaultScale="0" description="The total number of high priority requests" descriptionID="40022" detailLevel="standard" id="5" name="Requests High Priority" nameID="40020" type="perf_counter_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:GmoPerfCounters.RequestsHighPriority" />
+          <counter defaultScale="0" description="The time taken to complete a GMO operation (in ms)" descriptionID="40026" detailLevel="standard" id="6" name="Operation Time" nameID="40024" type="perf_counter_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:GmoPerfCounters.OperationTime" />
+        </counterSet>
+      </provider>
+      <provider applicationIdentity="vmwp.exe" providerGuid="{920FEA37-DE2D-43B3-A8C9-D3B8C236D531}" providerName="LmPerfProvider" providerType="userMode" symbol="g_LmPerfProvider">
+        <counterSet description="Performance counters for a virtual machine's live migration." descriptionID="60002" guid="{1391DC3F-6B3A-4582-B791-E8BF97B327E4}" instances="multiple" name="Hyper-V VM Live Migration" nameID="60000" symbol="HvVmLiveMigrationCounterSet" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration">
+          <counter defaultScale="0" description="Memory transfer pass number" descriptionID="60006" detailLevel="standard" id="1" name="Transfer Pass: Number" nameID="60004" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.TransferPassNumber" />
+          <counter defaultScale="0" description="Memory transfer pass blackout phase indicator" descriptionID="60010" detailLevel="standard" id="2" name="Transfer Pass: Is blackout" nameID="60008" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.TransferPassIsBlackout" />
+          <counter defaultScale="0" description="Memory transfer pass dirty page count" descriptionID="60014" detailLevel="standard" id="3" name="Transfer pass: Dirty Page Count" nameID="60012" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.TransferPassDirtyPageCount" />
+          <counter defaultScale="0" description="Memory transfer pass cpu cap" descriptionID="60018" detailLevel="standard" id="4" name="Transfer pass: CPU Cap" nameID="60016" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.TransferPassCpuCap" />
+          <counter defaultScale="0" description="Memory walker maximum threads" descriptionID="60022" detailLevel="standard" id="5" name="Memory Walker: Maximum Threads" nameID="60020" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.MemoryWalkerMaximumThreads" />
+          <counter defaultScale="0" description="Memory walker memory read per second" descriptionID="60026" detailLevel="standard" id="6" name="Memory Walker: Bytes Read/sec" nameID="60024" type="perf_counter_large_delta" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.MemoryWalkerBytesReadRate" />
+          <counter defaultScale="0" description="Memory walker uncompressed bytes send" descriptionID="60030" detailLevel="standard" id="7" name="Memory Walker: Uncompressed Bytes Sent" nameID="60028" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.MemoryWalkerUncompressedBytesSent" />
+          <counter defaultScale="0" description="Memory walker uncompressed bytes sent per second" descriptionID="60034" detailLevel="standard" id="8" name="Memory Walker: Uncompressed Bytes Sent/sec" nameID="60032" type="perf_counter_large_delta" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.MemoryWalkerUncompressedBytesSentRate" />
+          <counter defaultScale="0" description="Memory walker bytes sent for compression" descriptionID="60038" detailLevel="standard" id="9" name="Memory Walker: Bytes Sent for Compression" nameID="60036" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.MemoryWalkerBytesSentForCompression" />
+          <counter defaultScale="0" description="Memory walker bytes sent for compression per second" descriptionID="60042" detailLevel="standard" id="10" name="Memory Walker: Bytes Sent for Compression/sec" nameID="60040" type="perf_counter_large_delta" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.MemoryWalkerBytesSentForCompressionRate" />
+          <counter defaultScale="0" description="SMB transport's pending send count" descriptionID="60046" detailLevel="standard" id="11" name="SMB Transport: Pending Send Count" nameID="60044" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.MemoryWalkerSmbPendingSendCount" />
+          <counter defaultScale="0" description="SMB transport's pending send bytes" descriptionID="60050" detailLevel="standard" id="12" name="SMB Transport: Pending Send Bytes" nameID="60048" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.MemoryWalkerSmbPendingSendBytes" />
+          <counter defaultScale="0" description="SMB transport's bytes sent" descriptionID="60054" detailLevel="standard" id="13" name="SMB Transport: Bytes Sent" nameID="60052" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.MemoryWalkerSmbBytesSent" />
+          <counter defaultScale="0" description="SMB transport's bytes sent per second" descriptionID="60058" detailLevel="standard" id="14" name="SMB Transport: Bytes Sent/sec" nameID="60056" type="perf_counter_large_delta" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.MemoryWalkerSmbBytesSentRate" />
+          <counter defaultScale="0" description="Bytes to be compressed by the compressor threads" descriptionID="60062" detailLevel="standard" id="15" name="Compressor: Bytes to be Compressed" nameID="60060" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.CompressorBytesToBeCompressed" />
+          <counter defaultScale="0" description="Compressed bytes sent" descriptionID="60066" detailLevel="standard" id="16" name="Compressor: Compressed Bytes Sent" nameID="60064" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.CompressorCompressedBytesSent" />
+          <counter defaultScale="0" description="Compressed bytes sent per second" descriptionID="60070" detailLevel="standard" id="17" name="Compressor: Compressed Bytes Sent/sec" nameID="60068" type="perf_counter_large_delta" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.CompressorCompressedBytesSentRate" />
+          <counter defaultScale="0" description="Maximum compressor threads" descriptionID="60074" detailLevel="standard" id="18" name="Compressor: Maximum Threads" nameID="60072" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.CompressorMaximumThreads" />
+          <counter defaultScale="0" description="Enabled compressor threads" descriptionID="60078" detailLevel="standard" id="19" name="Compressor: Enabled Threads" nameID="60076" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.CompressorEnabledThreads" />
+          <counter defaultScale="0" description="TCP transport total buffer count" descriptionID="60082" detailLevel="standard" id="20" name="TCP Transport: Total buffer count" nameID="60080" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.TcpTransportTotalBufferCount" />
+          <counter defaultScale="0" description="TCP transport pending send count" descriptionID="60086" detailLevel="standard" id="21" name="TCP Transport: Pending Send Count" nameID="60084" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.TcpTransportPendingSendCount" />
+          <counter defaultScale="0" description="TCP transport bytes pending send" descriptionID="60090" detailLevel="standard" id="22" name="TCP Transport: Bytes Pending Send" nameID="60088" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.TcpTransportBytesPendingSend" />
+          <counter defaultScale="0" description="Bytes sent by TCP transport per second" descriptionID="60094" detailLevel="standard" id="23" name="TCP Transport: Bytes Sent/sec" nameID="60092" type="perf_counter_large_delta" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.TcpTransportBytesSentRate" />
+          <counter defaultScale="0" description="TCP transport posted receive buffer count" descriptionID="60098" detailLevel="standard" id="24" name="TCP Transport: Posted Receive Buffer Count" nameID="60096" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.TcpTransportPostedReceiveBufferCount" />
+          <counter defaultScale="0" description="TCP transport bytes received and pending processing" descriptionID="60102" detailLevel="standard" id="25" name="TCP Transport: Bytes Pending Processing" nameID="60100" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.TcpTransportBytesPendingProcessing" />
+          <counter defaultScale="0" description="Bytes received by TCP transport per second" descriptionID="60106" detailLevel="standard" id="26" name="TCP Transport: Bytes Received/sec" nameID="60104" type="perf_counter_large_delta" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.TcpTransportBytesReceiveRate" />
+          <counter defaultScale="0" description="Guest RAM Bytes written per second" descriptionID="60110" detailLevel="standard" id="27" name="Receiver: Bytes Written/sec" nameID="60108" type="perf_counter_large_delta" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.ReceiverBytesWriteRate" />
+          <counter defaultScale="0" description="Guest RAM bytes pending write" descriptionID="60114" detailLevel="standard" id="28" name="Receiver: Bytes Pending Write" nameID="60112" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.ReceiverBytesPendingWrite" />
+          <counter defaultScale="0" description="Uncompressed bytes received per second" descriptionID="60118" detailLevel="standard" id="29" name="Receiver: Uncompressed Bytes Received/sec" nameID="60116" type="perf_counter_large_delta" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.ReceiverUncompressedBytesReceiveRate" />
+          <counter defaultScale="0" description="Maximum thread count in receive threadpool" descriptionID="60122" detailLevel="standard" id="30" name="Receiver: Maximum Threadpool Thread Count" nameID="60120" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.ReceiverMaximumThreadpoolThreadCount" />
+          <counter defaultScale="0" description="Compressed bytes received per second" descriptionID="60126" detailLevel="standard" id="31" name="Receiver: Compressed Bytes Received/sec" nameID="60124" type="perf_counter_large_delta" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.ReceiverCompressedBytesReceiveRate" />
+          <counter defaultScale="0" description="Received bytes pending decompression" descriptionID="60130" detailLevel="standard" id="32" name="Receiver: Bytes Pending Decompression" nameID="60128" type="perf_counter_large_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.ReceiverBytesPendingDecompression" />
+          <counter defaultScale="0" description="Bytes post decompression per second" descriptionID="60134" detailLevel="standard" id="33" name="Receiver: Decompressed Bytes/sec" nameID="60132" type="perf_counter_large_delta" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:LiveMigration.ReceiverDecompressionBytesRate" />
+        </counterSet>
+      </provider>
+      <provider applicationIdentity="vmwp.exe" providerGuid="{BBA59395-F814-445f-A7B9-DE3B3058844C}" providerName="MmPerfProvider" providerType="userMode" symbol="MmPerfProvider">
+        <counterSet description="Performance counters for a worker process memory manager." descriptionID="41002" guid="{D7B597D2-2E22-47a1-86A5-D4F7E19E7B94}" instances="multiple" name="Hyper-V VM worker Process Memory Manager" nameID="41000" symbol="HvVmWorkerProcessMemoryManagerCounterSet" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:MmPerfCounters">
+          <counter defaultScale="0" description="The number of non-RAM memory blocks" descriptionID="41006" detailLevel="standard" id="1" name="Memory Block Count" nameID="41004" type="perf_counter_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:MmPerfCounters.MmMemoryBlockCount">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The total number of memory blocks" descriptionID="41010" detailLevel="standard" id="2" name="Total Memory Block Count" nameID="41008" type="perf_counter_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:MmPerfCounters.MmTotalMemoryBlockCount">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The number of RAM memory blocks" descriptionID="41014" detailLevel="standard" id="3" name="RAM Memory Block Count" nameID="41012" type="perf_counter_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:MmPerfCounters.MmRamMemoryBlockCount">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The number of apertures ready for re-use" descriptionID="41050" detailLevel="standard" id="4" name="Free Aperture List Size" nameID="41048" type="perf_counter_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:MmPerfCounters.MmApertureFreeListSize">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="Number of memory contents file size changes" descriptionID="41054" detailLevel="standard" id="5" name="Number of memory contents file size changes" nameID="41052" type="perf_counter_rawcount" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:MmPerfCounters.BinFileSizeChanges">
+            <counterAttributes>
+              <counterAttribute name="noDisplay" />
+            </counterAttributes>
+          </counter>
+        </counterSet>
+      </provider>
+      <provider applicationIdentity="vmwp.exe" providerGuid="{9F34E290-A947-4224-8EB4-A50118AC7123}" providerName="WorkerVpProvider" providerType="userMode" symbol="WorkerVpProvider">
+        <counterSet description="Performance counters for the virtual processor of a virtual machine." descriptionID="58002" guid="{8AAFD84B-E672-4910-8A1C-3E51CA02FF5E}" instances="multiple" name="Hyper-V Worker Virtual Processor" nameID="58000" symbol="WorkerVpCounterSet" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:WorkerVpCounters">
+          <counter defaultScale="0" description="The time in miliseconds that the intercepts have been delayed in 1 sec" descriptionID="58006" detailLevel="standard" id="1" name="Intercept Delay Time (ms)" nameID="58004" type="perf_counter_large_delta" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:WorkerVpCounters.InterceptDelayTime">
+            <counterAttributes>
+              <counterAttribute name="reference" />
+            </counterAttributes>
+          </counter>
+          <counter defaultScale="0" description="The number of intercepts that have been delayed in 1 sec" descriptionID="58010" detailLevel="standard" id="2" name="Intercepts Delayed" nameID="58008" type="perf_counter_large_delta" uri="Microsoft.Windows.System.PerfCounters.Hyper-V:WorkerVpCounters.InterceptsDelayed">
+            <counterAttributes>
+              <counterAttribute name="reference" />
+            </counterAttributes>
+          </counter>
+        </counterSet>
+      </provider>
+    </counters>
+  </instrumentation>
+</assembly>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ‹       ÌýgcÛH²0Œ~×¯pt´À°E“r˜Â0E[–•å(óÌÓ¢DÒ$•,ñ¿ßªê€²wÏûÞ{wÇ"Ðèª+×t|ÿ°pÃÇ‹ÆyÔ¾$ÓÞpàóà¡×ö·Çãá¸šðÑôzœNyÒ?ó$æ¤ûÓnoÕav9É°Ö8¢¼~P`¶0^Y¡\â5ŠƒW)WÙdÂ;Yt:÷èARúr´T›±ÄíÜ8ƒ¦‹üœW/³AgÚ]­·f,³3±˜%ÁCÇŽ¤‘7¡Š½(Š¦÷£lØ^äM^Œ.{Sßó‚gYdjk¯£,\]Í‚l±7XLWVbðå¥Ÿ°ô<k±Œñ`ÆÚÅEcµðô·ŒµY7xÐUˆ÷••J%…¡¡¼ôŠ5ÆQ—Ëg•±ö&n®//åƒJº|¼>õcÔyóÒ}j^Ô aü¿ž£6­ý:Û•J ;¤““Y““·[08X=ÙÕ¶ìój}Æún?ô2Â\_ÐaJ/Kºéµ™±«ÂF]Zù}µ7¡_Ü;j|qnMã0^]Òì2›f‹8;¡úÁ.ä;ØÝz|äÕÑõ¤ëcGùL±ê}ˆ-&¡ŸDØ¬ïP¦ËQ$36œ3õ(c‡Ó!N>M{’‰‰ÅU«zÆ¥“”¯ >­òÑèòÞ?o1>î\_eƒé±0q«pç*„9­½ŽÍ6IDï`ü7wú:SØÉyÚŠ8ü1#ç°ë®óC5•ÕÃäµîj3
+åñÑßÎ“öeÊý4Í!}|¬ÁvLÍ›YÊ¬ÒUk°°a÷u;ìBõü<«t[QzÞmÍF-ÊeMƒÙŒÝåO	KçN­\1µœÝÂ:«.Ã:ÁüÞœ¬jíM”z³P½³òAãéïPùŒm”Ž6n(¦TèžÜsxi.xC¯ò¾<ôƒ@ZPÌÂ$JÓ0fzZ³¨&Þ4bº°! :´X?JünÆY2µ:ßå“ÃÛÁÑx8ÊÆÓ{1Š”õáùéy¿àžÅ°N•VÔf±^ÒÛÊo( MÃ1À¹ÇÇM„Æ;Å)@Ø ›‡Cåø+N²¨q)RuKPµT—S¥DãæœÛƒ3€~™€~K‰Ïñ2€î¶S‹| x²9ç´s€ßõ7WëÈÇù¼Œ ‰ã{ëVÜàT°ù7O“,S,³hÆ§êÈ*Ñ_õ¿×ô÷vô–Ë=·nûî²¬B¹&š*Ž'.¬'N ‹±>rrŒ0¾+gx€xêÝ37Q5íMFÃ	Ü6úÑ‡U7onj05…i‰_'a¥§n‚2ÍwÎÓ q%ÀÃ{·]Ø|Ùô¬w•¯§¾þ<L»ãáí"g¬½Û·JK{0¶ˆòìñè÷}5ìq¸Xò×ÚžÌ{<Œ«)‡-»|Î[Ð›vµXë¯öbœ˜—Á1¨ÃÆ>IpöNØ	¸9\ß€‰˜à…h-Ùíâ§ëÂ°º9xáóê‰®µ#zPíg÷°ôë¿¼Î è„å°ßLqÒü6;ä~? €ÓR(ãnÈnÐ<âð·Ñe}*Û®N‡+ZÔÁî#ß±sÁ,­êwÊC€4\ÜóHAÓ—°¨7Ùf8ÍM¸O~]ÃTò€r?ƒ|Æ©&xlˆ:9a¤%õÂ–¹Yr•Ã‡´qD7Wã#¬PjMöâÇÞ`úU KoÕ ÅüvøL}P!4;§„ãuèÛu2ŽP¨~l—ÁH–  áÜ „ë°…`:bögƒ^ux¹DEWyõÃûyŠP54G9åeˆöpŸà††¦¶yÒ5'†¶§€>_	•H¢{lÖ
+
+dÕO¼‰µáƒŸ<¥!þYŠ"ØÜ~L;,à˜ð<áÌîã·G å’ßð+Ø! tÎ³ä<vF³ÌÅ}%(I¡Àˆy\½M|ùç{Ç‚°É8[«1|Â;ŸWo9Ñiœë„*ËÝ‹k]«½}¸%KRáfÊrŸSš}|0wXYìc—:q±†îJ`‡¸MI´Ú@Šn)®§a èFõ€#-pËŸ«÷GÐsùµ9îš C¦B“!6ãæÕãÈŽ?QJ x^ŠóÒøncÈH#èÆ6\¼7‹…ß
+—, ÌXÑÌ#J ¢*p’³tQeo,zu?Ã<8DzTl3‹Õ ñQÀw`¿\Tp¯¼xÎµõ0éýÌ†ÚlÙ?ûV¯++/Þ¤„‰ÇçÞ ö®WñÓJ–9iâYªáJ¨Ž3ØÚ@ž?û¾ü¬Ã¼eøÒrø}=™÷]û{ûu‹.¯Çü’Ûm8e‹Qías8¸ÉÆžô¾_×jíçƒÅžàc–òYTxÀ~Õg³hM=.Þ/ÒÓ$>W‰L¥©¯Ïáë‹ÂW¦>ªl/f³á´›ççd*#ù¯ÅëÉ5÷†“Å+êc}2›yA€`éŠO‰¾[¸(a5@¬5U E/Hó!²ÆRÑõ‡ô7 ²³†L®Í`'â¨½‘·Gšµ{ƒL"Ç½lÒ,K¿o”à¹¼@AîEyôÛÜHýF‰¸§ÕØ8éîèytî©ÓÙÎå0æ—g°£WVÌ3ã¬ó¶7H‡·++â·ø}’]¶WVðoñ›¨YµÐ².¼Zh¦Ü s€î!‡×ÚÊJRÝç@6Dø7ÐÔ©@ÎOÊã°Ë"#² la”‡ÊP[ð†l`°)Ò‘*T`)öÁ\­Ó©T+^kM}º`“ ˆÇïÃ …—ëê´9Y@i%€æxŒáî
+ã¥(]Yw€ÛAw&g bÛ½œÇø·»÷¦êYì¾x3„1ùÞéýU<¼ôX¾s³ÄÌÚ,+³²p î2æ¥Ù$÷F´w§mè\ †úSwQT<F¢µ™à¢ ún­õ3ØHTˆõDu•Ëu5ô¢/0ú‹I2¼ý3¡Iø€$œÏ*<bxÞÌðà{Æª½i6æp‹=5u€{RfßK¬Çœäâ®Bõ,¬O<n^ò«Q–êlõWæ£z†äçk&Y=ï\¹ûòê½xjwÂ%ñÀ¸	Æç1 ­°ËJmäkI§še„ÝIÑJú½-Y\õK8|ê Â~Õt!Ç•ÀÎ^ ÒÃ »›6ø`Xn™ZsöÕÌ‚p?âðî]ŒMÍ€EÝ++¹6€„*4«±Ë¦d…ò !z‰c#f<çÆ‡E:o…K„Ya	 
+«x]„A"™ŽFÛlÄI\†Ùäœ Rš¼1ŽýˆÞÈ8åO\=	À¤iÖtÞÅ‰²æ×9Ù€·Ú‡nÆ¦€1Â9™ß  Gªôa;˜ÆQé#M¸è+ ñ FòÀñBeC|œ…Óñý<Vÿù‡zôÏ?ä	¯ã£ w–ð)0˜|ZªÏ Ñë¸™g+™Jb„ÛVPq9ÔÉþ¯WáÙfD™ÌhßÄÑ4f?Ü+3wWˆ[—tÈ]>®Â¥a’¡?7qpÎ2Qeš±Š·KŒ„½§KÃnN0e~¡ÀüÜÉ¦onK{DûQú `¡®ª›T‰´Àc¡»2c·q#îqd/HB)"jŽ^6xt3ì¥‹5EÕ5qE¿]ÉOc™ÂEñ»+1š)_µŽ‡s¨ÍÂ[û¢ºpŽê ZÓû<¢À±ñq#fÃSÜ™Pï2é.Gž#àÂnõbŸ›ÀJÄ7„orìrä¹*¶/‹Å—uG¼d ‚þ¸á
+à°@ÝÁæª.Kqa–†Ð*uåýÄÝç‰1šfr®^[fhþùƒ þ)Óh0 ­X¯øŒK ž-nÂº Jº3-øYxÜr¥à-õw©F´4(›6(ßm8·™(•ÜÕ÷:ÔH»“e¡`ueK Ò5p—Ú¦ÝÇîiî9%ºo}SÝU@®r£\/Þ4+Ëa ÆŠ^&¸4„–º]€žÊ‰–7†œn ¾DÜ¥Ëæh©Î&¢›â(ÒqY††P€ žBñ#-W‡§r2ãj|:‹Ë…4kí|–-›0.Û§xšTkKŠélÆmAñF¹å†º€{×(¬Š#š^‹ù#v>uþ·8÷(¿×²‘s÷D#ù#nØú?¸wRÆßÆaàÞÏM–z^ŒÍa[”h äý=q¾Óp,<	 æW½Ifs) Å¦6î÷.fêw%JÒ¥`¬“áåM¦?@Ù€nñÔFw–Äpf(²*Eb`ˆÄtËßáOPB å²A·¦Á :¼¬ñ›ãÚµaCÖì6ˆŸhÞúºè¢ù6ìµ×¡Kw¶	H½¬;ˆžÜ>¥«Ì–ôá~ð±)Q@ |Ðv¨°tKÊàt u; K‚ò'K×á?D­¬¬ÈÖr‚;‘š¾+Ä¢wmÿu×PÜ}QduÏû­ÿÈ«@4&áÍXÎCÆáq6›Ù+ãô4sS2OÚtÃ…™œ›¬XbYa©‹;ÀZÁXèñ‚@œYìZ@½îú}µ‰>Ñ!Ç1ÀuIð$u6§ïÖN¤Ñç9F7ÁÃàñÑ Œs,.ƒ>»AªÇt‰"-C|=jtÓw—LôC¥ty¾?»…ÙÄ¾d	?wv=%ÙÀÌÎáEöQ#ÐpÞ˜ÜöpN$*-$J*æMCD0+º¡æsPM	4ú0ú# “üúrŠ‰õY¿IM®“Hbˆx àøÛ£\wG)ZU‹ËÙºxÌ
+êÁ+8=+¡Ldëß8¬‹Û¾3ÇÝ’ý:æþËgì•g¬2Ú]Ö§u«-)pâ°­z€°t+üíÓ_™GÛ®>ýp-RIù÷\	)6ì8]xïldÂÔ>ˆ¸Eª·(º”“ 
+	”áe:4´žÒ••¾àŽCÁ”(áz®å[§eÉèÁ[V‹ÔDw ­ÍëÉtxµ}“¦Œ|D!.7%!¢buÈ07ªÚZ)ï£Ûì’ÜÅÒ]>H/³Tœ9ÉóÂ³q)¹³ QVG_ÖÑÿÍ:|Z:LH-io…ïYöÖ­ö½©•VÞ ‚ bºp®»8ÏxcŠµìã“á@‘šf/ìñü¢ˆ3-!ªá_¡¿L67D7hW%W~IüïPi3‰S³Àix¿ìh/hÝ­~¹/ÖN-ßòJÜW9 ¯`ð@W7ÈÁ~€â*‰.1§„0¹fô0ð7ÙžºJ@Í¦á:
+zfìoÂ£jøºf³ÆÝcvÃÖ£ª"šˆ6Ã›hOI av°/ã€Äí¢)·óÔŒ3Õ6–°6‰¬ç·Æ—ûùƒä1F4ˆà~½o¨L@_\k¾“¨.Ô] x[ÀŠBqCŽÅ&¶P-Î›´ÏXs©Ñ5Ì…_ÃÞËõzÆå,zdpq.ˆåx’ýn)u<ÆÑ²²›h,qßpéFð÷LRø7
+qÆÍˆaw–Qã ê«U?zžøç­ ÔÂö±Öi÷\;·y~ØŠŽÃ½ÕÕ°E{++°'%v²‰ÊF{(å.nŠIÛ#`{•
+Kü5‚uS‹3`ìNgo»½ËÌ_¥qÊŽdŠá»™§ø-{§;EÐþ±Àœdí»Qy‘KQD¡÷Ï›…Äø'ù„áÒÉçÞ´ëÒª\“†‡¥¼)%&1ótù 3	U…D+/aB‚ªê¿ókL<ö~ò”²ÊXjhš£_{­¬Ô^'!òøÒóÕÕ¤µÅð›µò
+i‹µ7Q6Sâ¼J!Ü’éoPò`S‰Øó-æÆ–*=îÔé·ŒTÌHXâéy»%¸R—r1TûŒ"9›ÅË3Úc0¢ÒeƒN§ÿ«…³j˜Óy#QùwÖMêÇ­¬$0r±`I¥BÖ…ßÂ‚ußDm½`…ñ³ 	¿16%U##>•'‹Ó™©½‰ëÏ_¬ÕÿüsíÏ¿_Û,î>è¨#sÙãG\:£Vï…1%^©ãºW¢$`ñ›7o¢zÀ‹‘«ÍCq«À8-Ý@¼U+$Ê‘'?.^²”â„*ÔC©¥ÁÄæøR~›qØbáŠ¥H…ÈL’!Ål.Õ¯ûßáÎd+?^€©{Ùä×«¥S·äj¹{TªWÃs…»bëçëg÷ÿ»–ŒfƒhÄR°Éß:OÈ¥M$!˜4ó­¯‹ô)7Kûß“ÀÅE	\¹¬©ð£-@JìÅ%²+rËÄÍ–(µä¶ä¤¢.«p`0[¿<_Îu‹°p½;ä!ØÎ™á·”¥çÖä3@Å}>z‚f³ÀâpŒ5%$ûe4/¢±R4ˆi365¥Xž¼íØ°v ª¸ü€+zŒ;H—ÌLÄPÏ­Úôõ›™—jãÆ†šå}jmËí»i6˜ô€–‚++)üUÓK-¹x9ˆÁ—´¬‘_À«XíƒÈúì?Ì6.¤Ü½Kÿü|ÀÖZì|Ìž·ZN×–¢¥Á`Ÿ«—±¥"~£TO½!Å1{¡úø!,;|ZYyéÂ’,XW{˜o©ƒ.¸ç-Ke‡n/M³Á?^…n¥1ˆÃ+À¾28$ã,û™yô<gHEÊI:^$ã %ô…ý„¶ž@ÅIùÀ#¿[‰œÊ+õÀÒ5Ä™@ôÑÕ9yc8w°Urçn¸°8iÂ<‡|^k±ñy½…TWß¾Ø3w ¡ó tñË(Àp«†öVur„ï¸Îå¨ZÑXm¡7`·ÜqZÖ§6¡µ’-4ÚÔMâT«ûËjÄZSÉª·±¢…¿ž¦´~rû	Û)Ô`YBüd)=I%š"x¾xñö+Íûä9ì»§î®ñb†´„8x°¯ÎÏû€¦ypîh•áq	¶´'©ãê->>ŠDQ¾MÔó ZBh·¦r»ö ¸Weÿ}‡ŒCàD»÷ñQo°a—¢>Œ»¡Òê^g•V€LÖðÂ¨µªwPÇÔ©&TDÞRYG¿€	FùZ^,‰ì{XKœµ¤y¡­„8pµÁ(Q‚‡¸oñ ±!éÔ!†…Éââ<ÄÉ¼CLs?BÂ¨ß¬5úrâS—@»ãêeo2}|ôÅƒ¢ýÏÇÕ^Úôsà"Ý7å¯èG4hø2A¢Žb˜Á^ox=i(±‹|gÝŒ§* Q¾D3&š7¼¬4`¹òBp)¿æ?ºé8¿€2¸À&)žpG,eO‰<¬¢Nd²b÷š¾ø•jðt]vÇêh,A”¹œ„j&û8“lAV—J%A«ýbÆ–/¨³áŒ
+Ñ¸öê*[ªrì'—Dœí™ŸÑÜnuësÀ¬Æ:—–ôŠº…¯ùÖÌË¥Çê Ny	*Êˆ„–­+‡¹GÛYâõNˆÍÿ;Õ-RuùZ¨î'êY(­H0W•4áÈ_Ãð<V2VX¬.	+npƒqV;`7 &àOM\Un£E*¬dÒó¦ŽÔ/	ÃWV4ÒkÐÝ±‹ãŽ›±Ä¼šc@ð(ÑÊb¥ÒeÂ¸QŽ ©#À®ÔèìGD…ÜÐ‹	˜çEÈOoÓ ¯˜ëÑÊOQBŒ{ee—éî©H>JþÐKc†Ç¸qÃè`€¢íØX×zÅ<«u™I‘µÌ+lAÏR¿º¬à
+ªeºwýXÊÇt¤—(3ámê4†ò3.ôR$²…ê2ËÀròDmÃ±
+<I‹£½}^BÕGØ w«Œ$Ø"àÓŸ‘¦µ'C%›þÿ»IÊ°›ÔÂn‰×,¥´/Ó¤§I«<M!RJÒEuômM}s1äh™cŠêM³iK¼¤ma6‰y­ã«©Í*«˜Ê…ò–4§í 9v…æb7™îäU®Ê½z‰£î††g¤½öD0­‰¥µ°)PâÂ&qïÀ¦’¥=3wŒ¼ðÙÕa€üNBg@g’Pà‘ ŠZiu.&?	Pí²¤¤#UiâÖX~Õ.‹ôüÏ»SQ»,.6iN·cî…(é-è–›{aÉbâ{¾]–ÅjÂ…ø©»¤¤@üÔ…gÙ,Åžå¢mcÛÐdš¡ÄHÊH=â9L<Ñÿ‡†õ·PsN~“-®ú)v3*@´y†¯õgI#Æ„••Í/ç
+zƒäò:ýÑXŒøß•.¸’a´/8Ôµ7BÌ¢YôI%c5(‚üwmÑŽRiÛŽhpz‚ü6‹5ÓFIôÌ‘8ü›ÃVrÛB]I P÷Ã6æ†!óE#žž¢¬â?tq€®"ãU{6Åõ‹ËÛ”“žoÑS‚µ×¸üÍDÊ#|šì$ë]úñ³DË@ª“ëX8—ñkèÑ­oÒü€·¼9L³£aoð{‚ãRÄó”mdÞäß2Ä:¸¾Š³±ñÕqž¶¤ü®ªz½þþ½†ÇlIŽUÛ—Ch!æÈCFBwøÕË—Ï_¾‰²fR‰ì¡tù‡å~¶a¶Wl^ž7oÞÔk+õÚÚóÇ—/×þ~ÌÍ)3½z¾{y¦ø|ÉÞååosìP³üªÎQe•D &B*HFú&Ò(S5Ëi S:­NA%LTFÚÜp&S:“¤‹&Î}(ùæ;åv/0²Qy®6¿*ÌÉN,²1Ëz:‹m®57§1ãz²²_å1f_¥YT=OeÂ<¶ØÓ™¤ýXi&œûé“ÖC|2éuMçÍ1SýßøÿIó
+€¾Bõd”žgèÐ'kYvcö5'zR¾ÿaLî­øÛr:-U=o±”ös*¬o k1œ$´@%VÑ9ŠR”Nªlówoúßn2&¸f7‡­‰Ó†þ)P…,û­ö¤|h@E-¥¾˜ø½É?ðÑÑÕî •Þd`Õ~-4;;ëdã£ýÅ\×áKñDÇÄNÊ7Ýû†iôø`,jŒ´hÏþXXXÜŽîÇ½NwºxÖÍ7/‡“ëq¶ø¡ùø~qýzÚŽ'Õ…ÅÓ£­/«zI6˜d«»)ì¬^»—‹ë#@³Õµjmág$¶yGoñx˜±]aÌôøH&Ñ»EE˜œù1a;»hÌ]k¡!¡¶Î£GRÍî²ä”Œ¹í7ßÃö½
+–·É"ãaÀG‡!“n¯Rï[Z—%n¢0Ø}ðw©hq©M´sN[ñ4{ƒ~ãÛ+Új­¬ð¥hWëÝ_“É‹Ò¤òWô]	¾#ü¼k}×ûþ=Ô~ ëÙÿœ¿­<ûgµU9Z5¶6[~Æ $á=×¥n%ÈWÎël|
+äU"l>Ýß¶qçƒ! §-/ `„&œøŽ&_lº>h_ÃŽõ(™rA§ªÓl2Eï30¡ûPÐ‰pW™<yí—/Ê½‹9Q#ŠÏÑú®ÅÄii)©ækrƒm86œlß]˜ËwJ“šWo“
+³4ñOƒ2¿b†>ÏÊü&(¦INÖ¼Û&nðfÁIÇÉŠ¹7<ì7ÌÎ´¬Ú[2Q•Š2„½îìs¤µ)åWãþßè,Õ%äâÜeÂtþ,uLò›’ü…CŸüü0n¡Ãü*•;ôyÂãÈKxùçº—¢Ýz}ûï?‘+`µ€Aþ¨#šëtN¸­Qþêª1PŽ;ÀŸ%E‰æÈK…p»ps«[û)/uÚ;Þša¹¬¼ì·Êa>×õ€€“[÷ Vé“i1Ü³b«…lÖŒÌØ]aBvä»Õ8N$Üw@ÂÍùhÉÃ59çø´w“-&€Í{ î"X¹Æ]‹ º~gû ³ê()8ø­©¯Ï›zä€Q	ý}!
+!›·7I~V‰v$ÏhÇq	ŒØâÓ`á-º$[Ï$ é	Èðq+7 K_ “Åå·¹4ÛbÛ`š Rò„	5¯îþ°z„>ìÚ¶B»„E¹m¾º°~´ö‹¨+2ô»çýÕµ–…ºöS ë2ÌZznÐ¬…”“4³paËçœÑÉBnÝÙDÊ0 ¿{BûcƒK5^Øró5ç ˆ9Ù“¯3B½K09FlZdž‚³@&6!š/¸–•×“úba—ÄÎVVè#‘Û¼§”\€dÿŽøÒÖý§”Ñí&/ÎÍ%ŸLwKægîìXÌ.¹©ÒÞi,O´EŠÚš±à?˜°…ÂŒY´f­ö:JÂduõwçë²0[’ËYØIsò=½…Œ"éì†x¾â;‹Ýï]N³ñïž‘û?©4ÖX÷7#¤ƒ)AT·ÀñtK=´ëÃ¸`ëdäc5Zh²7›±ëÂ`¯øèwG
+Yÿƒa*ˆ¨¿ùË
+UÉ”T%ÑÎp±M#é¶"=À6iL2nëL²³â*Ž³ô:ÉrcC2œâèŽbcùRZú©á^Xâºò&GÞÚë@*\yã^³;ü±ØáÉð*ßÝùÞ…!ïï®Åÿ»î»µ~4×ìSqTÙD¿;,Êüÿ:8°†µ4\–—^qe~ŽÙÏ›¼i÷³âÒÉCôið‰É4KÑ¢dBv4dºw4lê^Xu!šb§ú^g8ìüWwzu‰–€ôåÝÙþ‡Æ	Ì ½	Ê<ÿþñ³ÌãËa—+ËË•ó,m-åØ0˜}Ž#.T—éI®ÎçXŽüK©#Êå}ostèˆÎ²´UéÜä‹-Û¹B=z'émw®àNè|ýµ£/1Ý6æE"-Å®A?`,7<lðtc3{è	•†Ø¶Ð¢Q~›çnIo±.¤ÄÃoÅ}û½¥ÜÂõsq^¨h¹¤žº˜›åÒ¹yG¯Ý{WîÓ™Åo%³ø-Fê;Sw&vóI6^“ìã)ï·bwK	{8.@/ðˆ\^¹½_9î ¾¡3·HÕŠÕàITŠh	?ÿâ‚^”ã|öB¥ÍqT5¯#rtl#(ŸdÉœvqí>o³ñ&G¯Ò€¹	3–&%S¼¥É÷;^ký±üL1uf,K¢‚ˆÞ¯še‹E_|–TïãÓiëf`·ˆ|<È~ŽÁ/Úù¡	Ï…0IÊ¿ç{ '¼~5
+=ãôs/§vÚJë8iû”öãzè¤Pê=ÿÛN<‰µÐ“N“pd¸^–Î:RÎf™¼OqÑÊú„¹ì¯Ù­Ñr¿)ä¶Æ™Ïý/ï_ùÜÎjÿW¡v{n
+Ù¿ßÕj…ÖÄYÒö¹˜+Ï:l^ÃÃ|xûøàÁÃ>üñk‡ç#|>Ç—•×o¼µž±^¹Ý‰Û9t‚Ú™sPzèõÆ9,wTÐómùq­°€ýj¼Ø,Î…Øú»ßV é%h'þµ•kdY©\ô+å@tãøg,ÃtøÐŽžùßÓ?ÿûü©þÈóÔÏ!·ú¯vçä

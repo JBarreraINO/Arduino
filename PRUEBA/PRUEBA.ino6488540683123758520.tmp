@@ -1,0 +1,28 @@
+
+
+void setup() {
+  // put your setup code here, to run once:
+   pinMode(INPUT_PULLUP,10);
+      pinMode(INPUT_PULLUP,11);
+          pinMode(OUTPUT,2);
+          
+Serial.begin(9600);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+if (digitalRead(10)==LOW){
+    while (digitalRead(11) ==HIGH) {
+Serial.println("ESTOY EN ALTO");
+    digitalWrite(2,HIGH);delay(10);
+  
+  
+  } 
+Serial.println("ENTRE EN CICLO");
+   digitalWrite(2,LOW);delay(10);
+  
+  }
+
+
+}

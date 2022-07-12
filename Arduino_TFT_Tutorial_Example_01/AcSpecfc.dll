@@ -1,0 +1,929 @@
+       <h3>Legend</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Visual display</td>
+                            <td>Description</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="selected">selected value</td>
+                            <td>
+                                Value assigned to the <xsl:value-of select="/ConstraintDifferenceReport/RptSummary/@Col1"/> as a result of the operation
+                            </td>
+                        </tr>
+                        <xsl:if test="/ConstraintDifferenceReport/Tree/Item/@Status = 'Conflict'">
+                            <tr>
+                                <td class="Conflict">conflict</td>
+                                <td>
+                                    When both <xsl:value-of select="/ConstraintDifferenceReport/RptSummary/@Col1"/> and <xsl:value-of select="/ConstraintDifferenceReport/RptSummary/@Col2"/> values have been changed since last flow
+                                </td>
+                            </tr>
+                        </xsl:if>
+                        <tr>
+                            <td class="noChange">no change</td>
+                            <td>Elements of the array attributes, where no change has been found</td>
+                        </tr>
+                        <tr>
+                            <td class="found-permanent">text search</td>
+                            <td>Pages/text, where the text search string has been found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </xsl:if>
+        </xsl:element>
+    </xsl:template>
+    <xsl:template match="/ConstraintDifferenceReport/RptSummary/Entry">
+        <tr>
+            <td>
+                <xsl:value-of select="@Name"/>
+            </td>
+            <xsl:element name ="td">
+                <xsl:if test="@Status">
+                    <xsl:attribute name="class">
+                        <xsl:value-of select="@Status"/>
+                    </xsl:attribute>
+                </xsl:if>
+                <xsl:value-of select="."/>
+            </xsl:element>
+        </tr>
+    </xsl:template>
+    <xsl:template match="ChangedObject">
+        <tr filter="{@Filter}">
+            <td>
+                <xsl:call-template name="__objName"/>
+            </td>
+            <xsl:choose>
+                <xsl:when test="@ObjNumber">
+                    <td>
+                        <xsl:value-of select="@ObjNumber"/>
+                    </td>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:if test="../@Name='NetClasses'">
+                        <xsl:element name="td">
+                            <xsl:if test="substring(@Domain,1,1) = '+'">
+                                <xsl:attribute name="class">markCell</xsl:attribute>
+                                <xsl:text>x</xsl:text>
+                            </xsl:if>
+                        </xsl:element>
+                        <xsl:element name="td">
+                            <xsl:if test="substring(@Domain,2,1) = '+'">
+                                <xsl:attribute name="class">markCell</xsl:attribute>
+                                <xsl:text>x</xsl:text>
+                            </xsl:if>
+                        </xsl:element>
+                        <xsl:element name="td">
+                            <xsl:if test="substring(@Domain,3,1) = '+'">
+                                <xsl:attribute name="class">markCell</xsl:attribute>
+                                <xsl:text>x</xsl:text>
+                            </xsl:if>
+                        </xsl:element>
+                        <xsl:element name="td">
+                            <xsl:if test="substring(@Domain,4,1) = '+'">
+                                <xsl:attribute name="class">markCell</xsl:attribute>
+                                <xsl:text>x</xsl:text>
+                            </xsl:if>
+                        </xsl:element>
+                        <xsl:element name="td">
+                            <xsl:if test="@PowerIntegrity">
+                                <xsl:attribute name="class">markCell</xsl:attribute>
+                            </xsl:if>
+                        </xsl:element>
+                    </xsl:if>
+                    <xsl:if test="count(../*[@Membership > 0]) > 0">
+                        <td>
+                            <xsl:value-of select="@Membership"/>
+                        </td>
+                    </xsl:if>
+                    <xsl:if test="count(../*[@Reference > 0]) > 0">
+                        <td>
+                            <xsl:value-of select="@Reference"/>
+                        </td>
+                    </xsl:if>
+                    <xsl:if test="count(../*[@Child > 0]) > 0">
+                        <td>
+                            <xsl:value-of select="@Child"/>
+                        </td>
+                    </xsl:if>
+                    <xsl:if test="count(../*[@Flattened > 0]) > 0">
+                        <td>
+                            <xsl:value-of select="@Flattened"/>
+                        </td>
+                    </xsl:if>
+                    <xsl:if test="count(../*[@Attributes > 0]) > 0">
+                        <td>
+                            <xsl:value-of select="@Attributes"/>
+                        </td>
+                    </xsl:if>
+                    <xsl:if test="count(../*[@Notes > 0]) > 0">
+                        <td>
+                            <xsl:value-of select="@Notes"/>
+                        </td>
+                    </xsl:if>
+                    <xsl:element name="td">
+                        <xsl:call-template name="__status"/>
+                    </xsl:element>
+                </xsl:otherwise>
+            </xsl:choose>
+        </tr>
+    </xsl:template>
+    <xsl:template match="/ConstraintDifferenceReport/Summaries/GroupSummary">
+        <xsl:element name="div">
+            <xsl:attribute name="id">
+                <xsl:value-of select="@ID"/>
+                <xsl:text>-cache</xsl:text>
+            </xsl:attribute>
+            <h2>
+                <xsl:element name="a">
+                    <xsl:attribute name="name">
+                        <xsl:value-of select="@ID"/>
+                    </xsl:attribute>
+                    <xsl:value-of select="@Name"/>
+                </xsl:element>
+            </h2>
+            <xsl:call-template name="_e_NavLinks"/>
+            <xsl:choose>
+                <xsl:when test="count(./Children) > 0">
+                    <xsl:apply-templates select="./*"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:call-template name="__groupSummaryTable"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:element>
+        <!-- in printable reports objects should follow their summaries -->
+        <xsl:variable name="key" select="substring(@Name, 1, string-length(@Name)-2)"/>
+    </xsl:template>
+    <xsl:template match="/ConstraintDifferenceReport/Summaries/ObjectSummary">
+        <xsl:element name="div">
+            <xsl:attribute name="id">
+                <xsl:value-of select="@ID"/>
+                <xsl:text>-cache</xsl:text>
+            </xsl:attribute>
+            <h2>
+                <xsl:element name="a">
+                    <xsl:attribute name="name">
+                        <xsl:value-of select="@ID"/>
+                    </xsl:attribute>
+                    <xsl:value-of select="@Type"/>
+                    <!-- will be there only for layers-->
+                    <xsl:text> </xsl:text>
+                    <xsl:value-of select="@Kind"/>
+                    <xsl:text>: </xsl:text>
+                    <xsl:value-of select="@Name"/>
+                    <xsl:if test="count(@Status)>0">
+                        <xsl:text> - </xsl:text>
+                        <xsl:value-of select="@Status"/>
+                    </xsl:if>
+                </xsl:element>
+            </h2>
+            <xsl:call-template name="_e_NavLinks"/>
+            <xsl:apply-templates select="./*">
+                <xsl:sort select="name()"/>
+                <xsl:sort select="@Type"/>
+            </xsl:apply-templates>
+        </xsl:element>
+    </xsl:template>
+    <!-- Attribute-related stuff -->
+    <xsl:template match="/ConstraintDifferenceReport/Summaries/ObjectSummary/Other">
+        <h3>Notes:</h3>
+        <xsl:call-template name="__attributeTable">
+            <xsl:with-param name="FirstCell"/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="Attributes">
+        <xsl:call-template name="_i_Attributes"/>
+    </xsl:template>
+    <xsl:template match="ObjectSummary/Notes">
+        <xsl:if test="count(./Attribute) > 0">
+            <xsl:call-template name="_i_Attributes"/>
+        </xsl:if>
+        <xsl:if test="count(./Note) > 0">
+            <xsl:call-template name="_i_Notes"/>
+        </xsl:if>
+    </xsl:template>
+    <xsl:template match="/ConstraintDifferenceReport/Summaries/ObjectSummary/Children">
+        <hr width="90%"/>
+        <xsl:apply-templates select="./Children"/>
+    </xsl:template>
+    <xsl:template match="Children/Children">
+        <div filter="{../@Filter}">
+            <h3>
+                <xsl:value-of select="@Type"/>
+                <xsl:text> changes:</xsl:text>
+            </h3>
+            <xsl:call-template name="__groupSummaryTable"/>
+        </div>
+    </xsl:template>
+    <xsl:template match="Attribute">
+        <xsl:param name="threecols"/>
+        <xsl:param name="NeedParent" select="0"/>
+        <tr filter="{@Filter}">
+            <td>
+                <xsl:value-of select="@Name"/>
+            </td>
+            <!-- if parent row is present in current table -->
+            <xsl:if test="$NeedParent > 0">
+                <!-- if current node is the first one with such parent -->
+                <xsl:variable name="CurPName" select="@PName"/>
+                <xsl:if test="(@Name = (../Attribute[@PName=$CurPName])[1]/@Name) or ((count($CurPName) = 0) and (@Name = (../Attribute[count(@PName)=0])[1]/@Name))">
+                    <!-- span through all rows with such parent -->
+                    <xsl:element name="td">
+                        <xsl:attribute name="rowspan">
+                            <xsl:choose>
+                                <xsl:when test="count($CurPName)=0">
+                                    <xsl:value-of select="count(../Attribute[count(@PName)=0])"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:value-of select="count(../Attribute[@PName=$CurPName])"/>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:attribute>
+                        <xsl:choose>
+                            <xsl:when test="@PName">
+                                <xsl:call-template name="__objName">
+                                    <xsl:with-param name="ObjName">
+                                        <xsl:value-of select="@PName"/>
+                                    </xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="@PName"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:element>
+                </xsl:if>
+            </xsl:if>
+            <xsl:choose>
+                <xsl:when test="@Type='Scalar'">
+                    <xsl:apply-templates select="Value">
+                        <xsl:with-param name="threecols" select="$threecols"/>
+                    </xsl:apply-templates>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:element name="td">
+                        <xsl:attribute name="ID">
+                            <xsl:value-of select="generate-id()"/>
+                        </xsl:attribute>
+                        <xsl:attribute name="colspan">
+                            <xsl:choose>
+                                <xsl:when test="$threecols='true'">3</xsl:when>
+                                <xsl:otherwise>2</xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:attribute>
+                        <xsl:attribute name="class">
+                            <xsl:text>nonScalarDiff </xsl:text>
+                            <xsl:call-template name="_e_DefaultNonScalarStyle"/>
+                        </xsl:attribute>
+                        <xsl:call-template name="_e_ViewSelector"/>
+                        <xsl:choose>
+                            <xsl:when test="@Type='Array'">
+                                <xsl:call-template name="__multiValueContent"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:apply-templates select="./ValueGrp"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:element>
+                </xsl:otherwise>
+            </xsl:choose>
+            <xsl:if test="count(/ConstraintDifferenceReport[@NoStatusClmn='1'])=0">
+                <xsl:element name="td">
+                    <xsl:call-template name="__status"/>
+                </xsl:element>
+            </xsl:if>
+        </tr>
+    </xsl:template>
+    <xsl:template match="ValueGrp">
+        <h4>
+            <xsl:choose>
+                <xsl:when test="./@Type = 'GenericLayers'">Generic Layer values</xsl:when>
+                <xsl:when test="./@Type = 'Layers'">Layer values</xsl:when>
+            </xsl:choose>
+        </h4>
+        <xsl:call-template name="__multiValueContent"/>
+    </xsl:template>
+    <xsl:template match="Value">
+        <xsl:param name="threecols"/>
+        <xsl:param name="needLyr" select="/Empty"/>
+        <xsl:param name="i"/>
+        <xsl:if test="count($needLyr) > 0">
+            <td>
+                <xsl:value-of select="$needLyr/Layer[$i]/@Name"/>
+            </td>
+        </xsl:if>
+        <xsl:apply-templates select="Dst"/>
+        <xsl:apply-templates select="Src"/>
+        <xsl:if test="$threecols='true'">
+            <xsl:apply-templates select="Base"/>
+        </xsl:if>
+    </xsl:template>
+    <!-- Membership-related stuff -->
+    <xsl:template match="Associations">
+        <xsl:if test="count(Reference) > 0">
+            <div filter="{@Filter}">
+                <h3>
+                    <xsl:value-of select="@Type"/>
+                    <xsl:text> changes:</xsl:text>
+                </h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Object type</td>
+                            <td>Status</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <xsl:apply-templates select="Reference">
+                            <xsl:sort select="@Kind"/>
+                            <xsl:sort select="@SortIndex" data-type="number"/>
+                            <xsl:sort select="@Name"/>
+                        </xsl:apply-templates>
+                    </tbody>
+                </table>
+            </div>
+        </xsl:if>
+    </xsl:template>
+    <xsl:template match="Reference">
+        <tr filter="{@Filter}">
+            <td>
+                <xsl:call-template name="__objName"/>
+            </td>
+            <td>
+                <xsl:value-of select="@Kind"/>
+            </td>
+            <td>
+                <xsl:choose>
+                    <xsl:when test="@Add='1'">Add</xsl:when>
+                    <xsl:otherwise>Delete</xsl:otherwise>
+                </xsl:choose>
+            </td>
+        </tr>
+    </xsl:template>
+    <!-- Notes -->
+    <xsl:template name="_i_SummaryNotesHeader">
+        <h3>
+            <xsl:if test="Note[@Type = 'Error']">
+                <xsl:value-of select="count(Note[@Type = 'Error'])"/>
+                <xsl:text> error</xsl:text>
+                <xsl:if test="count(Note[@Type = 'Error']) > 1">
+                    <xsl:text>s</xsl:text>
+                </xsl:if>
+            </xsl:if>
+            <xsl:if test="Note[@Type = 'Warning']">
+                <xsl:if test="Note[@Type = 'Error']">
+                    <xsl:text> / </xsl:text>
+                </xsl:if>
+                <xsl:value-of select="count(Note[@Type = 'Warning'])"/>
+                <xsl:text> warning</xsl:text>
+                <xsl:if test="count(Note[@Type = 'Warning']) > 1">
+                    <xsl:text>s</xsl:text>
+                </xsl:if>
+            </xsl:if>
+            <xsl:if test="Note[@Type = 'Note']">
+                <xsl:if test="Note[@Type = 'Warning'] or Note[@Type = 'Error']">
+                    <xsl:text> / </xsl:text>
+                </xsl:if>
+                <xsl:value-of select="count(Note[@Type = 'Note'])"/>
+                <xsl:text> note</xsl:text>
+                <xsl:if test="count(Note[@Type = 'Note']) > 1">
+                    <xsl:text>s</xsl:text>
+                </xsl:if>
+            </xsl:if>
+        </h3>
+    </xsl:template>
+    <xsl:template match="Notes/Note">
+        <li class="{@Type}">
+            <b>
+                <xsl:choose>
+                    <xsl:when test="count(@Ref) > 0">
+                        <xsl:call-template name="__objName">
+                            <xsl:with-param name="ObjName" select="@Type"/>
+                        </xsl:call-template>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="@Type"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </b>
+            <xsl:text>: </xsl:text>
+            <xsl:value-of select="@Text"/>
+            <xsl:if test="@Log">
+                <xsl:element name="a">
+                    <xsl:attribute name="href">
+                        <xsl:value-of select="@Log"/>
+                    </xsl:attribute>
+                    <xsl:text> See log for details...</xsl:text>
+                </xsl:element>
+            </xsl:if>
+        </li>
+    </xsl:template>
+
+    <!-- Local 'function' templates to be called from including scripts -->
+    <xsl:template name="_i_ScriptLink">
+        <xsl:param name="name"/>
+        <xsl:element name="script">
+            <xsl:attribute name="type">text/javascript</xsl:attribute>
+            <xsl:attribute name="src">
+                <xsl:value-of select="@Path"/>
+                <xsl:text>/</xsl:text>
+                <xsl:value-of select="$name"/>
+            </xsl:attribute>
+            <xsl:text> </xsl:text>
+            <!-- cannot have <script/> need closing tag -->
+        </xsl:element>
+    </xsl:template>
+    <xsl:template name="_i_includeStyleLink">
+        <xsl:param name="name"/>
+        <xsl:param name="media">all</xsl:param>
+        <xsl:element name="link">
+            <xsl:attribute name="rel">stylesheet</xsl:attribute>
+            <xsl:attribute name="type">text/css</xsl:attribute>
+            <xsl:attribute name="media">
+                <xsl:value-of select="$media"/>
+            </xsl:attribute>
+            <xsl:attribute name="href">
+                <xsl:value-of select="@Path"/>
+                <xsl:text>/</xsl:text>
+                <xsl:value-of select="$name"/>
+            </xsl:attribute>
+        </xsl:element>
+    </xsl:template>
+    <!-- Local 'function' templates -->
+    <xsl:template name="__groupSummaryTableHeader">
+        <thead>
+            <xsl:choose>
+                <xsl:when test="./ChangedObject[@ObjNumber]">
+                    <td>Object type</td>
+                    <td>Total changed objects</td>
+                </xsl:when>
+                <xsl:when test="@Name='NetClasses'">
+                    <tr>
+                        <td rowspan="2">Object name</td>
+                        <td colspan="4">Domain</td>
+                        <xsl:if test="count(./*[@Membership > 0]) > 0">
+                            <td rowspan="2">Membership changes</td>
+                        </xsl:if>
+                        <xsl:if test="count(./*[@Reference > 0]) > 0">
+                            <td rowspan="2">Reference changes</td>
+                        </xsl:if>
+                        <xsl:if test="count(./*[@Child > 0]) > 0">
+                            <td rowspan="2">Children changed</td>
+                        </xsl:if>
+                        <xsl:if test="count(./*[@Attributes > 0]) > 0">
+                            <td rowspan="2">Attribute changes</td>
+                        </xsl:if>
+                        <xsl:if test="count(./*[@Notes > 0]) > 0">
+                            <td rowspan="2">Notes</td>
+                        </xsl:if>
+                        <td rowspan="2">Status</td>
+                    </tr>
+                    <tr>
+                        <td>E</td>
+                        <td>P</td>
+                        <td>S</td>
+                        <td>SNS</td>
+                        <td>PI</td>
+                    </tr>
+                </xsl:when>
+                <xsl:otherwise>
+                    <td>Object name</td>
+                    <xsl:if test="count(./*[@Membership > 0]) > 0">
+                        <td>Membership changes</td>
+                    </xsl:if>
+                    <xsl:if test="count(./*[@Reference > 0]) > 0">
+                        <td>Reference changes</td>
+                    </xsl:if>
+                    <xsl:if test="count(./*[@Child > 0]) > 0">
+                        <td>Children changed</td>
+                    </xsl:if>
+                    <xsl:if test="count(./*[@Flattened > 0]) > 0">
+                        <td>CSet Apply results</td>
+
+                    </xsl:if>
+                    <xsl:if test="count(./*[@Attributes > 0]) > 0">
+                        <td>Attribute changes</td>
+                    </xsl:if>
+                    <xsl:if test="count(./*[@Notes > 0]) > 0">
+                        <td>Notes</td>
+                    </xsl:if>
+                    <td>Status</td>
+                </xsl:otherwise>
+            </xsl:choose>
+        </thead>
+    </xsl:template>
+    <xsl:template match="Value/*">
+        <xsl:variable name="cls">
+            <xsl:choose>
+                <xsl:when test="../../@Taken = name() and count(/ConstraintDifferenceReport[@NoStatusClmn='1'])=0">selected</xsl:when>
+                <xsl:when test="../../@Type='Conflict'">Conflict</xsl:when>
+            </xsl:choose>
+            <xsl:if test="not(@Inherited = '1')">
+                <!-- not in the choose tag so as not to be skipped if selected -->
+                <xsl:text> directly-set</xsl:text>
+            </xsl:if>
+        </xsl:variable>
+        <xsl:element name="td">
+            <xsl:if test="$cls">
+                <xsl:attribute name="class">
+                    <xsl:value-of select="$cls"/>
+                </xsl:attribute>
+            </xsl:if>
+            <xsl:if test="@Inherited='1'">
+                <xsl:attribute name="title">
+                    <xsl:text>Inherited from Generic Layer '</xsl:text>
+                    <xsl:variable name="ndx" select="count(../preceding-sibling::*)+1"/>
+                    <xsl:value-of select="/ConstraintDifferenceReport/Layers/Layer[$ndx]/@Type"/>
+                    <xsl:text>'</xsl:text>
+                </xsl:attribute>
+            </xsl:if>
+            <xsl:value-of select="."/>
+        </xsl:element>
+    </xsl:template>
+    <xsl:template name="__multiValueContent">
+        <xsl:variable name="typeAttr" select="./@Type"/>
+        <xsl:variable name="layers" select="/ConstraintDifferenceReport/*[name() = $typeAttr]"/>
+        <table>
+            <xsl:call-template name="__MultiValueTHead"/>
+            <tbody>
+                <xsl:for-each select="Value">
+                    <xsl:variable name="c1" select="@Type = 'noChange'"/>
+                    <xsl:element name="tr">
+                        <xsl:if test="$c1">
+                            <xsl:attribute name="class">
+                                <xsl:text>noChange full</xsl:text>
+                            </xsl:attribute>
+                        </xsl:if>
+                        <xsl:apply-templates select=".">
+                            <xsl:with-param name="threecols" select="count(./Base)>0"/>
+                            <xsl:with-param name="needLyr" select="$layers"/>
+                            <xsl:with-param name="i" select="position()"/>
+                        </xsl:apply-templates>
+                    </xsl:element>
+                    <xsl:variable name="j" select="position() + 1"/>
+                    <xsl:variable name="c2" select="../Value[$j]"/>
+                    <xsl:variable name="c3" select="$c2 and ($c2/@Type != 'noChange')"/>
+                    <xsl:variable name="c4" select="$c2 and not($c2/@Type)"/>
+                    <xsl:if test="$c1 and (not($c2) or ($c2 and ($c3 or $c4)))">
+                        <xsl:call-template name="_e_ChgMarker">
+                            <xsl:with-param name="threecols" select="../@Status='Conflict'"/>
+                        </xsl:call-template>
+                    </xsl:if>
+                </xsl:for-each>
+            </tbody>
+        </table>
+    </xsl:template>
+    <xsl:template name="__MultiValueTHead">
+        <thead>
+            <xsl:choose>
+                <xsl:when test="@Type='Layers'">
+                    <xsl:call-template name="__THeadCell">
+                        <xsl:with-param name="name">Layer name</xsl:with-param>
+                    </xsl:call-template>
+                </xsl:when>
+                <xsl:when test="@Type='GenericLayers'">
+                    <xsl:call-template name="__THeadCell">
+                        <xsl:with-param name="name">Generic Layer name</xsl:with-param>
+                    </xsl:call-template>
+                </xsl:when>
+            </xsl:choose>
+            <xsl:call-template name="__THeadCell">
+                <xsl:with-param name="name">__col1</xsl:with-param>
+                <xsl:with-param name="selected" select="concat(../@Taken, @Taken) = 'Dst'"/>
+                <!-- for arrays, @Taken would have value, while for per layer ../@Taken -->
+            </xsl:call-template>
+            <xsl:call-template name="__THeadCell">
+                <xsl:with-param name="name">__col2</xsl:with-param>
+                <xsl:with-param name="selected" select="concat(../@Taken, @Taken) = 'Src'"/>
+            </xsl:call-template>
+            <xsl:if test="count(./Value/Base)>0">
+                <xsl:call-template name="__THeadCell">
+                    <xsl:with-param name="name">__col3</xsl:with-param>
+                </xsl:call-template>
+            </xsl:if>
+        </thead>
+    </xsl:template>
+    <xsl:template name="__THeadCell">
+        <xsl:param name="name"/>
+        <xsl:param name="selected"/>
+        <xsl:element name="td">
+            <xsl:if test="$selected and count(/ConstraintDifferenceReport[@NoStatusClmn='1'])=0">
+                <xsl:attribute name="class">selected</xsl:attribute>
+            </xsl:if>
+            <xsl:choose>
+                <xsl:when test="$name = '__col1'">
+                    <xsl:attribute name="title">
+                        <xsl:value-of select="/ConstraintDifferenceReport/RptSummary/Entry[@Name = /ConstraintDifferenceReport/RptSummary/@Col1]"/>
+                    </xsl:attribute>
+                    <xsl:value-of select="/ConstraintDifferenceReport/RptSummary/@Col1"/>
+                </xsl:when>
+                <xsl:when test="$name = '__col2'">
+                    <xsl:attribute name="title">
+                        <xsl:value-of select="/ConstraintDifferenceReport/RptSummary/Entry[@Name = /ConstraintDifferenceReport/RptSummary/@Col2]"/>
+                    </xsl:attribute>
+                    <xsl:value-of select="/ConstraintDifferenceReport/RptSummary/@Col2"/>
+                </xsl:when>
+                <xsl:when test="$name = '__col3'">
+                    <xsl:attribute name="title">
+                        <xsl:value-of select="/ConstraintDifferenceReport/RptSummary/Entry[@Name = 'Baseline File']"/>
+                    </xsl:attribute>
+                    <xsl:text>Base</xsl:text>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$name"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:element>
+    </xsl:template>
+    <xsl:template name="__objName">
+        <xsl:param name="ObjName">
+            <xsl:value-of select="@Name"/>
+        </xsl:param>
+        <xsl:choose>
+            <xsl:when test="@Ref">
+                <xsl:element name="a">
+                    <xsl:attribute name="href">
+                        <xsl:text>#</xsl:text>
+                        <xsl:value-of select="@Ref"/>
+                    </xsl:attribute>
+                    <xsl:value-of select="$ObjName"/>
+                </xsl:element>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$ObjName"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    <xsl:template name="__groupSummaryTable">
+        <table>
+            <xsl:call-template name="__groupSummaryTableHeader"/>
+            <tbody>
+                <xsl:apply-templates select="ChangedObject"></xsl:apply-templates>
+            </tbody>
+        </table>
+    </xsl:template>
+    <xsl:template name="__attributeTable">
+        <xsl:param name="FirstCell"/>
+        <xsl:param name="Flattened">0</xsl:param>
+        <xsl:variable name="NeedParent" select="count(Attribute[count(@Flattened)=$Flattened and count(@PName) > 0])"/>
+        <table>
+            <thead>
+                <td>
+                    <xsl:value-of select="$FirstCell"/>
+                </td>
+                <xsl:if test="$NeedParent > 0">
+                    <td>Parent</td>
+                </xsl:if>
+                <xsl:call-template name="__THeadCell">
+                    <xsl:with-param name="name">__col1</xsl:with-param>
+                </xsl:call-template>
+                <xsl:call-template name="__THeadCell">
+                    <xsl:with-param name="name">__col2</xsl:with-param>
+                </xsl:call-template>
+                <xsl:if test="count(./Attribute/Value/Base)>0">
+                    <xsl:call-template name="__THeadCell">
+                        <xsl:with-param name="name">__col3</xsl:with-param>
+                    </xsl:call-template>
+                </xsl:if>
+                <xsl:if test="count(/ConstraintDifferenceReport[@NoStatusClmn='1'])=0">
+                    <td>Status</td>
+                </xsl:if>
+            </thead>
+            <tbody>
+                <xsl:apply-templates select="Attribute[count(@Flattened)=$Flattened]">
+                    <xsl:sort select="@PName"/>
+                    <xsl:sort select="@Name"/>
+                    <xsl:with-param name="NeedParent">
+                        <xsl:value-of select="$NeedParent"/>
+                    </xsl:with-param>
+                    <xsl:with-param name="threecols">
+                        <xsl:if test="count(./Attribute/Value/Base)>0">true</xsl:if>
+                    </xsl:with-param>
+                </xsl:apply-templates>
+            </tbody>
+        </table>
+    </xsl:template>
+    <xsl:template name="__status">
+        <xsl:choose>
+            <xsl:when test="count(@Status)>0 and @Status!=''">
+                <xsl:attribute name="class">
+                    <xsl:value-of select="@Status"/>
+                </xsl:attribute>
+                <xsl:value-of select="@Status"/>
+            </xsl:when>
+            <xsl:otherwise>Change</xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    <xsl:template name="_i_Attributes">
+        <div filter="{@Filter}">
+            <xsl:if test="count(./Attribute[count(@Flattened)=0]) > 0">
+                <h3>
+                    <xsl:choose>
+                        <xsl:when test="name(..) = 'MainSummary'">Analysis mode changes:</xsl:when>
+                        <xsl:otherwise>Directly-set attribute changes:</xsl:otherwise>
+                    </xsl:choose>
+                </h3>
+                <xsl:if test="./Attribute[@Type != 'Scalar']">
+                    <xsl:call-template name="_e_ViewSelector">
+                        <xsl:with-param name="global">true</xsl:with-param>
+                    </xsl:call-template>
+                </xsl:if>
+                <xsl:call-template name="__attributeTable">
+                    <xsl:with-param name="FirstCell">Attribute name</xsl:with-param>
+                </xsl:call-template>
+            </xsl:if>
+            <xsl:if test="count(./Attribute[@Flattened='1']) > 0">
+                <h3>Attribute changes as a result of CSet apply:</h3>
+                <xsl:call-template name="__attributeTable">
+                    <xsl:with-param name="Flattened">1</xsl:with-param>
+                    <xsl:with-param name="FirstCell">Attribute name</xsl:with-param>
+                </xsl:call-template>
+            </xsl:if>
+        </div>
+    </xsl:template>
+    <xsl:template name="_i_Notes">
+        <xsl:call-template name="_i_SummaryNotesHeader"/>
+        <ul class="notes">
+            <xsl:apply-templates select="./Note"/>
+        </ul>
+    </xsl:template>
+</xsl:stylesheet>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Microsoft C/C++ MSF 7.00
+DS            <                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  аА€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€ |ю€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€юпюп                     А      €€€€    €€€€    €€€€
+     тс
+    
+А  
+      
+ p    тс
+   
+А        u    u        
+   
+А  
+ q    тс
+   
+А      	  u    u      
+  
+   
+А  
+     тс
+   
+А  
+   
+А  
+ p    тс
+   
+А  J   А              _TP_CALLBACK_ENVIRON_V1 U_TP_CALLBACK_ENVIRON_V1@@ утс
+   
+А  *   А              _TP_POOL U_TP_POOL@@ с
+   
+А  >   А              _TP_CLEANUP_GROUP U_TP_CLEANUP_GROUP@@ утс
+   
+А                  
+   
+А  B   А              _ACTIVATION_CONTEXT U_ACTIVATION_CONTEXT@@ утс
+   
+А  F   А              _TP_CALLBACK_INSTANCE U_TP_CALLBACK_INSTANCE@@ утс
+   
+А                  
+    
+А  
+ "    тс
+ "   тс
+ "   тсF  "    LongFunction с #    Persistent утс $    Private тс6   %           <unnamed-tag> U<unnamed-tag>@@ утс  "     Flags  &    s .   '   <unnamed-tag> T<unnamed-tag>@@ утс¬  "     Version тс    Pool с    CleanupGroup с    CleanupGroupCancelCallback утс    RaceDll тс    ActivationContext  !   FinalizationCallback с (   u J   )            _TP_CALLBACK_ENVIRON_V1 U_TP_CALLBACK_ENVIRON_V1@@ утс
+   
+А  
+   
+А  
+   
+А  
+   
+А  
+ !  
+А  "   А              _TEB U_TEB@@ с
+ 0  
+А  ÷  PARSE_CANONICALIZE утс  PARSE_FRIENDLY утс  PARSE_SECURITY_URL утс  PARSE_ROOTDOCUMENT утс  PARSE_DOCUMENT утс  PARSE_ANCHOR с  PARSE_ENCODE_IS_UNESCAPE с  PARSE_DECODE_IS_ESCAPE утс 	 PARSE_PATH_FROM_URL тс 
+ PARSE_URL_FROM_PATH тс  PARSE_MIME утс  PARSE_SERVER с  PARSE_SCHEMA с  PARSE_SITE утс  PARSE_DOMAIN с  PARSE_LOCATION утс  PARSE_SECURITY_DOMAIN   PARSE_ESCAPE с  PARSE_UNESCAPE утс2   t   2  _tagPARSEACTION W4_tagPARSEACTION@@ “   FEATURE_OBJECT_CACHING утс  FEATURE_ZONE_ELEVATION утс  FEATURE_MIME_HANDLING   FEATURE_MIME_SNIFFING   FEATURE_WINDOW_RESTRICTIONS тс  FEATURE_WEBOC_POPUPMANAGEMENT   FEATURE_BEHAVIORS   FEATURE_DISABLE_MK_PROTOCOL тс  FEATURE_LOCALMACHINE_LOCKDOWN  	 FEATURE_SECURITYBAND с 
+ FEATURE_RESTRICT_ACTIVEXINSTALL тс  FEATURE_VALIDATE_NAVIGATE_URL   FEATURE_RESTRICT_FILEDOWNLOAD   FEATURE_ADDON_MANAGEMENT с  FEATURE_PROTOCOL_LOCKDOWN   FEATURE_HTTP_USERNAME_PASSWORD_DISABLE утс  FEATURE_SAFE_BINDTOOBJECT   FEATURE_UNC_SAVEDFILECHECK утс  FEATURE_GET_URL_DOM_FILEPATH_UNENCODED утс  FEATURE_TABBED_BROWSING тс  FEATURE_SSLUX   FEATURE_DISABLE_NAVIGATION_SOUNDS   FEATURE_DISABLE_LEGACY_COMPRESSION утс  FEATURE_FORCE_ADDR_AND_STATUS   FEATURE_XMLHTTP тс  FEATURE_DISABLE_TELNET_PROTOCOL тс  FEATURE_FEEDS   FEATURE_BLOCK_INPUT_PROMPTS тс  FEATURE_ENTRY_COUNT тсB   t   4  _tagINTERNETFEATURELIST W4_tagINTERNETFEATURELIST@@ “    CC_FASTCALL тс  CC_CDECL с  CC_MSCPASCAL с  CC_PASCAL   CC_MACPASCAL с  CC_STDCALL утс  CC_FPFASTCALL   CC_SYSCALL утс  CC_MPWCDECL тс  CC_MPWPASCAL с 	 CC_MAX утс*   t   6  tagCALLCONV W4tagCALLCONV@@ :   CIP_DISK_FULL   CIP_ACCESS_DENIED   CIP_NEWER_VERSION_EXISTS с  CIP_OLDER_VERSION_EXISTS с  CIP_NAME_CONFLICT   CIP_TRUST_VERIFICATION_COMPONENT_MISSING с  CIP_EXE_SELF_REGISTERATION_TIMEOUT утс  CIP_UNSAFE_TO_ABORT тс  CIP_NEED_REBOOT тс 	 CIP_NEED_REBOOT_UI_PERMISSION F 
+  t   8  __MIDL_ICodeInstall_0001 W4__MIDL_ICodeInstall_0001@@ тсо    CHANGEKIND_ADDMEMBER с  CHANGEKIND_DELETEMEMBER тс  CHANGEKIND_SETNAMES тс  CHANGEKIND_SETDOCUMENTATION тс  CHANGEKIND_GENERAL утс  CHANGEKIND_INVALIDATE   CHANGEKIND_CHANGEFAILED тс  CHANGEKIND_MAX утс.   t   :  tagCHANGEKIND W4tagCHANGEKIND@@ .    IdleShutdown с  ForcedShutdown утс2   t   <  tagShutdownType W4tagShutdownType@@ :   NODE_INVALID с  NODE_ELEMENT с  NODE_ATTRIBUTE утс  NODE_TEXT   NODE_CDATA_SECTION утс  NODE_ENTITY_REFERENCE   NODE_ENTITY тс  NODE_PROCESSING_INSTRUCTION тс  NODE_COMMENT с 	 NODE_DOCUMENT  
+ NODE_DOCUMENT_TYPE утс  NODE_DOCUMENT_FRAGMENT утс  NODE_NOTATION 2   t   >  tagDOMNodeType W4tagDOMNodeType@@ тс  BINDSTATUS_FINDINGRESOURCE утс  BINDSTATUS_CONNECTING   BINDSTATUS_REDIRECTING утс  BINDSTATUS_BEGINDOWNLOADDATA с  BINDSTATUS_DOWNLOADINGDATA утс  BINDSTATUS_ENDDOWNLOADDATA утс  BINDSTATUS_BEGINDOWNLOADCOMPONENTS утс  BINDSTATUS_INSTALLINGCOMPONENTS тс 	 BINDSTATUS_ENDDOWNLOADCOMPONENTS с 
+ BINDSTATUS_USINGCACHEDCOPY утс  BINDSTATUS_SENDINGREQUEST   BINDSTATUS_CLASSIDAVAILABLE тс  BINDSTATUS_MIMETYPEAVAILABLE с  BINDSTATUS_CACHEFILENAMEAVAILABLE   BINDSTATUS_BEGINSYNCOPERATION   BINDSTATUS_ENDSYNCOPERATION тс  BINDSTATUS_BEGINUPLOADDATA утс  BINDSTATUS_UPLOADINGDATA с  BINDSTATUS_ENDUPLOADDATA с  BINDSTATUS_PROTOCOLCLASSID утс  BINDSTATUS_ENCODING тс  BINDSTATUS_VERIFIEDMIMETYPEAVAILABLE с  BINDSTATUS_CLASSINSTALLLOCATION тс  BINDSTATUS_DECODING тс  BINDSTATUS_LOADINGMIMEHANDLER   BINDSTATUS_CONTENTDISPOSITIONATTACH тс  BINDSTATUS_FILTERREPORTMIMETYPE тс  BINDSTATUS_CLSIDCANINSTANTIATE утс  BINDSTATUS_IUNKNOWNAVAILABLE с  BINDSTATUS_DIRECTBIND   BINDSTATUS_RAWMIMETYPE утс   BINDSTATUS_PROXYDETECTING  ! BINDSTATUS_ACCEPTRANGES тс " BINDSTATUS_COOKIE_SENT утс # BINDSTATUS_COMPACT_POLICY_RECEIVED утс $ BINDSTATUS_COOKIE_SUPPRESSED с % BINDSTATUS_COOKIE_STATE_UNKNOWN тс & BINDSTATUS_COOKIE_STATE_ACCEPT утс ' BINDSTATUS_COOKIE_STATE_REJECT утс ( BINDSTATUS_COOKIE_STATE_PROMPT утс ) BINDSTATUS_COOKIE_STATE_LEASH  * BINDSTATUS_COOKIE_STATE_DOWNGRADE  + BINDSTATUS_POLICY_HREF утс , BINDSTATUS_P3P_HEADER  - BINDSTATUS_SESSION_COOKIE_RECEIVED утс . BINDSTATUS_PERSISTENT_COOKIE_RECEIVED  / BINDSTATUS_SESSION_COOKIES_ALLOWED утс 0 BINDSTATUS_CACHECONTROL тс 1 BINDSTATUS_CONTENTDISPOSITIONFILENAME  2 BINDSTATUS_MIMETEXTPLAINMISMATCH с 3 BINDSTATUS_PUBLISHERAVAILABLE  4 BINDSTATUS_DISPLAYNAMEAVAILABLE тс 5 BINDSTATUS_SSLUX_NAVBLOCKED тс 6 BINDSTATUS_SERVER_MIMETYPEAVAILABLE тс 7 BINDSTATUS_SNIFFED_CLASSIDAVAILABLE тс 8 BINDSTATUS_64BIT_PROGRESS . 8  t   @  tagBINDSTATUS W4tagBINDSTATUS@@ &   А              _GUID U_GUID@@ утс
+ B   тс     "     сB  "     Data1  !    Data2  !    Data3  D   Data4 &   E           _GUID U_GUID@@ утс2   PSU_DEFAULT тс  PSU_SECURITY_URL_ONLY .   t   G  _tagPSUACTION W4_tagPSUACTION@@ Ъ    COMGLB_EXCEPTION_HANDLE тс  COMGLB_EXCEPTION_DONOT_HANDLE_FATAL тс  COMGLB_EXCEPTION_DONOT_HANDLE   COMGLB_EXCEPTION_DONOT_HANDLE_ANY B   t   I  tagGLOBALOPT_EH_VALUES W4tagGLOBALOPT_EH_VALUES@@ тсB А€€SA_All с  SA_Assembly тс  SA_Class с   SA_Constructor утс  SA_Delegate тс  SA_Enum тс  SA_Event с  SA_Field с  @SA_GenericParameter тс  SA_Interface с @ SA_Method   SA_Module   SA_Parameter с А SA_Property тс   SA_ReturnValue утс  SA_Struct  А АSA_This .   t   K  SA_AttrTarget W4SA_AttrTarget@@ N    URLZONEREG_DEFAULT утс  URLZONEREG_HKLM тс  URLZONEREG_HKCU тс*   t   M  _URLZONEREG W4_URLZONEREG@@ n    FUNC_VIRTUAL с  FUNC_PUREVIRTUAL с  FUNC_NONVIRTUAL тс  FUNC_STATIC тс  FUNC_DISPATCH *   t   O  tagFUNCKIND W4tagFUNCKIND@@ Т   VT_EMPTY с  VT_NULL тс  VT_I2   VT_I4   VT_R4   VT_R8   VT_CY   VT_DATE тс  VT_BSTR тс 	 VT_DISPATCH тс 
+ VT_ERROR с  VT_BOOL тс  VT_VARIANT утс  VT_UNKNOWN утс  VT_DECIMAL утс  VT_I1   VT_UI1 утс  VT_UI2 утс  VT_UI4 утс  VT_I8   VT_UI8 утс  VT_INT утс  VT_UINT тс  VT_VOID тс  VT_HRESULT утс  VT_PTR утс  VT_SAFEARRAY с  VT_CARRAY   VT_USERDEFINED утс  VT_LPSTR с  VT_LPWSTR  $ VT_RECORD  % VT_INT_PTR утс & VT_UINT_PTR тс @ VTе,  '  √#    »7  ¬x  ё\  -  sG  Ю2  €  ^z  <  х  щf  Х\  ^E  ∞  Г~  ™(  Б	  -  4s  Ѓ<  …>  0  b  ”k  qq  L  Нl  Џi  є=  О  n>  м  d  љ  Ћ   )    ќe  т  h  Zv  ”  х7  іH  ∞2  к6  _*  :  Ѓ_  ќy  Щ9  X  <  Г  	R  ёN  <i  !k  M|  Yc  £i  ÷)  £3  Д  1x  §  .(  Ж  k=  Ђd  ~m  В]  ‘w  Ы  6z  &*  ЊY  sw  b  Бg  јN  ‘+  ђ8  л5  Ь~  Ui  »%  .%  µr  4  в2  {   6  ∞  Ќ,  n  ѕ  	!  r)  їW  Џ  N  <u         R  $!                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       18      k  0   €€   А      ђ  ђ     Љ      
+     тс
+    
+А  
+      
+ p    тс
+   
+А        u    u        
+   
+А  
+ q    тс
+   
+А      	  u    u      
+  
+   
+А  
+     тс
+   
+А  
+   
+А  
+ p    тс
+   
+А  J   А              _TP_CALLBACK_ENVIRON_V1 U_TP_CALLBACK_ENVIRON_V1@@ утс
+   
+А  *   А              _TP_POOL U_TP_POOL@@ с
+   
+А  >   А              _TP_CLEANUP_GROUP U_TP_CLEANUP_GROUP@@ утс
+   
+А                  
+   
+А  B   А              _ACTIVATION_CONTEXT U_ACTIVATION_CONTEXT@@ утс
+   
+А  F   А              _TP_CALLBACK_INSTANCE U_TP_CALLBACK_INSTANCE@@ утс
+   
+А                  
+    
+А  
+ "    тс
+ "   тс
+ "   тсF  "    LongFunction с #    Persistent утс $    Private тс6   %           <unnamed-tag> U<unnamed-tag>@@ утс  "     Flags  &    s .   '   <unnamed-tag> T<unnamed-tag>@@ утс¬  "     Version тс    Pool с    CleanupGroup с    CleanupGroupCancelCallback утс    RaceDll тс    ActivationContext  !   FinalizationCallback с (   u J   )            _TP_CALLBACK_ENVIRON_V1 U_TP_CALLBACK_ENVIRON_V1@@ утс
+   
+А  
+   
+А  
+   
+А  
+   
+А  
+ !  
+А  "   А              _TEB U_TEB@@ с
+ 0  
+А  ÷  PARSE_CANONICALIZE утс  PARSE_FRIENDLY утс  PARSE_SECURITY_URL утс  PARSE_ROOTDOCUMENT утс  PARSE_DOCUMENT утс  PARSE_ANCHOR с  PARSE_ENCODE_IS_UNESCAPE с  PARSE_DECODE_IS_ESCAPE утс 	 PARSE_PATH_FROM_URL тс 
+ PARSE_URL_FROM_PATH тс  PARSE_MIME утс  PARSE_SERVER с  PARSE_SCHEMA с  PARSE_SITE утс  PARSE_DOMAIN с  PARSE_LOCATION утс  PARSE_SECURITY_DOMAIN   PARSE_ESCAPE с  PARSE_UNESCAPE утс2   t   2  _tagPARSEACTION W4_tagPARSEACTION@@ “   FEATURE_OBJECT_CACHING утс  FEATURE_ZONE_ELEVATION утс  FEATURE_MIME_HANDLING   FEATURE_MIME_SNIFFING   FEATURE_WINDOW_RESTRICTIONS тс  FEATURE_WEBOC_POPUPMANAGEMENT   FEATURE_BEHAVIORS   FEATURE_DISABLE_MK_PROTOCOL тс  FEATURE_LOCALMACHINE_LOCKDOWN  	 FEATURE_SECURITYBAND с 
+ FEATURE_RESTRICT_ACTIVEXINSTALL тс  FEATURE_VALIDATE_NAVIGATE_URL   FEATURE_RESTRICT_FILEDOWNLOAD   FEATURE_ADDON_MANAGEMENT с  FEATURE_PROTOCOL_LOCKDOWN   FEATURE_HTTP_USERNAME_PASSWORD_DISABLE утс  FEATURE_SAFE_BINDTOOBJECT   FEATURE_UNC_SAVEDFILECHECK утс  FEATURE_GET_URL_DOM_FILEPATH_UNENCODED утс  FEATURE_TABBED_BROWSING тс  FEATURE_SSLUX   FEATURE_DISABLE_NAVIGATION_SOUNDS   FEATURE_DISABLE_LEGACY_COMPRESSION утс  FEATURE_FORCE_ADDR_AND_STATUS   FEATURE_XMLHTTP тс  FEATURE_DISABLE_TELNET_PROTOCOL тс  FEATURE_FEEDS   FEATURE_BLOCK_INPUT_PROMPTS тс  FEATURE_ENTRY_COUNT тсB   t   4  _tagINTERNETFEATURELIST W4_tagINTERNETFEATURELIST@@ “    CC_FASTCALL тс  CC_CDECL с  CC_MSCPASCAL с  CC_PASCAL   CC_MACPASCAL с  CC_STDCALL утс  CC_FPFASTCALL   CC_SYSCALL утс  CC_MPWCDECL тс  CC_MPWPASCAL с 	 CC_MAX утс*   t   6  tagCALLCONV W4tagCALLCONV@@ :   CIP_DISK_FULL   CIP_ACCESS_DENIED   CIP_NEWER_VERSION_EXISTS с  CIP_OLDER_VERSION_EXISTS с  CIP_NAME_CONFLICT   CIP_TRUST_VERIFICATION_COMPONENT_MISSING с  CIP_EXE_SELF_REGISTERATION_TIMEOUT утс  CIP_UNSAFE_TO_ABORT тс  CIP_NEED_REBOOT тс 	 CIP_NEED_REBOOT_UI_PERMISSION F 
+  t   8  __MIDL_ICodeInstall_0001 W4__MIDL_ICodeInstall_0001@@ тсо    CHANGEKIND_ADDMEMBER с  CHANGEKIND_DELETEMEMBER тс  CHANGEKIND_SETNAMES тс  CHANGEKIND_SETDOCUMENTATION тс  CHANGEKIND_GENERAL утс  CHANGEKIND_INVALIDATE   CHANGEKIND_CHANGEFAILED тс  CHANGEKIND_MAX утс.   t   :  tagCHANGEKIND W4tagCHANGEKIND@@ .    IdleShutdown с  ForcedShutdown утс2   t   <  tagShutdownType W4tagShutdownType@@ :   NODE_INVALID с  NODE_ELEMENT с  NODE_ATTRIBUTE утс  NODE_TEXT   NODE_CDATA_SECTIONФ.1Љщ√K   рҐeV	IЦ…ЪА"*   /names                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     _FILETIME тс A VT_BLOB тс B VT_STREAM  C VT_STORAGE утс D VT_STREAMED_OBJECT утс E VT_STORED_OBJECT с F VT_BLOB_OBJECT утс G VT_CF  H VT_CLSID с I VT_VERSIONED_STREAM тс €VT_BSTR_BLOB с  VT_VECTOR    VT_ARRAY с  @VT_BYREF с А АVT_RESERVED  А€€VT_ILLEGAL с €VT_ILLEGALMASKED с €VT_TYPEMASK тс" 4  t   Q  VARENUM W4VARENUM@@   COMIMAGE_FLAGS_ILONLY   COMIMAGE_FLAGS_32BITREQUIRED с  COMIMAGE_FLAGS_IL_LIBRARY   COMIMAGE_FLAGS_STRONGNAMESIGNED тс  COMIMAGE_FLAGS_NATIVE_ENTRYPOINT с А   COMIMAGE_FLAGS_TRACKDEBUGDATA   COR_VERSION_MAJOR_V2 с  COR_VERSION_MAJOR   COR_VERSION_MINOR   COR_DELETED_NAME_LENGTH тс  COR_VTABLEGAP_NAME_LENGTH   NATIVE_TYPE_MAX_CB утс € COR_ILMETHOD_SECT_SMALL_MAX_DATASIZE с  IMAGE_COR_MIH_METHODRVA тс  IMAGE_COR_MIH_EHRVA тс  IMAGE_COR_MIH_BASICBLOCK с  COR_VTABLE_32BIT с  COR_VTABLE_64BIT с  COR_VTABLE_FROM_UNMANAGED   COR_VTABLE_FROM_UNMANAGED_RETAIN_APPDOMAIN утс  COR_VTABLE_CALL_MOST_DERIVED с   IMAGE_COR_EATJ_THUNK_SIZE   MAX_CLASS_NAME утс  MAX_PACKAGE_NAME сN   t   S  ReplacesCorHdrNumericDefines W4ReplacesCorHdrNumericDefines@@ тс  А€URLZONE_INVALID с   URLZONE_PREDEFINED_MIN утс   URLZONE_LOCAL_MACHINE   URLZONE_INTRANET с  URLZONE_TRUSTED тс  URLZONE_INTERNET с  URLZONE_UNTRUSTED  зURLZONE_PREDEFINED_MAX утс иURLZONE_USER_MIN с 'URLZONE_USER_MAX с* 
+  t   U  tagURLZONE W4tagURLZONE@@ тс¶    TYSPEC_CLSID с  TYSPEC_FILEEXT утс  TYSPEC_MIMETYPE тс  TYSPEC_FILENAME тс  TYSPEC_PROGID   TYSPEC_PACKAGENAME утс  TYSPEC_OBJECTID тс&   t   W  tagTYSPEC W4tagTYSPEC@@ Ъ  QUERY_EXPIRATION_DATE   QUERY_TIME_OF_LAST_CHANGE   QUERY_CONTENT_ENCODING утс  QUERY_CONTENT_TYPE утс  QUERY_REFRESH   QUERY_RECOMBINE тс  QUERY_CAN_NAVIGATE утс  QUERY_USES_NETWORK утс 	 QUERY_IS_CACHED тс 
+ QUERY_IS_INSTALLEDENTRY тс  QUERY_IS_CACHED_OR_MAPPED   QUERY_USES_CACHE с  QUERY_IS_SECURE тс  QUERY_IS_SAFE   QUERY_USES_HISTORYFOLDER с2   t   Y  _tagQUERYOPTION W4_tagQUERYOPTION@@   BINDSTRING_HEADERS утс  BINDSTRING_ACCEPT_MIMES тс  BINDSTRING_EXTRA_URL с  BINDSTRING_LANGUAGE тс  BINDSTRING_USERNAME тс  BINDSTRING_PASSWORD тс  BINDSTRING_UA_PIXELS с  BINDSTRING_UA_COLOR тс 	 BINDSTRING_OS  
+ BINDSTRING_USER_AGENT   BINDSTRING_ACCEPT_ENCODINGS тс  BINDSTRING_POST_COOKIE утс  BINDSTRING_POST_DATA_MIME   BINDSTRING_URL утс  BINDSTRING_IID утс  BINDSTRING_FLAG_BIND_TO_OBJECT утс  BINDSTRING_PTR_BIND_CONTEXT тс  BINDSTRING_XDR_ORIGIN .   t   [  tagBINDSTRING W4tagBINDSTRING@@ R    VAR_PERINSTANCE тс  VAR_STATIC утс  VAR_CONST   VAR_DISPATCH с*   t   ]  tagVARKIND W4tagVARKIND@@ тсґ    XMLELEMTYPE_ELEMENT тс  XMLELEMTYPE_TEXT с  XMLELEMTYPE_COMMENT тс  XMLELEMTYPE_DOCUMENT с  XMLELEMTYPE_DTD тс  XMLELEMTYPE_PI утс  XMLELEMTYPE_OTHER 2   t   _  tagXMLEMEM_TYPE W4tagXMLEMEM_TYPE@@ B    SYS_WIN16   SYS_WIN32   SYS_MAC тс  SYS_WIN64 *   t   a  tagSYSKIND W4tagSYSKIND@@ тсТ    DESCKIND_NONE   DESCKIND_FUNCDESC   DESCKIND_VARDESC с  DESCKIND_TYPECOMP   DESCKIND_IMPLICITAPPOBJ тс  DESCKIND_MAX с*   t   c  tagDESCKIND W4tagDESCKIND@@ Ї    TKIND_ENUM утс  TKIND_RECORD с  TKIND_MODULE с  TKIND_INTERFACE тс  TKIND_DISPATCH утс  TKIND_COCLASS   TKIND_ALIAS тс  TKIND_UNION тс  TKIND_MAX * 	  t   e  tagTYPEKIND W4tagTYPEKIND@@    PIDMSI_STATUS_NORMAL с  PIDMSI_STATUS_NEW   PIDMSI_STATUS_PRELIM с  PIDMSI_STATUS_DRAFT тс  PIDMSI_STATUS_INPROGRESS с  PIDMSI_STATUS_EDIT утс  PIDMSI_STATUS_REVIEW с  PIDMSI_STATUS_PROOF тс  PIDMSI_STATUS_FINAL тс €PIDMSI_STATUS_OTHER тс: 
+  t   g  PIDMSI_STATUS_VALUE W4PIDMSI_STATUS_VALUE@@ 6    ServerApplication   LibraryApplication утс:   t   i  tagApplicationType W4tagApplicationType@@ тс                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    е,  '  √#    »7  ¬x  ё\  -  sG  Ю2  €  ^z  <  х  щf  Х\  ^E  ∞  Г~  ™(  Б	  -  4s  Ѓ<  …>  0  b  ”k  qq  L  Нl  Џi  є=  О  n>  м  d  љ  Ћ   )    ќe  т  h  Zv  ”  х7  іH  ∞2  к6  _*  :  Ѓ_  ќy  Щ9  X  <  Г  	R  ёN  <i  !k  M|  Yc  £i  ÷)  £3  Д  1x  §  .(  Ж  k=  Ђd  ~m  В]  ‘w  Ы  6z  &*  ЊY  sw  b  Бg  јN  ‘+  ђ8  л5  Ь~  Ui  »%  .%  µr  4  в2  {   6  ∞  Ќ,  n  ѕ  	!  r)  їW  Џ  N  <u         R  $!                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       18      k  0   €€   А      ђ  ђ     Љ      
+     тс
+    
+А  
+      
+ p    тс
+   
+А        u    u        
+   
+А  
+ q    тс
+   
+А      	  u    u      
+  
+   
+А  
+     тс
+   
+А  
+   
+А  
+ p    тс
+   
+А  J   А              _TP_CALLBACK_ENVIRON_V1 U_TP_CALLBACK_ENVIRON_V1@@ утс
+   
+А  *   А              _TP_POOL U_TP_POOL@@ с
+   
+А  >   А              _TP_CLEANUP_GROUP U_TP_CLEANUP_GROUP@@ утс
+   
+А                  
+   
+А  B   А              _ACTIVATION_CONTEXT U_ACTIVATION_CONTEXT@@ утс
+   
+А  F   А              _TP_CALLBACK_INSTANCE U_TP_CALLBACK_INSTANCE@@ утс
+   
+А                  
+    
+А  
+ "    тс
+ "   тс
+ "   тсF  "    LongFunction с #    Persistent утс $    Private тс6   %           <unnamed-tag> U<unnamed-tag>@@ утс  "     Flags  &    s .   '   <unnamed-tag> T<unnamed-tag>@@ утс¬  "     Version тс    Pool с    CleanupGroup с    CleanupGroupCancelCallback утс    RaceDll тс    ActivationContext  !   FinalizationCallback с (   u J   )            _TP_CALLBACK_ENVIRON_V1 U_TP_CALLBACK_ENVIRON_V1@@ утс
+   
+А  
+   
+А  
+   
+А  
+   
+А  
+ !  
+А  "   А              _TEB U_TEB@@ с
+ 0  
+А  ÷  PARSE_CANONICALIZE утс  PARSE_FRIENDLY утс  PARSE_SECURITY_URL утс  PARSE_ROOTDOCUMENT утс  PARSE_DOCUMENT утс  PARSE_ANCHOR с  PARSE_ENCODE_IS_UNESCAPE с  PARSE_DECODE_IS_ESCAPE утс 	 PARSE_PATH_FROM_URL тс 
+ PARSE_URL_FROM_PATH тс  PARSE_MIME утс  PARSE_SERVER с  PARSE_SCHEMA с  PARSE_SITE утс  PARSE_DOMAIN с  PARSE_LOCATION утс  PARSE_SECURITY_DOMAIN   PARSE_ESCAPE с  PARSE_UNESCAPE утс2   t   2  _tagPARSEACTION W4_tagPARSEACTION@@ “   FEATURE_OBJECT_CACHING утс  FEATURE_ZONE_ELEVATION утс  FEATURE_MIME_HANDLING   FEATURE_MIME_SNIFFING   FEATURE_WINDOW_RESTRICTIONS тс  FEATURE_WEBOC_POPUPMANAGEMENT   FEATURE_BEHAVIORS   FEATURE_DISABLE_MK_PROTOCOL тс  FEATURE_LOCALMACHINE_LOCKDOWN  	 FEATURE_SECURITYBAND с 
+ FEATURE_RESTRICT_ACTIVEXINSTALL тс  FEATURE_VALIDATE_NAVIGATE_URL   FEATURE_RESTRICT_FILEDOWNLOAD   FEATURE_ADDON_MANAGEMENT с  FEATURE_PROTOCOL_LOCKDOWN   FEATURE_HTTP_USERNAME_PASSWORD_DISABLE утс  FEATURE_SAFE_BINDTOOBJECT   FEATURE_UNC_SAVEDFILECHECK утс  FEATURE_GET_URL_DOM_FILEPATH_UNENCODED утс  FEATURE_TABBED_BROWSING тс  FEATURE_SSLUX   FEATURE_DISABLE_NAVIGATION_SOUNDS   FEATURE_DISABLE_LEGACY_COMPRESSION утс  FEATURE_FORCE_ADDR_AND_STATUS   FEATURE_XMLHTTP тс  FEATURE_DISABLE_TELNET_PROTOCOL тс  FEATURE_FEEDS   FEATURE_BLOCK_INPUT_PROMPTS тс  FEATURE_ENTRY_COUNT тсB   t   4  _tagINTERNETFEATURELIST W4_tagINTERNETFEATURELIST@@ “    CC_FASTCALL тс  CC_CDECL с  CC_MSCPASCAL с  CC_PASCAL   CC_MACPASCAL с  CC_STDCALL утс  CC_FPFASTCALL   CC_SYSCALL утс  CC_MPWCDECL тс  CC_MPWPASCAL с 	 CC_MAX утс*   t   6  tagCALLCONV W4tagCALLCONV@@ :   CIP_DISK_FULL   CIP_ACCESS_DENIED   CIP_NEWER_VERSION_EXISTS с  CIP_OLDER_VERSION_EXISTS с  CIP_NAME_CONFLICT   CIP_TRUST_VERIFICATION_COMPONENT_MISSING с  CIP_EXE_SELF_REGISTERATION_TIMEOUT утс  CIP_UNSAFE_TO_ABORT тс  CIP_NEED_REBOOT тс 	 CIP_NEED_REBOOT_UI_PERMISSION F 
+  t   8  __MIDL_ICodeInstall_0001 W4__MIDL_ICodeInstall_0001@@ тсо    CHANGEKIND_ADDMEMBER с  CHANGEKIND_DELETEMEMBER тс  CHANGEKIND_SETNAMES тс  CHANGEKIND_SETDOCUMENTATION тс  CHANGEKIND_GENERAL утс  CHANGEKIND_INVALIDATE   CHANGEKIND_CHANGEFAILED тс  CHANGEKIND_MAX утс.   t   :  tagCHANGEKIND W4tagCHANGEKIND@@ .    IdleShutdown с  ForcedShutdown утс2   t   <  tagShutdownType W4tagShutdownType@@ :   NODE_INVALID с  NODE_ELEMENT с  NODE_ATTRIBUTE утс  NODE_TEXT   NODE_CDATA_SECTIONФ.1Љщ√K   рҐeV	IЦ…ЪА"*   /names                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           G   <0         Љ                 	      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <   G   <0         Љ                 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              

@@ -1,0 +1,24 @@
+#include <Wire.h>              //Incluimos la libreria i2c
+
+void setup()
+
+{
+  Wire.begin();               //Iniciamos el bus I2C 
+  Serial.begin(9600);         //Iniciamos el Serial a 9600 baudios
+}
+
+void loop()
+{   
+  unsigned int lectura;
+  Wire.beginTransmission(1);  // Enviamos a la dirección del esclavo 1
+  Wire.write(1);              // Enviamos un 1    
+  Wire.endTransmission();     // Terminamos la transmision  
+ 
+  Wire.requestFrom(1, 1);     // Pedimos 1 bytes al esclavo 1
+  while(Wire.available())     // Mientras tengamos datos en la entrada
+  { 
+    lectura = Wire.read();    // Leemos el resultado y lo asignamos a la variable lectura
+  }
+  Serial.println(lectura);    // Imprimimos la lectura en el serial (podria ser un lcd tambien)
+                // Damos un tiempo de refresco
+}

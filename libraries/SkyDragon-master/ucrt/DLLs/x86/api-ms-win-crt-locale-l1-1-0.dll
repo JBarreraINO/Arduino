@@ -1,0 +1,416 @@
+
+	} elseif {[$t depth $n] == 1} {
+	    # Commands at the structural toplevel are irrelevant and
+	    # removed (see caller). They have to checked again however
+	    # to see if the use introduced non-whitespace where it
+	    # should not be.
+
+	    if {[regexp {[^[:blank:]\n]} $vars($varname)]} {
+		Error $t $n doctoc/plaintext
+	    }
+	} else {
+	    MakeText $t $n $vars($varname)
+	}
+    }
+
+    proc VariableDefine {t n var val} {
+	upvar 1 vars vars
+
+	# vset/2 - the command links a variable to a value. Extract
+	# the argument data.
+
+	set vartype [$t get $var type]
+	set valtype [$t get $val type]
+	set varname [$t get $var text]
+	set value   [$t get $val text]
+
+	# Remove the now superfluous argument nodes.
+	DropChildren $t $n
+
+	if {($vartype eq "Error") || ($valtype eq "Error")} {
+	    # First we check if the command is in trouble because it
+	    # has one or more bogus arguments. If so we convert it
+	    # into an error node to signal even higher commands, and
+	    # ignore it. We do not report an error, as the actual
+	    # problem was reported already.
+
+	    MakeError $t $n
+	    return
+	}
+
+	# And save the change to the symbol table we are lugging
+	# around during the processing.
+
+	set vars($varname) $value
+	return
+    }
+
+    proc ProcessInclude {t n path} {
+	upvar 1 vars vars _file _file
+	::variable ourfile
+
+	# include - the command returns file content and inserts it in
+	# the place of the command.  First extract the argument data
+
+	set pathtype [$t get $path type]
+	set pathname [$t get $path text]
+
+	# Remove the now superfluous argument nodes.
+	DropChildren $t $n
+
+	# Check for problems stemming from other trouble.
+	if {$pathtype eq "Error"} {
+	    # First we check if the command is in trouble because it
+	    # has a bogus argument. If so convert it into an error
+	    # node to signal even higher commands, and ignore it. We
+	    # do not report an error, as the actual problem was
+	    # reported already.
+
+	    MakeError $t $n
+	    return
+	}
+
+	if {![GetFile $ourfile $pathname text fullpath error emsg]} {
+	    switch -exact -- $error {
+		notfound { Error $t $n doctoc/include/path/notfound $pathname       }
+		notread  { Error $t $n doctoc/include/read-failed   $fullpath $emsg }
+	    }
+	    MarkDrop $n
+	    return
+	}
+
+	# Parse the file. This also resolves variables further.
+
+	set currenterrors [GetErrors]
+	set currentpath $ourfile
+	ClearErrors
+
+	# WIBNI :: Remember the path as relative to the current path.
+	set ourfile $fullpath
+	if {![Process $t $text $n vars _file]} {
+
+	    set newerrors [GetErrors]
+	    SetErrors $currenterrors
+	    set ourfile $currentpath
+	    Error $t $n doctoc/include/syntax $fullpath $newerrors
+	    MarkDrop $n
+	    return
+	}
+
+	if {![$t numchildren $n]} {
+	    # Inclusion did not generate additional content, we can
+	    # ignore the command completely.
+	    MarkDrop $n
+	    return
+	}
+
+	# Create marker nodes which show the file entry/exit
+	# transitions. Disabled, makes shaping tree structure too
+	# complex. And checking the syntax as well, if we wish to have
+	# only proper complete structures in an include file. Need
+	# proper LR parser for that (is not LL(1)), or maybe even
+	# something like earley-aycock for full handling of an
+	# ambigous grammar.
+	if 0 {
+	    set fstart [$t insert $n 0]
+	    set fstop  [$t insert $n end]
+
+	    $t set $fstart type Command
+	    $t set $fstop  type Command
+
+	    $t set $fstart text include_begin
+	    $t set $fstop  text include_end
+
+	    $t set $fstart path $fullpath
+	    $t set $fstop  path $fullpath
+	}
+	# Remove the include command itself, merging its children
+	# into the place it occupied in its parent.
+	$t cut $n
+	return
+    }
+
+    # # ## ### ##### ######## #############
+
+    ## Note: The import plugin for doctoc rewrites the 'GetFile'
+    ##       command below to make use of an alias provided by the
+    ##       plugin manager. This re-enables the ability of this class
+    ##       to handle include files which would otherwise be gone due
+    ##       to the necessary file operations (exists, isfile,
+    ##       readable, open, read) be disallowed by the safe
+    ##       environment the plugin operates in.
+    ##
+    ## Any changes to GetFile have to reviewed for their impact on
+    ## doctools::toc::import::doctoc, and possibly ported over.
+
+    proc GetFile {currentfile path dv pv ev mv} {
+	upvar 1 $dv data $pv fullpath $ev error $mv emessage
+	set data     {}
+	set error    {}
+	set emessage {}
+
+	# Find the file, or not.
+	set fullpath [Locate $path]
+	if {$fullpath eq {}} {
+	    set fullpath $path
+	    set error notfound
+	    return 0
+	}
+
+	# Read contents, or not.
+	if {[catch {
+	    set data [fileutil::cat $fullpath]
+	} msg]} {
+	    set error notread
+	    set emessage $msg
+	    return 0
+	}
+
+	return 1
+    }
+
+    proc Locate {path} {
+	upvar 1 currentfile currentfile
+
+	if {$currentfile ne {}} {
+	    set pathstosearch \
+		[linsert $ourincpaths 0 \
+		     [file dirname [file normalize $currentfile]]]
+	} else {
+	    set pathstosearch $ourincpaths
+	}
+
+	foreach base $pathstosearch {
+	    set try [file join $base $path]
+	    if {![file exists $try]} continue
+	    return $try
+	}
+	# Nothing found
+	return {}
+    }
+
+    # # ## ### ##### ######## #############
+    ## Management of nodes to kill
+
+    proc MarkDrop {n} {
+	::variable ourtokill
+	lappend ourtokill $n
+	#puts %%mark4kill=$n|[info level -1]
+	return
+    }
+
+    proc DropChildren {t n} {
+	foreach child [$t children $n] {
+	    MarkDrop $child
+	}
+	return
+    }
+
+    proc PerformDrop {t} {
+	::variable ourtokill
+	#puts __PD($t)=<[join $ourtokill ,]>
+	foreach n $ourtokill {
+	    #puts x($n/[$t exists $n])
+	    if {![$t exists $n]} continue
+	    #puts ^^DEL($n)
+	    $t delete $n
+	}
+	set ourtokill {}
+	return
+    }
+
+    # # ## ### ##### ######## #############
+    ## Command predicates
+
+    proc Nestable {t n cmdname cv} {
+	upvar 1 $cv outname
+	set outname $cmdname
+	switch -exact -- $cmdname {
+	    lb - rb { return 1 }
+	    vset {
+		if {[$t numchildren $n] == 1} {
+		    return 1
+		}
+		append outname /2
+	    }
+	}
+	return 0
+    }
+
+    proc Legal {cmdname} {
+	::variable ourcmds
+	#parray ourcmds
+	return [info exists ourcmds($cmdname)]
+    }
+
+    proc ArgInfo {cmdname minv maxv} {
+	::variable ourcmds
+	upvar 1 $minv min $maxv max
+	foreach {min max} $ourcmds($cmdname) break
+	return
+    }
+
+    # # ## ### ##### ######## #############
+    ## Higher level error handling, node conversion.
+
+    proc MakeError {t n} {
+	#puts %%error=$n|[info level -1]
+	$t set $n type Error
+	DropChildren $t $n
+	return
+    }
+
+    proc MakeErrorMsg {t n msg args} {
+	upvar 1 _file _file
+	#puts %%error=$n|[info level -1]
+	Report $t $n $msg $args
+	$t set $n type Error
+	DropChildren $t $n
+	return
+    }
+
+    proc MakeText {t n text} {
+	#puts %%text=$n|[info level -1]
+	$t set $n type Text
+	$t set $n text $text
+	DropChildren $t $n
+	return
+    }
+
+    # # ## ### ##### ######## #############
+    ## Error reporting
+
+    proc Error {t n text args} {
+	upvar 1 _file _file
+	Report $t $n $text $args
+    }
+
+    proc Report {t n text details} {
+	upvar 1 _file _file
+	ReportAt $_file($n) [$t get $n range] [$t get $n line] [$t get $n col] $text $details
+	return
+    }
+
+    proc ReportAt {file range line col text details} {
+	::variable ourerrors
+	#puts !![list $file $range $line $col $text $details]/[info level -1]
+	lappend ourerrors [list $file $range $line $col $text $details]
+	return
+    }
+
+    # # ## ### ##### ######## #############
+    ## Error Management
+
+    proc ClearErrors {} {
+	::variable ourerrors {}
+	return
+    }
+
+    proc GetErrors {} {
+	::variable ourerrors
+	return $ourerrors
+    }
+
+    proc SetErrors {t} {
+	::variable ourerrors $t
+	return
+    }
+
+    # # ## ### ##### ######## #############
+    ## Error Response
+
+    proc StopOnErrors {} {
+	::variable ourerrors
+	if {![llength $ourerrors]} return
+
+	upvar 1 t t
+	$t destroy
+
+	doctools::msgcat::init toc
+	set info [SortMessages $ourerrors]
+	set msg  [Formatted $info {}]
+
+	return -code error -errorcode $info $msg
+    }
+
+    proc Formatted {errors prefix} {
+	set lines {}
+	foreach err $errors {
+	    struct::list assign $err file range line col msg details
+	    #8.5: set text [msgcat::mc $msg {*}$details]
+	    set text [eval [linsert $details 0 msgcat::mc $msg]]
+	    if {![string length $prefix] && [string length $file]} {
+		set prefix "\"$file\" "
+	    }
+
+	    lappend lines "${prefix}error on line $line.$col: $text"
+
+	    if {$msg eq "doctoc/include/syntax"} {
+		struct::list assign $details path moreerrors
+		lappend lines [Formatted [SortMessages $moreerrors] "\"$path\": "]
+	    }
+	}
+	return [join $lines \n]
+    }
+
+    proc SortMessages {messages} {
+	return [lsort -dict -index 0 \
+		    [lsort -dict -index 2 \
+			 [lsort -dict -index 3 \
+			      [lsort -unique $messages]]]]
+    }
+
+    # # ## ### ##### ######## #############
+    ## Parser state
+
+    # Path to the file currently processed, if known. Empty if not known
+    typevariable ourfile {}
+
+    # Array of variables for use by vset. During parsing a local copy
+    # is used so that variables set by the document cannot spill back
+    # to the parser state.
+    typevariable ourvars -array {}
+
+    # List of paths to use when searching for an include file.
+    typevariable ourincpaths {}
+
+    # Record of errors found so far. List of 5-tuples containing token
+    # range, line, column of firt character after the token, error
+    # code, and error arguments, in this order.
+    typevariable ourerrors {}
+
+    # List of nodes marked for removal.
+    typevariable ourtokill {}
+
+    # Map of legal commands to their min/max number of arguments.
+    typevariable ourcmds -array {
+	comment        {1 1}
+	include        {1 1}
+	lb             {0 0}
+	rb             {0 0}
+	vset           {1 2}
+
+	division_end   {0 0}
+	division_start {1 2}
+	item           {3 3}
+	toc_begin      {2 2}
+	toc_end        {0 0}
+    }
+
+    # # ## ### ##### ######## #############
+    ## Configuration
+
+    pragma -hasinstances   no ; # singleton
+    pragma -hastypeinfo    no ; # no introspection
+    pragma -hastypedestroy no ; # immortal
+
+    ##
+    # # ## ### ##### ######## #############
+}
+
+# # ## ### ##### ######## ############# #####################
+## Ready
+
+package provide doctools::toc::parse 0.1
+return
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               

@@ -1,0 +1,24 @@
+
+int vel = 0; // Velocidad de los motores (0-255)
+
+void setup()  { 
+  pinMode(8, INPUT);
+    pinMode(7, OUTPUT);
+ } 
+ 
+void loop()  { 
+  
+  
+  if(digitalRead(8) == LOW){
+ while(digitalRead(8) == LOW){
+  digitalWrite(7,HIGH);
+  analogWrite(3,155);
+  
+ }
+  
+ analogWrite(3,85);
+ delay(255);
+  digitalWrite(7,LOW);
+ }
+  
+}

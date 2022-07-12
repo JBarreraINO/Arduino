@@ -1,0 +1,25 @@
+#######################################
+# Syntax Coloring Map sky
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+sky	KEYWORD1	sky
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+Speeds	KEYWORD2
+Wizard	KEYWORD2
+Linebot	KEYWORD2
+SkyDragon	KEYWORD2
+Boton	KEYWORD2
+Battery	KEYWORD2
+LineConfig	KEYWORD2
+LinePosDigital	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################

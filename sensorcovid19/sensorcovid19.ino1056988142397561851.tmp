@@ -1,0 +1,411 @@
+te oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "POWER" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "SLOPE" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "TOLERANCE" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "CURRENT" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "DIELECTRIC" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "IC" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+	)
+	( designConstraints
+		( ruleChanges
+			( allRules )
+			( design "bpf_ind"
+			)
+			( signal "@bpf_ind_lib.bpf_ind(sch_1):\0\"
+				( alias ( signalRef "@bpf_ind_lib.bpf_ind(sch_1):page1_0") )
+				( attribute "VOLTAGE" "0 V"
+					( Units "uVoltage" "V" 1.000000)
+					( Status sAliasFlattened )
+					( Origin gFrontEnd )
+				)
+				( objectStatus "0" )
+			)
+			( signal "@bpf_ind_lib.bpf_ind(sch_1):page1_0"
+				( attribute "VOLTAGE" "0 V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( objectFlag fObjectAlias )
+				( objectStatus "page1_0" )
+			)
+			( signal "@bpf_ind_lib.bpf_ind(sch_1):unnamed_1_l_i4_1"
+				( objectStatus "unnamed_1_l_i4_1" )
+			)
+			( signal "@bpf_ind_lib.bpf_ind(sch_1):unnamed_1_l_i5_2"
+				( objectStatus "unnamed_1_l_i5_2" )
+			)
+			( signal "@bpf_ind_lib.bpf_ind(sch_1):unnamed_1_r_i2_1"
+				( objectStatus "unnamed_1_r_i2_1" )
+			)
+			( gate "@bpf_ind_lib.bpf_ind(sch_1):page1_i1"
+				( attribute "ACMAG" "1Vac"
+					( Origin gFrontEnd )
+				)
+				( attribute "ACPHASE" "<< NULL >>"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_LIB" "libs"
+					( Origin gPackager )
+				)
+				( attribute "DC" "0Vdc"
+					( Origin gFrontEnd )
+				)
+				( attribute "IMPLEMENTATION" "<< NULL >>"
+					( Origin gFrontEnd )
+				)
+				( attribute "IMPLEMENTATION_PATH" "<< NULL >>"
+					( Origin gFrontEnd )
+				)
+				( attribute "IMPLEMENTATION_TYPE" "PSpice Model"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_IGNORE" "TRUE"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "V^@REFDES %+ %- ?DC|DC @DC| #ACMAG|AC @ACMAG ?ACPHASE/@ACPHASE/|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "VAC"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-1000,950)"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICE_LOCATION" "V1"
+					( Origin gPackager )
+				)
+				( objectStatus "PAGE1_I1" )
+			)
+			( gate "@bpf_ind_lib.bpf_ind(sch_1):page1_i2"
+				( attribute "CDS_LIB" "libs"
+					( Origin gPackager )
+				)
+				( attribute "DIST" "FLAT"
+					( Origin gFrontEnd )
+				)
+				( attribute "IMPLEMENTATION" "<< NULL >>"
+					( Origin gFrontEnd )
+				)
+				( attribute "IMPLEMENTATION_PATH" "<< NULL >>"
+					( Origin gFrontEnd )
+				)
+				( attribute "IMPLEMENTATION_TYPE" "<none>"
+					( Origin gFrontEnd )
+				)
+				( attribute "MAX_TEMP" "RTMAX"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "POWER" "RMAX"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "R^@REFDES %1 %2 ?TOLERANCE|R^@REFDES| @VALUE  ?TOLERANCE|\n.model R^@REFDES RES R=1 DEV=@TOLERANCE%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "SLOPE" "RSMAX"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOLERANCE" "<< NULL >>"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "200"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "RVMAX"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-600,1250)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_PART_NAME" "R"
+					( Origin gPackager )
+				)
+				( attribute "CHIPS_PART_NAME" "R"
+					( Origin gPackager )
+				)
+				( attribute "PSPICE_LOCATION" "R2"
+					( Origin gPackager )
+				)
+				( objectStatus "PAGE1_I2" )
+			)
+			( gate "@bpf_ind_lib.bpf_ind(sch_1):page1_i3"
+				( attribute "CDS_LIB" "libs"
+					( Origin gPackager )
+				)
+				( attribute "DIST" "FLAT"
+					( Origin gFrontEnd )
+				)
+				( attribute "IMPLEMENTATION" "<< NULL >>"
+					( Origin gFrontEnd )
+				)
+				( attribute "IMPLEMENTATION_PATH" "<< NULL >>"
+					( Origin gFrontEnd )
+				)
+				( attribute "IMPLEMENTATION_TYPE" "<none>"
+					( Origin gFrontEnd )
+				)
+				( attribute "MAX_TEMP" "RTMAX"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "POWER" "RMAX"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "R^@REFDES %1 %2 ?TOLERANCE|R^@REFDES| @VALUE  ?TOLERANCE|\n.model R^@REFDES RES R=1 DEV=@TOLERANCE%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "3"
+					( Origin gFrontEnd )
+				)
+				( attribute "SLOPE" "RSMAX"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOLERANCE" "<< NULL >>"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "1k"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "RVMAX"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(800,950)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_PART_NAME" "R"
+					( Origin gPackager )
+				)
+				( attribute "CHIPS_PART_NAME" "R"
+					( Origin gPackager )
+				)
+				( attribute "PSPICE_LOCATION" "R1"
+					( Origin gPackager )
+				)
+				( objectStatus "PAGE1_I3" )
+			)
+			( gate "@bpf_ind_lib.bpf_ind(sch_1):page1_i4"
+				( attribute "CDS_LIB" "libs"
+					( Origin gPackager )
+				)
+				( attribute "CURRENT" "LMAX"
+					( Origin gFrontEnd )
+				)
+				( attribute "DIELECTRIC" "DSMAX"
+					( Origin gFrontEnd )
+				)
+				( attribute "IC" "<< NULL >>"
+					( Origin gFrontEnd )
+				)
+				( attribute "IMPLEMENTATION" "<< NULL >>"
+					( Origin gFrontEnd )
+				)
+				( attribute "IMPLEMENTATION_PATH" "<< NULL >>"
+					( Origin gFrontEnd )
+				)
+				( attribute "IMPLEMENTATION_TYPE" "<none>"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "L^@REFDES %1 %2 ?TOLERANCE|L^@REFDES| @VALUE ?IC/IC=@IC/ ?TOLERANCE|\n.model l^@REFDES IND L=1 DEV=@TOLERANCE%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "3"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOLERANCE" "<< NULL >>"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "100M"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-300,900)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_PART_NAME" "L"
+					( Origin gPackager )
+				)
+				( attribute "CHIPS_PART_NAME" "L"
+					( Origin gPackager )
+				)
+				( attribute "PSPICE_LOCATION" "L2"
+					( Origin gPackager )
+				)
+				( objectStatus "PAGE1_I4" )
+			)
+			( gate "@bpf_ind_lib.bpf_ind(sch_1):page1_i5"
+				( attribute "CDS_LIB" "libs"
+					( Origin gPackager )
+				)
+				( attribute "CURRENT" "LMAX"
+					( Origin gFrontEnd )
+				)
+				( attribute "DIELECTRIC" "DSMAX"
+					( Origin gFrontEnd )
+				)
+				( attribute "IC" "<< NULL >>"
+					( Origin gFrontEnd )
+				)
+				( attribute "IMPLEMENTATION" "<< NULL >>"
+					( Origin gFrontEnd )
+				)
+				( attribute "IMPLEMENTATION_PATH" "<< NULL >>"
+					( Origin gFrontEnd )
+				)
+				( attribute "IMPLEMENTATION_TYPE" "<none>"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "L^@REFDES %1 %2 ?TOLERANCE|L^@REFDES| @VALUE ?IC/IC=@IC/ ?TOLERANCE|\n.model l^@REFDES IND L=1 DEV=@TOLERANCE%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOLERANCE" "<< NULL >>"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "3"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(250,1250)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_PART_NAME" "L"
+					( Origin gPackager )
+				)
+				( attribute "CHIPS_PART_NAME" "L"
+					( Origin gPackager )
+				)
+				( attribute "PSPICE_LOCATION" "L1"
+					( Origin gPackager )
+				)
+				( objectStatus

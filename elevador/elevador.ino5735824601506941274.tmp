@@ -1,0 +1,201 @@
+
+
+#include <Servo.h>
+Servo myservo;
+
+// width x height = 128,64
+
+
+int piso1 = A0, piso2 = A1, piso3 = A2; //
+// pines para el display
+const int a = 2;  
+const int b = 3;
+const int c = 4;
+const int d = 5;
+const int e = 6;
+const int g = 7;
+const int boton_piso1 = 11;
+const int boton_piso2 = 12;
+const int boton_piso3 = 13;
+
+int izq = 8;  // Pin que controla el sentido de giro Motor A
+int der = 9;  // Pin que controla el sentido de giro Motor A
+int EnA = 10; // Pin que controla la velocidad del  Motor A
+
+
+
+void setup() {
+
+  
+  myservo.attach(A4);  
+  
+    // botones
+  pinMode (boton_piso1,INPUT);
+  pinMode (boton_piso2,INPUT);
+  pinMode (boton_piso3,INPUT);
+    pinMode (boton_piso1,INPUT);
+
+   //pines displays
+  pinMode (a,OUTPUT);
+  pinMode (b,OUTPUT);
+  pinMode (c,OUTPUT);
+  pinMode (d,OUTPUT);
+  pinMode (e,OUTPUT);
+  pinMode (g,OUTPUT);
+Serial.begin(9600);
+
+  
+}
+void loop() {
+// distancias detctadas por los sensores
+int dis_piso1 = analogRead(piso1);
+int dis_piso2 = analogRead(piso2);
+int dis_piso3 = analogRead(piso3);
+
+//Serial.println(dis_piso1);
+//Serial.println(dis_piso2);
+//Serial.println(dis_piso3);
+
+int state_boton1 = digitalRead(boton_piso1);
+int state_boton2 = digitalRead(boton_piso2);
+int state_boton3 = digitalRead(boton_piso3);
+//Serial.println(state_boton1);
+//Serial.println(state_boton2);
+//Serial.println(state_boton3);
+//delay(500);
+// piso 1
+
+if (digitalRead(11)==HIGH){
+ 
+  Serial.println("state_boton1");
+digitalWrite (b,LOW);
+        digitalWrite (c,HIGH);
+        digitalWrite (d,LOW);
+        digitalWrite (a,HIGH);
+        digitalWrite (e,LOW);
+        digitalWrite (g,LOW);
+       delay(100);
+
+
+  if((analogRead(A2)< 100))
+{
+  
+    while (analogRead(A0)> 100) {
+      
+Serial.println(dis_piso1);
+digitalWrite(A5,HIGH);
+ digitalWrite(izq,HIGH);
+ analogWrite(EnA,75);
+ delay(50);
+ analogWrite(EnA,50);
+ delay(3000);
+  } 
+  
+ digitalWrite(izq,LOW);
+ digitalWrite(der,LOW);
+ analogWrite(EnA,0);
+ Serial.println("logrado"); 
+ 
+  }
+
+while (analogRead(A0)> 100) {
+      
+//Serial.println(dis_piso1);
+ digitalWrite(izq,HIGH);
+ analogWrite(EnA,80);
+ delay(50);
+ analogWrite(EnA,50);
+ delay(1700);
+  } 
+ digitalWrite(izq,LOW);
+ digitalWrite(der,LOW);
+ analogWrite(EnA,0);
+ //Serial.println("logrado");
+ 
+  }
+
+
+if (digitalRead(12)==HIGH){
+       digitalWrite (a,HIGH);
+        digitalWrite (b,HIGH);
+        digitalWrite (d,HIGH);
+        digitalWrite (e,HIGH);
+        digitalWrite (g,HIGH);
+        digitalWrite (c,LOW);
+        delay(100);
+ // Serial.println("state_boton2");
+  if((analogRead(A2)< 100))
+{
+  
+    while (analogRead(A1)> 100) {
+      
+Serial.println(dis_piso1);
+ digitalWrite(izq,HIGH);
+ analogWrite(EnA,100);
+ delay(40);
+ analogWrite(EnA,50);
+ delay(1100);
+  } 
+ digitalWrite(izq,LOW);
+ digitalWrite(der,LOW);
+ analogWrite(EnA,0);
+ Serial.println("logrado"); 
+  }
+
+
+
+
+ while (analogRead(A1)> 100) {
+      
+Serial.println(dis_piso1);
+ digitalWrite(der,HIGH);
+ analogWrite(EnA,80);
+ delay(50);
+ analogWrite(EnA,50);
+ delay(200);
+  } 
+ digitalWrite(izq,LOW);
+ digitalWrite(der,LOW);
+ analogWrite(EnA,0);
+ Serial.println("logrado");
+ 
+
+}
+
+if (digitalRead(13)==HIGH){
+       digitalWrite (a,HIGH);
+        digitalWrite (b,HIGH);
+        digitalWrite (d,LOW);
+        digitalWrite (e,HIGH);
+        digitalWrite (g,HIGH);
+        digitalWrite (c,HIGH);
+        delay(100);
+  Serial.println("state_boton3");
+
+ while (analogRead(A2)> 100) {
+      
+Serial.println(dis_piso3);
+ digitalWrite(der,HIGH);
+ analogWrite(EnA,80);
+ delay(50);
+ analogWrite(EnA,30);
+ delay(200);
+  } 
+ digitalWrite(izq,LOW);
+ digitalWrite(der,LOW);
+ analogWrite(EnA,0);
+ Serial.println("logrado");
+ 
+  }
+
+Serial.println("afuera");
+
+}
+
+
+ 
+
+
+
+  
+

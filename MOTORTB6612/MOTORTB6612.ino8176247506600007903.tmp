@@ -1,0 +1,17 @@
+
+
+#include <IngenieroMakerTB6612.h>
+ //CREO EL OBJETO Control
+ motores Control;
+ int Velmax = 85  ;//40 //Maximo 255 nieveles
+void setup() {
+  // put your setup code here, to run once:
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  Control.Motorde(125);
+  Control.Motoriz(100);
+  
+}

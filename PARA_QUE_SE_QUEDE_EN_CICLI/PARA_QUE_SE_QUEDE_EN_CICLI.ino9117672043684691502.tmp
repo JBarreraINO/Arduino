@@ -1,0 +1,57 @@
+
+
+void setup() {
+  // put your setup code here, to run once:
+   pinMode(INPUT_PULLUP,10);
+      pinMode(INPUT_PULLUP,11);
+          pinMode(OUTPUT,2);
+          
+Serial.begin(9600);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+ if (Serial.available() > 0) {
+    // read the incoming byte:
+   int  incomingByte = Serial.read();
+
+    // say what you got:
+    Serial.print("I received: ");
+    Serial.println(incomingByte, DEC);
+    
+  if (incomingByte=='1'){
+    while (incomingByte =='1') {
+Serial.println("ESTOY EN ALTO");
+    digitalWrite(2,HIGH);delay(10);
+  if(incomingByte !='1'){
+  break;}
+  } 
+  
+Serial.println("ENTRE EN CICLO");
+   digitalWrite(2,LOW);delay(10);
+  }
+  /*
+if (digitalRead(10)==LOW){
+    while (digitalRead(11) ==HIGH) {
+Serial.println("ESTOY EN ALTO");
+    digitalWrite(2,HIGH);delay(10);
+  
+  
+  } 
+  
+Serial.println("ENTRE EN CICLO");
+   digitalWrite(2,LOW);delay(10);
+  
+  }*/
+
+
+
+
+ }//final case
+
+
+
+
+ 
+
+}

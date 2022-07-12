@@ -1,0 +1,48 @@
+destinazione degli elementi copiati dall'oggetto <see cref="T:System.Collections.Generic.SortedSet`1" />.La matrice deve avere un'indicizzazione in base zero.</param>
+      <param name="index">Indice in base zero in <paramref name="array" /> in corrispondenza del quale viene avviata la copia.</param>
+      <param name="count">Numero degli elementi da copiare.</param>
+      <exception cref="T:System.ArgumentException">Il numero di elementi nella matrice di origine è maggiore dello spazio disponibile tra <paramref name="index" /> e la fine della matrice di destinazione.</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="array" /> è null.</exception>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+        <paramref name="index" /> è minore di zero.-oppure-<paramref name="count" /> è minore di zero.</exception>
+    </member>
+    <member name="P:System.Collections.Generic.SortedSet`1.Count">
+      <summary>Ottiene il numero di elementi in <see cref="T:System.Collections.Generic.SortedSet`1" />.</summary>
+      <returns>Numero di elementi in <see cref="T:System.Collections.Generic.SortedSet`1" />.</returns>
+    </member>
+    <member name="M:System.Collections.Generic.SortedSet`1.ExceptWith(System.Collections.Generic.IEnumerable{`0})">
+      <summary>Rimuove tutti gli elementi inclusi in una raccolta specificata dall'oggetto <see cref="T:System.Collections.Generic.SortedSet`1" /> corrente.</summary>
+      <param name="other">Raccolta di elementi da rimuovere dall'oggetto <see cref="T:System.Collections.Generic.SortedSet`1" />.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="other" /> è null.</exception>
+    </member>
+    <member name="M:System.Collections.Generic.SortedSet`1.GetEnumerator">
+      <summary>Restituisce un enumeratore che esegue l'iterazione di <see cref="T:System.Collections.Generic.SortedSet`1" />.</summary>
+      <returns>Enumeratore che consente di scorrere <see cref="T:System.Collections.Generic.SortedSet`1" /> nell'ordine specificato.</returns>
+    </member>
+    <member name="M:System.Collections.Generic.SortedSet`1.GetViewBetween(`0,`0)">
+      <summary>Restituisce una visualizzazione di un subset in un oggetto <see cref="T:System.Collections.Generic.SortedSet`1" />.</summary>
+      <returns>Visualizzazione di un subset contenente solo i valori inclusi nell'intervallo specificato.</returns>
+      <param name="lowerValue">Valore minimo desiderato nella visualizzazione.</param>
+      <param name="upperValue">Valore massimo desiderato nella visualizzazione. </param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="lowerValue" /> è maggiore di <paramref name="upperValue" /> secondo l'operatore di confronto.</exception>
+      <exception cref="T:System.ArgumentOutOfRangeException">Un'operazione che si è tentato di eseguire nella visualizzazione non rientra nell'intervallo specificato da <paramref name="lowerValue" /> e <paramref name="upperValue" />.</exception>
+    </member>
+    <member name="M:System.Collections.Generic.SortedSet`1.IntersectWith(System.Collections.Generic.IEnumerable{`0})">
+      <summary>Modifica l'oggetto <see cref="T:System.Collections.Generic.SortedSet`1" /> corrente in modo che contenga solo elementi inclusi anche in una raccolta specificata.</summary>
+      <param name="other">Raccolta da confrontare con l'oggetto <see cref="T:System.Collections.Generic.SortedSet`1" /> corrente.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="other" /> è null.</exception>
+    </member>
+    <member name="M:System.Collections.Generic.SortedSet`1.IsProperSubsetOf(System.Collections.Generic.IEnumerable{`0})">
+      <summary>Determina se un oggetto <see cref="T:System.Collections.Generic.SortedSet`1" /> è un subset corretto della raccolta specificata.</summary>
+      <returns>true se l'oggetto <see cref="T:System.Collections.Generic.SortedSet`1" /> è un subset corretto di <paramref name="other" />; in caso contrario, false.</returns>
+      <param name="other">Raccolta da confrontare con l'oggetto <see cref="T:System.Collections.Generic.SortedSet`1" /> corrente.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="other" /> è null.</exception>
+    </member>
+    <member name="M:System.Collections.Generic.SortedSet`1.IsProperSupersetOf(System.Collections.Generic.IEnumerable{`0})">
+      <summary>Determina se un oggetto <see cref="T:System.Collections.Generic.SortedSet`1" /> è un superset corretto della raccolta specificata.</summary>
+      <returns>true se l'oggetto <see cref="T:System.Collections.Generic.SortedSet`1" /> è un superset corretto d

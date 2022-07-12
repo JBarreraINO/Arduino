@@ -1,0 +1,43 @@
+######################################## Syntax Coloring Map For xmotion ######################################
+######################################## Datatypes (KEYWORD1) ####################################### 
+xmotion	KEYWORD1 
+robotarm	KEYWORD1
+RobotArmClass	KEYWORD1
+######################################## Methods and Functions (KEYWORD2)####################################### 
+Forward	KEYWORD2 
+Backward	KEYWORD2
+Right0	KEYWORD2
+Left0	KEYWORD2
+MotorControl	KEYWORD2
+StopMotors	KEYWORD2
+ArcTurn		KEYWORD2
+VoltageIn	KEYWORD2
+LipoCutOff	KEYWORD2
+Trimpot		KEYWORD2
+ToggleLeds	KEYWORD2
+CounterLeds	KEYWORD2
+Receive		KEYWORD2
+UserLed1	KEYWORD2
+UserLed2	KEYWORD2
+SaveToMemory	KEYWORD2
+RepeatMemory	KEYWORD2
+GetPot1	KEYWORD2
+GetPot2	KEYWORD2
+GetPot3	KEYWORD2
+Move	KEYWORD2
+ReadServo1	KEYWORD2
+ReadServo2	KEYWORD2
+ReadServo3	KEYWORD2
+ReadServo4	KEYWORD2
+MoveServo1	KEYWORD2
+MoveServo2	KEYWORD2
+MoveServo3	KEYWORD2
+MoveServo4	KEYWORD2
+GetPot1Angle	KEYWORD2
+GetPot2Angle	KEYWORD2
+GetPot3Angle	KEYWORD2
+GetButton	KEYWORD2
+GetButton2	KEYWORD2
+ServoPin	KEYWORD2
+######################################## Constants (LITERAL1) #######################################
+

@@ -1,0 +1,62 @@
+er-color:#f0f0f0 transparent transparent}.edgecc-core-panel-triangle-closed{border-color:transparent transparent transparent #ccc;cursor:pointer;margin:6px 3px}.edgecc-core-panel-triangle-closed.hover{border-color:transparent transparent transparent #f0f0f0}.topcoat-spinner{display:inline-block;width:16px;height:16px;background:url(../../../images/wait_16.gif) no-repeat}.topcoat-spinner--large{display:inline-block;width:32px;height:32px;background:url(../../../images/wait_32.gif) no-repeat}.edgecc-core-overlay-container,.edgecc-core-overlay-dimmed-center{display:-webkit-box;display:-moz-box;display:box;display:-webkit-flex;display:-moz-flex;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-moz-box-orient:horizontal;box-orient:horizontal;-webkit-flex-direction:row;-moz-flex-direction:row;flex-direction:row;-ms-flex-direction:row;-webkit-box-align:center;-moz-box-align:center;box-align:center;-webkit-align-items:center;-moz-align-items:center;-ms-align-items:center;-o-align-items:center;align-items:center;-ms-flex-align:center;position:absolute;top:0;left:0;width:100%;height:100%}.edgecc-core-overlay-center{margin:auto}.edgecc-core-overlay-dimmed-top-right,.panel-dl-stock-content-item-saving{position:absolute;background-color:rgba(218,218,218,.8);padding:3px;top:0;right:0}.edgecc-core-overlay-dimmed-center{-webkit-box-pack:center;-moz-box-pack:center;box-pack:center;-webkit-justify-content:center;-moz-justify-content:center;-ms-justify-content:center;-o-justify-content:center;justify-content:center;-ms-flex-pack:center;background-color:rgba(218,218,218,.8)}.panel-core-overlay-icon-syncing,.panel-core-overlay-icon-warning{text-align:center;font-size:16px;padding-left:1px;margin-top:1px;margin-left:1px;padding-top:1px;height:17px}.panel-core-overlay-icon-syncing{animation:rotating 2s linear infinite}.panel-core-overlay-icon-syncing-list,.panel-core-overlay-icon-warning-list{text-align:center;font-size:16px;line-height:16px;padding-left:.5px;padding-top:1px}.panel-core-overlay-icon-syncing-list{-webkit-animation:rotating 2s linear infinite;-moz-animation:rotating 2s linear infinite;animation:rotating 2s linear infinite}.topcoat-button-bar{display:table;table-layout:fixed;white-space:nowrap;margin:0;padding:0}.topcoat-button-bar__item{display:table-cell;width:auto;border-radius:0}.topcoat-tag-input,.topcoat-tag-input__input-item,.topcoat-tag-input__item{display:inline-block}.topcoat-tag-input{font-size:12px;letter-spacing:1px;padding:0 .25rem;border:1px solid #9fadaa;border-radius:4px;background-color:#595b5b;box-shadow:inset 0 1px 0 rgba(0,0,0,.23);color:#454545;vertical-align:top;min-height:32px}.topcoat-tag-input__item .topcoat-button{font-size:10px;line-height:20px;padding-left:.5rem;padding-right:.5rem;margin:3px 2px}.topcoat-tag-input__input-item .topcoat-text-input{font-size:10px;line-height:20px;padding-left:.25rem;padding-right:.25rem;border:0;box-shadow:none;margin:5px 0 0;height:22px}.topcoat-tag-input__input-item .topcoat-text-input:focus{box-shadow:none;border:none}.panel-insert-menu,.panel-menu,.panel-search-types,.panel-select-menu{background-color:#474747;border-top:1px solid #2c2b2c;border-left:1px solid #2c2b2c;border-bottom:1px solid #2c2b2c;border-right:1px solid #2c2b2c;box-shadow:0 0 0 1px rgba(0,0,0,.1),5px 5px 10px rgba(0,0,0,.2)}.condensed.panel-insert-menu,.condensed.panel-search-types,.condensed.panel-select-menu,.panel-menu.condensed{overflow:auto}.panel-menu-label,.panel-select-menu-label{max-width:100%;overflow-x:hidden;white-space:nowrap}.panel-insert-menu-item,.panel-insert-menu-item-buttons,.panel-menu-item,.panel-select-menu-current,.panel-select-menu-item{display:-webkit-box;display:-moz-box;display:box;display:-webkit-flex;display:-moz-flex;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-moz-box-orient:horizontal;box-orient:horizontal;-webkit-flex-direction:row;-moz-flex-direction:row;flex-direction:row;-ms-flex-direction:row;-webkit-box-align:center;-moz-box-align:center;box-align:center;-webkit-align-items:center;-moz-align-items:center;-ms-align-items:center;-o-align-items:center;align-items:center;-ms-flex-align:center;color:#f0f0f0;padding-left:10px;padding-right:10px;font-size:12px;min-width:100px;height:24px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.panel-menu-label,.panel-menu-label-selected{-webkit-box-flex:1;user-select:none;cursor:default}.hover.panel-insert-menu-item,.hover.panel-insert-menu-item-buttons,.hover.panel-select-menu-current,.hover.panel-select-menu-item,.panel-menu-item.hover{background:#585858}.disabled.panel-insert-menu-item,.disabled.panel-insert-menu-item-buttons,.disabled.panel-select-menu-current,.disabled.panel-select-menu-item,.panel-menu-item.disabled{pointer-events:none;opacity:.4}.condensed.panel-insert-menu-item,.condensed.panel-insert-menu-item-buttons,.condensed.panel-select-menu-current,.condensed.panel-select-menu-item,.panel-menu-item.condensed{font-size:11px;font-weight:700;height:18px;padding-left:5px;padding-right:5px}.panel-menu-icon{padding-right:10px;width:12px}.panel-menu-label{-moz-box-flex:1;box-flex:1;-webkit-flex:1 1 auto;-moz-flex:1 1 auto;-ms-flex:1 1 auto;flex:1 1 auto;padding-left:5px;min-width:0;text-overflow:ellipsis}.panel-menu-label-selected{-moz-box-flex:1;box-flex:1;-webkit-flex:1 1 auto;-moz-flex:1 1 auto;-ms-flex:1 1 auto;flex:1 1 auto;padding-left:5px}.panel-menu-submenu{padding-left:10px}.panel-menu-notselected,.panel-menu-selected{margin:2px;width:5px;height:5px}.panel-menu-selected{background-color:#f0f0f0}.panel-menu-divider-container{width:100%;padding-left:3px;padding-right:3px}.panel-menu-divider{width:100%;height:1px;background-color:#111;border-top:1px solid #222;border-bottom:1px solid #5a5a5a}.panel-select-menu-current,.panel-select-menu-item{height:18px;padding-left:5px;padding-right:5px;font-size:10px;font-weight:700}.panel-search-types,.panel-select-menu{min-width:150px;overflow-y:auto;z-index:10;padding-bottom:2px}.panel-select-menu-label{-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;-webkit-flex:1 1 auto;-moz-flex:1 1 auto;-ms-flex:1 1 auto;flex:1 1 auto;padding-left:5px;min-width:0;text-overflow:ellipsis}.hover.panel-select-menu-current,.panel-select-menu-item.hover{background:#585858}.panel-select-menu-item.selected,.selected.panel-select-menu-current{background:#4e5663}.panel-select-menu-current{color:#696969}.panel-select-menu-current.hover{background:0 0}.panel-select-header{height:20px}.panel-select-divider,.panel-select-subdivider{height:1px;border-bottom:1px solid 1px;background-color:#171717}.panel-select-header-text{opacity:.5;position:relative;left:-5px}.panel-select-cloud-switch-icon{font-size:12px}.panel-select-divider{width:100%;margin-bottom:2px}.panel-select-subdivider{margin:2px 5px}.panel-insert-menu{position:absolute;left:5px;padding:5px 0;min-width:160px;bottom:22px}.panel-insert-menu-item,.panel-insert-menu-item-buttons{text-align:left}.panel-insert-menu-item-buttons{-webkit-box-orient:horizontal;-moz-box-orient:horizontal;box-orient:horizontal;-webkit-box-direction:reverse;-moz-box-direction:reverse;box-direction:reverse;-webkit-flex-direction:row-reverse;-moz-flex-direction:row-reverse;flex-direction:row-reverse;-ms-flex-direction:row-reverse;margin:10px 0 0;height:auto}.panel-insert-menu-item-buttons.isWindowsOS{display:block;text-align:right}.panel-insert-menu-input{-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;-webkit-flex:1;-moz-flex:1;-ms-flex:1;flex:1;overflow:hidden;text-overflow:ellipsis}.panel-insert-menu-item-text{margin:0 10px 0 5px}.panel-insert-menu-item-icon{display:inline-block;vertical-align:bottom;font-size:16px}.panel-insert-menu-add-button,.panel-insert-menu-cancel-button{display:inline-block;margin-left:4px;margin-right:4px;font-weight:700}.panel-insert-menu-cancel-button:not(.hover){opacity:.7}.panel-insert-menu-add-button.disabled{opacity:.4}.error.ng-leave{-webkit-animation:fadeOut .5s;-moz-animation:fadeOut .5s;animation:fadeOut .5s}.error.ng-leave.ng-leave-active{opacity:0}.panel-dialog-window,.panel-dialog-window-fullscreen{-webkit-animation:fadeInDown .2s;-moz-animation:fadeInDown .2s;animation:fadeInDown .2s}                      # Copyright (c) 2019 Ultimaker B.V.
+# Cura is released under the terms of the LGPLv3 or higher.
+
+from typing import Any, Dict, TYPE_CHECKING
+
+from . import VersionUpgrade44to45
+
+
+if TYPE_CHECKING:
+    from UM.Application import Application
+
+upgrade = VersionUpgrade44to45.VersionUpgrade44to45()
+
+
+def getMetaData() -> Dict[str, Any]:
+    return {
+        "version_upgrade": {
+            # From                           To                              Upgrade function
+            ("preferences", 6000010): ("preferences", 6000011, upgrade.upgradePreferences),
+            ("machine_stack", 4000010): ("machine_stack", 4000011, upgrade.upgradeStack),
+            ("extruder_train", 4000010): ("extruder_train", 4000011, upgrade.upgradeStack),
+            ("definition_changes", 4000010): ("definition_changes", 4000011, upgrade.upgradeInstanceContainer),
+            ("quality_changes", 4000010): ("quality_changes", 4000011, upgrade.upgradeInstanceContainer),
+            ("quality", 4000010): ("quality", 4000011, upgrade.upgradeInstanceContainer),
+            ("user", 4000010): ("user", 4000011, upgrade.upgradeInstanceContainer),
+        },
+        "sources": {
+            "preferences": {
+                "get_version": upgrade.getCfgVersion,
+                "location": {"."}
+            },
+            "machine_stack": {
+                "get_version": upgrade.getCfgVersion,
+                "location": {"./machine_instances"}
+            },
+            "extruder_train": {
+                "get_version": upgrade.getCfgVersion,
+                "location": {"./extruders"}
+            },
+            "definition_changes": {
+                "get_version": upgrade.getCfgVersion,
+                "location": {"./definition_changes"}
+            },
+            "quality_changes": {
+                "get_version": upgrade.getCfgVersion,
+                "location": {"./quality_changes"}
+            },
+            "quality": {
+                "get_version": upgrade.getCfgVersion,
+                "location": {"./quality"}
+            },
+            "user": {
+                "get_version": upgrade.getCfgVersion,
+                "location": {"./user"}
+            }
+        }
+    }
+
+
+def register(app: "Application") -> Dict[str, Any]:
+    return {"version_upgrade": upgrade}
+                                                                                                                                                                                                                                                     

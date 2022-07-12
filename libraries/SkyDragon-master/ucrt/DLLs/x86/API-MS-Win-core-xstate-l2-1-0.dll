@@ -1,0 +1,141 @@
+ile.SVG\shell">
+      <registryValue name="" valueType="REG_SZ" value="opennew" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.SVG\shell\open">
+      <registryValue name="" valueType="REG_SZ" value="Open in S&amp;ame Window" />
+      <registryValue name="MUIVerb" valueType="REG_SZ" value="@$(runtime.system32)\ieframe.dll,-5732" />
+      <registryValue name="CommandId" valueType="REG_SZ" value="IE.File" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.SVG\shell\open\command">
+      <registryValue name="" valueType="REG_SZ" value="&quot;$(runtime.programFiles)\Internet Explorer\iexplore.exe&quot; %1" />
+      <registryValue name="DelegateExecute" valueType="REG_SZ" value="{17FE9752-0B5A-4665-84CD-569794602F5C}" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.SVG\shell\opennew">
+      <registryValue name="" valueType="REG_SZ" value="&amp;Open" />
+      <registryValue name="MUIVerb" valueType="REG_SZ" value="@$(runtime.system32)\ieframe.dll,-5731" />
+      <registryValue name="CommandId" valueType="REG_SZ" value="IE.File" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.SVG\shell\opennew\command">
+      <registryValue name="" valueType="REG_SZ" value="&quot;$(runtime.programFiles)\Internet Explorer\iexplore.exe&quot; %1" />
+      <registryValue name="DelegateExecute" valueType="REG_SZ" value="{17FE9752-0B5A-4665-84CD-569794602F5C}" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.SVG\shell\print\command">
+      <registryValue name="" valueType="REG_SZ" value="&quot;$(runtime.system32)\rundll32.exe&quot; &quot;$(runtime.system32)\mshtml.dll&quot;,PrintHTML &quot;%1&quot;" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.SVG\shell\printto\command">
+      <registryValue name="" valueType="REG_SZ" value="&quot;$(runtime.system32)\rundll32.exe&quot; &quot;$(runtime.system32)\mshtml.dll&quot;,PrintHTML &quot;%1&quot; &quot;%2&quot; &quot;%3&quot; &quot;%4&quot;" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.WEBSITE">
+      <registryValue name="" valueType="REG_SZ" value="Pinned Site Shortcut" />
+      <registryValue name="EditFlags" valueType="REG_DWORD" value="0x00000002" />
+      <registryValue name="FriendlyTypeName" valueType="REG_SZ" value="@$(runtime.system32)\ieframe.dll,-53504" IEDownlevelValue="@$(runtime.system32)\ieframe.dll.mui,-53504" />
+      <registryValue name="IsShortcut" valueType="REG_SZ" value="" />
+      <registryValue name="NeverShowExt" valueType="REG_SZ" value="" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.WEBSITE\DefaultIcon">
+      <registryValue name="" valueType="REG_SZ" value="$(runtime.system32)\ieframe.dll,-211" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.WEBSITE\Shell\Open\Command">
+      <securityDescriptor name="WRP_REGKEY_DEFAULT_SDDL" />
+      <registryValue name="" valueType="REG_SZ" value="&quot;$(runtime.programFiles)\Internet Explorer\iexplore.exe&quot; -w &quot;%l&quot; %*" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.WEBSITE\ShellEx\{000214F9-0000-0000-C000-000000000046}">
+      <securityDescriptor name="WRP_REGKEY_DEFAULT_SDDL" />
+      <registryValue name="" valueType="REG_SZ" value="{182C3813-DF97-40fa-9C4E-B7D3E74F00CA}" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.WEBSITE\ShellEx\{00021500-0000-0000-C000-000000000046}">
+      <securityDescriptor name="WRP_REGKEY_DEFAULT_SDDL" />
+      <registryValue name="" valueType="REG_SZ" value="{182C3813-DF97-40fa-9C4E-B7D3E74F00CA}" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.WEBSITE\ShellEx\PropertyHandler">
+      <securityDescriptor name="WRP_REGKEY_DEFAULT_SDDL" />
+      <registryValue name="" valueType="REG_SZ" value="{182C3813-DF97-40fa-9C4E-B7D3E74F00CA}" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.WEBSITE\ShellEx\IconHandler">
+      <securityDescriptor name="WRP_REGKEY_DEFAULT_SDDL" />
+      <registryValue name="" valueType="REG_SZ" value="{182C3813-DF97-40fa-9C4E-B7D3E74F00CA}" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.WEBSITE\ShellEx\ContextMenuHandlers\{a2a9545d-a0c2-42b4-9708-a0b2badd77c8}">
+      <securityDescriptor name="WRP_REGKEY_DEFAULT_SDDL" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.WEBSITE\ShellEx\ContextMenuHandlers\{90AA3A4E-1CBA-4233-B8BB-535773D48449}">
+      <securityDescriptor name="WRP_REGKEY_DEFAULT_SDDL" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.XHT">
+      <registryValue name="" valueType="REG_SZ" value="XHTML Document" />
+      <registryValue name="FriendlyTypeName" valueType="REG_SZ" value="@$(runtime.system32)\ieframe.dll,-915" />
+      <registryValue name="AppUserModelID" valueType="REG_SZ" value="Microsoft.InternetExplorer.Default" />
+      <registryValue name="EditFlags" valueType="REG_DWORD" value="0x00200000" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.XHT\DefaultIcon">
+      <registryValue name="" valueType="REG_SZ" value="$(runtime.ProgramFiles)\Internet Explorer\iexplore.exe,-19" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.XHT\shell">
+      <registryValue name="" valueType="REG_SZ" value="opennew" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.XHT\shell\open">
+      <registryValue name="" valueType="REG_SZ" value="Open in S&amp;ame Window" />
+      <registryValue name="MUIVerb" valueType="REG_SZ" value="@$(runtime.system32)\ieframe.dll,-5732" />
+      <registryValue name="CommandId" valueType="REG_SZ" value="IE.File" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.XHT\shell\open\command">
+      <registryValue name="" valueType="REG_SZ" value="&quot;$(runtime.programFiles)\Internet Explorer\iexplore.exe&quot; %1" />
+      <registryValue name="DelegateExecute" valueType="REG_SZ" value="{17FE9752-0B5A-4665-84CD-569794602F5C}" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.XHT\shell\opennew">
+      <registryValue name="" valueType="REG_SZ" value="&amp;Open" />
+      <registryValue name="MUIVerb" valueType="REG_SZ" value="@$(runtime.system32)\ieframe.dll,-5731" />
+      <registryValue name="CommandId" valueType="REG_SZ" value="IE.File" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.XHT\shell\opennew\command">
+      <registryValue name="" valueType="REG_SZ" value="&quot;$(runtime.programFiles)\Internet Explorer\iexplore.exe&quot; %1" />
+      <registryValue name="DelegateExecute" valueType="REG_SZ" value="{17FE9752-0B5A-4665-84CD-569794602F5C}" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.XHT\shell\print\command">
+      <registryValue name="" valueType="REG_SZ" value="&quot;$(runtime.system32)\rundll32.exe&quot; &quot;$(runtime.system32)\mshtml.dll&quot;,PrintXHTML &quot;%1&quot;" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.XHT\shell\printto\command">
+      <registryValue name="" valueType="REG_SZ" value="&quot;$(runtime.system32)\rundll32.exe&quot; &quot;$(runtime.system32)\mshtml.dll&quot;,PrintXHTML &quot;%1&quot; &quot;%2&quot; &quot;%3&quot; &quot;%4&quot;" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.URL">
+      <registryValue name="EditFlags" valueType="REG_DWORD" value="0x00000002" />
+      <registryValue name="IsShortcut" valueType="REG_SZ" value="" />
+      <registryValue name="NeverShowExt" valueType="REG_SZ" value="" />
+      <registryValue name="FriendlyTypeName" valueType="REG_SZ" value="@$(runtime.system32)\ieframe.dll,-10046" />
+      <registryValue name="PreviewDetails" valueType="REG_SZ" value="prop:System.Link.TargetUrl;System.Rating;System.History.VisitCount;System.History.DateChanged;System.Link.DateVisited;System.Link.Description;System.Link.Comment" />
+      <registryValue name="InfoTip" valueType="REG_SZ" value="prop:System.Link.TargetUrl;System.Rating;System.Link.Description;System.Link.Comment" />
+      <registryValue name="FullDetails" valueType="REG_SZ" value="prop:System.Link.TargetUrl;System.Rating;System.Link.Description;System.Link.Comment" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.URL\CLSID">
+      <registryValue name="" valueType="REG_SZ" value="{FBF23B40-E3F0-101B-8488-00AA003E56F8}" />
+      <securityDescriptor name="WRP_REGKEY_DEFAULT_SDDL" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.URL\DefaultIcon">
+      <registryValue name="" valueType="REG_SZ" value="$(runtime.system32)\url.dll,0" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.URL\Shell">
+      <registryValue name="CLSID" valueType="REG_SZ" value="{FBF23B40-E3F0-101B-8488-00AA003E56F8}" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.URL\Shell\Open">
+      <registryValue name="CLSID" valueType="REG_SZ" value="{FBF23B40-E3F0-101B-8488-00AA003E56F8}" />
+      <registryValue name="LegacyDisable" valueType="REG_SZ" value="" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.URL\Shell\Open\Command">
+      <registryValue name="" valueType="REG_SZ" value="&quot;$(runtime.system32)\rundll32.exe&quot; &quot;$(runtime.system32)\ieframe.dll&quot;,OpenURL %l" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.URL\ShellEx\IconHandler">
+      <registryValue name="" valueType="REG_SZ" value="{FBF23B40-E3F0-101B-8488-00AA003E56F8}" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.URL\ShellEx\PropertySheetHandlers\{FBF23B40-E3F0-101B-8488-00AA003E56F8}" />
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.URL\ShellEx\ContextMenuHandlers\{FBF23B40-E3F0-101B-8488-00AA003E56F8}" />
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.URL\shell\print\command\">
+      <registryValue name="" valueType="REG_SZ" value="&quot;$(runtime.system32)\rundll32.exe&quot; &quot;$(runtime.system32)\mshtml.dll&quot;,PrintHTML &quot;%1&quot;" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.AssocFile.URL\shell\printto\command\">
+      <registryValue name="" valueType="REG_SZ" value="&quot;$(runtime.system32)\rundll32.exe&quot; &quot;$(runtime.system32)\mshtml.dll&quot;,PrintHTML &quot;%1&quot; &quot;%2&quot; &quot;%3&quot; &quot;%4&quot;" />
+    </registryKey>
+    <registryKey keyName="HKEY_CLASSES_ROOT\IE.HTTP">
+      <registryValue name="" valueType="REG_SZ" value="URL:HyperText Transfer Protocol" />
+      <registryValue name="EditFlags" valueType="REG_DWORD" value="0x00200002" />
+      <registryValue name="FriendlyTypeName" valueType="REG_SZ" value="@$(runtime.system32)\ieframe.dll,-903" />
+      <registryValue name="URL Pro

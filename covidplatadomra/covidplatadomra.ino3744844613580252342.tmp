@@ -1,0 +1,456 @@
+//libreria rfid
+
+#include <SPI.h>
+#include <MFRC522.h> 
+#define RST_PIN  25   //Pin 5 reset
+#define SS_PIN  53   //Pin 53  (SDA)  RC522 modulo
+MFRC522 mfrc522(SS_PIN, RST_PIN); //nuevo objeto rfid
+//LIBRERIAS PANTALLA
+#include <Adafruit_GFX.h>
+#include "MCUFRIEND_kbv.h"
+#include <MCUFRIEND_kbv.h>
+MCUFRIEND_kbv tft;
+//LIBRERIAS SENSOR TEMPERATURA
+#include <Wire.h>
+#include <Adafruit_MLX90614.h>
+Adafruit_MLX90614 mlx = Adafruit_MLX90614();
+#include "incFile1.h"// LIBRERIA DE GRAFICOS
+//LIBRERIA TOUCH SCREEN
+#include <TouchScreen.h>
+#define MINPRESSURE 200
+#define MAXPRESSURE 1000
+
+ int inByte2=0;
+//variables rfid
+
+//touch screen variables
+const int XP = 6, XM = A2, YP = A1, YM = 7; //ID=0x9341
+const int TS_LEFT = 907, TS_RT = 136, TS_TOP = 942, TS_BOT = 139;
+TSPoint tp;
+TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
+int pixel_x, pixel_y;     //Touch_getXY() updates global vars
+bool Touch_getXY(void)
+{
+    TSPoint p = ts.getPoint();
+    pinMode(YP, OUTPUT);      //restore shared pins
+    pinMode(XM, OUTPUT);
+    digitalWrite(YP, HIGH);   //because TFT control pins
+    digitalWrite(XM, HIGH);
+    bool pressed = (p.z > MINPRESSURE && p.z < MAXPRESSURE);
+    if (pressed) {
+        pixel_x = map(p.x, TS_LEFT, TS_RT, 0, tft.width()); //.kbv makes sense to me
+        pixel_y = map(p.y, TS_TOP, TS_BOT, 0, tft.height());
+    }
+    return pressed;
+}
+//variables colores
+int inByte = 0;
+#define BLACK   0x0000
+#define WHITE   0xFFFF
+#define RED     0xF800
+#define GREEN   0x07E0
+#define BLUE    0x001F
+#define CYAN    0x07FF
+#define MAGENTA 0xF81F
+#define YELLOW  0xFFE0
+#define GREY    0x2108
+// Metro color
+#define RED2RED 0
+#define GREEN2GREEN 1
+#define BLUE2BLUE 2
+#define BLUE2RED 3
+#define GREEN2RED 4
+#define RED2GREEN 5
+int pulsePin = 0;                   // Sensor de Pulso conectado al puerto A0
+// Estas variables son volatiles porque son usadas durante la rutina de interrupcion en la segunda Pestaña
+
+uint32_t runTime = -99999;       // tiempo para actualizar
+int reading = 0; // Vvalor a mostrar
+int d = 0; // variable usada para la señal se seno
+boolean alert = 0;
+int8_t ramp = 1;
+
+void setup() {
+  //SPI.setClockDivider(SPI_CLOCK_DIV8);
+  SPI.begin();                 //Start a new SPI bus
+  mfrc522.PCD_Init(); 
+  mfrc522.PCD_DumpVersionToSerial();  // Show details of PCD - MFRC522 Card Reader details
+  
+    Wire.begin();
+     mlx.begin(); 
+    uint16_t ID = tft.readID();
+    if (ID == 0xD3D3) ID = 0x9486; // write-only shield
+    tft.begin(ID);
+    tft.setRotation(1);        //PORTRAIT
+    tft.fillScreen(0x0000);
+    tft.drawBitmap(0,0,BARRERA, 320, 240,BLACK, YELLOW);
+    Serial1.begin(9600); Serial.begin(9600);
+tft.reset();
+ tft.begin(ID);
+ tft.fillScreen(0x0000);
+
+   pinMode(44,OUTPUT);
+    tft.setRotation(1);  
+    tft.setCursor (0,30);
+    tft.setTextSize (3);
+    tft.setTextColor (WHITE,BLACK);
+    tft.print ("CONECTATE ");
+    tft.setCursor (0,60);
+tft.print ("PARA CONTINUAR");
+tft.drawBitmap(0,100,BT,320, 82,BLACK,BLUE); 
+}
+
+void loop() {
+ 
+   if (Serial1.available() > 0) {
+    inByte = Serial1.read();
+    Serial.println(inByte);
+     tft.fillScreen(0x0000);
+   }
+
+
+if(inByte== 'a')
+{
+ termo();
+ }
+else
+if(inByte== 'b'){                    // on/off de los pin 13 al pin 6
+  tft.reset();
+  tft.setRotation(1); 
+  tft.fillScreen(0x0000);
+  tft.setCursor(0,0);
+  tft.setTextSize(3);
+  tft.print("ponga su tarjeta");
+  tft.setCursor(0,100);
+  rfid();
+
+}
+
+
+if (Serial.available() > 0) {
+    inByte2 = Serial.read();
+    Serial.println(inByte2);
+     tft.fillScreen(0x0000);
+   }
+
+
+if(inByte2== 'a')
+{
+ termo();
+ }
+else
+if(inByte2== 'b'){                    // on/off de los pin 13 al pin 6
+  tft.reset();
+  tft.setRotation(1); 
+  tft.fillScreen(0x0000);
+  tft.setCursor(0,0);
+  tft.setTextSize(3);
+  tft.print("ponga su tarjeta");
+  tft.setCursor(0,100);
+  rfid();
+
+}
+
+
+
+
+  
+}
+
+
+
+
+// #########################################################################
+//  Draw the meter on the screen, returns x coord of righthand side
+// #########################################################################
+int ringMeter(int value, int vmin, int vmax, int x, int y, int r, char *units, byte scheme)
+{
+  // Minimum value of r is about 52 before value text intrudes on ring
+  // drawing the text first is an option
+  
+  x += r; y += r;   // Calculate coords of centre of ring
+  int w = r / 3;    // Width of outer ring is 1/4 of radius 
+  int angle = 150;  // Half the sweep angle of meter (300 degrees)
+  int v = map(value, vmin, vmax, -angle, angle); // Map the value to an angle v
+  byte seg = 3; // Segments are 3 degrees wide = 100 segments for 300 degrees
+  byte inc = 6; // Draw segments every 3 degrees, increase to 6 for segmented ring
+  // Variable to save "value" text colour from scheme and set default
+  int colour = BLUE;
+ 
+  // Draw colour blocks every inc degrees
+  for (int i = -angle+inc/2; i < angle-inc/2; i += inc) {
+    // Calculate pair of coordinates for segment start
+    float sx = cos((i - 90) * 0.0174532925);
+    float sy = sin((i - 90) * 0.0174532925);
+    uint16_t x0 = sx * (r - w) + x;
+    uint16_t y0 = sy * (r - w) + y;
+    uint16_t x1 = sx * r + x;
+    uint16_t y1 = sy * r + y;
+
+    // Calculate pair of coordinates for segment end
+    float sx2 = cos((i + seg - 90) * 0.0174532925);
+    float sy2 = sin((i + seg - 90) * 0.0174532925);
+    int x2 = sx2 * (r - w) + x;
+    int y2 = sy2 * (r - w) + y;
+    int x3 = sx2 * r + x;
+    int y3 = sy2 * r + y;
+
+    if (i < v) { // Fill in coloured segments with 2 triangles
+      switch (scheme) {
+        case 0: colour = RED; break; // Fixed colour
+        case 1: colour = GREEN; break; // Fixed colour
+        case 2: colour = BLUE; break; // Fixed colour
+        case 3: colour = rainbow(map(i, -angle, angle, 0, 127)); break; // Full spectrum blue to red
+        case 4: colour = rainbow(map(i, -angle, angle, 70, 127)); break; // Green to red (high temperature etc)
+        case 5: colour = rainbow(map(i, -angle, angle, 127, 63)); break; // Red to green (low battery etc)
+        default: colour = BLUE; break; // Fixed colour
+      }
+      tft.fillTriangle(x0, y0, x1, y1, x2, y2, colour);
+      tft.fillTriangle(x1, y1, x2, y2, x3, y3, colour);
+      //text_colour = colour; // Save the last colour drawn
+    }
+    else // Fill in blank segments
+    {
+      tft.fillTriangle(x0, y0, x1, y1, x2, y2, GREY);
+      tft.fillTriangle(x1, y1, x2, y2, x3, y3, GREY);
+    }
+  }
+
+
+
+  
+  // Convert value to a string
+  char buf[10];
+  byte len = 5; if (value > 999) len = 9;
+  dtostrf(value, len, 5, buf);
+ 
+  // Set the text colour to default
+  tft.setTextSize(1);
+
+  if(value>9){
+  tft.setTextColor(colour,BLACK);
+  tft.setCursor(x-45,y-10);
+  tft.setTextSize(4);
+  tft.print((mlx.readObjectTempC()+3),1);
+  
+  }
+
+  
+  if(value<10){
+  tft.setTextColor(colour,BLACK);
+  tft.setCursor(x-25,y-10);tft.setTextSize(5);
+  tft.print(buf);}
+
+  tft.setTextColor(WHITE,BLACK);
+  
+  tft.setCursor(x-39,y+75);tft.setTextSize(2);
+  tft.print(units); // Units display
+  
+  // Calculate and return right hand side x coordinate
+  return x + r;
+}
+
+// #########################################################################
+// Return a 16 bit rainbow colour
+// #########################################################################
+unsigned int rainbow(byte value)
+{
+  // Value is expected to be in range 0-127
+  // The value is converted to a spectrum colour from 0 = blue through to 127 = red
+
+  byte red = 0; // Red is the top 5 bits of a 16 bit colour value
+  byte green = 0;// Green is the middle 6 bits
+  byte blue = 0; // Blue is the bottom 5 bits
+  byte quadrant = value / 32;
+
+  if (quadrant == 0) {
+    blue = 31;
+    green = 2 * (value % 32);
+    red = 0;
+  }
+  if (quadrant == 1) {
+    blue = 31 - (value % 32);
+    green = 63;
+    red = 0;
+  }
+  if (quadrant == 2) {
+    blue = 0;
+    green = 63;
+    red = value % 32;
+  }
+  if (quadrant == 3) {
+    blue = 0;
+    green = 63 - 2 * (value % 32);
+    red = 31;
+  }
+  return (red << 11) + (green << 5) + blue;
+
+
+
+
+
+
+  
+}
+
+// #########################################################################
+// Return a value in range -1 to +1 for a given phase angle in degrees
+// #########################################################################
+float sineWave(int phase) {
+  return sin(phase * 0.0174532925);
+}
+
+
+
+
+
+void estadoT()
+{ tft.reset();
+  tft.setRotation(1); 
+    tft.fillScreen(0x0000);
+  long f=mlx.readObjectTempF();long temp=mlx.readObjectTempC()+3;
+
+    tft.setCursor (230,38);
+    tft.setTextSize (3);
+    tft.setTextColor (BLUE,BLACK);
+    tft.print (mlx.readObjectTempF(),1); 
+  
+  
+  if (mlx.readObjectTempC()+3>37.1){ 
+    tft.setCursor (2,220);//Small celcius text
+    tft.setTextSize (2);
+    tft.setTextColor (YELLOW,BLACK);
+    tft.println ("    FEBRICULA    ");
+  }
+ 
+if(temp >= 36 && temp <=37)
+{  tft.setCursor (2,220);//Small celcius text
+    tft.setTextSize (2);
+    tft.setTextColor (GREEN,BLACK);
+    tft.println ("    Estable    ");
+   
+}
+if(temp <36)
+{  tft.setCursor (2,220);//Small celcius text
+    tft.setTextSize (2);
+    tft.setTextColor (RED,BLACK);
+    tft.println ("    Acercate   ");
+   
+}
+  }
+
+void termo(){
+  unsigned int lectura;
+  Wire.beginTransmission(1);  // Enviamos a la dirección del esclavo 1
+  Wire.write(1);              // Enviamos un 1    
+  Wire.endTransmission();     // Terminamos la transmision 
+  Wire.requestFrom(1, 1);     // Pedimos 1 bytes al esclavo 1
+  while(Wire.available())     // Mientras tengamos datos en la entrada
+  { 
+    lectura = Wire.read();    // Leemos el resultado y lo asignamos a la variable lectura
+  }     
+  Serial.println(lectura);  
+
+  
+tft.reset();
+tft.setRotation(1); 
+
+  int xpos = 0, ypos = 5, gap = 4, radius = 52; //dibujo el metro
+  xpos = 320/2 - 160, ypos = 0, gap = 100, radius = 105;
+  ringMeter(mlx.readObjectTempC()+3,30,41, xpos,ypos,radius,"Grados",BLUE2RED); // metro analogo 
+
+    if(lectura>0){
+    tft.setCursor (237,158);
+    tft.setTextSize (3);
+    tft.setTextColor (RED,BLACK);
+    tft.println (lectura); 
+       tft.drawBitmap(275,158,cora2, 40, 28,RED,BLACK); 
+         tft.drawBitmap(285,165,cora, 20, 14,BLACK,RED); 
+     }
+       if(lectura<=65){
+    tft.setCursor (237,158);
+    tft.setTextSize (3);
+    tft.setTextColor (BLACK,BLACK);
+    tft.println ("   "); 
+    lectura=-1;
+    }
+   
+     
+    tft.setCursor (230,38);
+    tft.setTextSize (3);
+    tft.setTextColor (BLUE,BLACK);
+    tft.print (mlx.readObjectTempF(),1); 
+  
+    
+    
+    tft.setCursor (75,78);
+    tft.setTextSize (1);
+    tft.setTextColor (WHITE,BLACK);
+    tft.print ("TEMPERATURA");
+    
+    tft.setCursor (75,66);
+    tft.setTextSize (1);
+    tft.setTextColor (WHITE,BLACK);
+    tft.print ("BARRERA.INO");
+
+    tft.setCursor (242,20);
+    tft.setTextSize (1);
+    tft.setTextColor (WHITE,BLACK);
+    tft.print ("FAHRENHEIT");
+
+    tft.setCursor (242,118);//heat index fahrenheit
+    tft.setTextSize (3);
+    tft.setTextColor (WHITE,BLACK);
+    tft.print ("BPM");
+
+    tft.setCursor (238,205);//heat index fahrenheit
+    tft.setTextSize (2);
+    tft.setTextColor (WHITE,BLACK);
+    tft.println ("SP0%");
+    
+//Design Interface (lines)
+    tft.fillRect(0,197,320,4,BLUE);
+    tft.fillRect(0,236,320,4,BLUE);
+    tft.fillRect(217,0,4,240,BLUE);
+  tft.fillRect(217,98,320,4,BLUE);// your hand is a few inches from the sensor
+     
+    
+  
+}
+
+  void rfid(){
+    
+      if ((mlx.readObjectTempC()+3)>36.2){
+    Serial.println((mlx.readObjectTempC()+3),1);
+    }
+   // digitalWrite(led1, LOW);
+    // Look for new cards, if nothing found, quit
+    if ( ! mfrc522.PICC_IsNewCardPresent()) {
+      return;
+    
+    }
+    
+    // Select one of the cards, if nothing found, quit
+    if ( ! mfrc522.PICC_ReadCardSerial()) {
+      return;
+    }
+    
+    String cardID = "";
+    
+    for (byte i = 0; i < mfrc522.uid.size; i++) {
+        cardID += String(mfrc522.uid.uidByte[i] < 0x10 ? "0" : "");
+        cardID += String(mfrc522.uid.uidByte[i], HEX);
+    }
+   // digitalWrite(led1, HIGH);
+   tft.setRotation(1); 
+  tft.fillScreen(0x0000);
+  tft.setCursor(0,0);
+  
+    tft.print(cardID);
+    //  UID:"+CODIGO+" \n "  +"Fecha: "+ fecha+" \n " 
+    Serial.println("cardID:"+ mlx.readObjectTempC() + "FECHA;" + cardID+");
+    mfrc522.PICC_HaltA();
+    delay(10000);
+  
+    
+    }

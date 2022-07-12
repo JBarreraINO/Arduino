@@ -1,0 +1,23 @@
+int izqA = 7; 
+int izqB = 3; 
+int derA = 5; 
+int derB = 4; 
+int vel = 155; // Velocidad de los motores (0-255)
+
+void setup()  { 
+  pinMode(derA, OUTPUT);
+    pinMode(6, OUTPUT);
+  pinMode(derB, OUTPUT);
+  pinMode(izqA, OUTPUT);
+  pinMode(izqB, OUTPUT);
+ } 
+ 
+void loop()  { 
+  digitalWrite(7,HIGH);
+  
+    analogWrite(3, vel);  // Frente 2 segundos
+    
+    delay (2000);
+ digitalWrite(7,LOW);
+                     
+}
