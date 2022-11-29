@@ -1,0 +1,52 @@
+[
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Users\\tiche\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.5\\cores\\arduino"
+  },
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Users\\tiche\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.5\\variants\\eightanaloginputs"
+  },
+  {
+    "Sourcefile": "C:\\Users\\tiche\\Documents\\Arduino\\HEXADECIMAL\\sketch\\sketch_jul12a.ino.cpp",
+    "Include": "Wire.h",
+    "Includepath": "C:\\Users\\tiche\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.5\\libraries\\Wire\\src"
+  },
+  {
+    "Sourcefile": "C:\\Users\\tiche\\Documents\\Arduino\\HEXADECIMAL\\sketch\\sketch_jul12a.ino.cpp",
+    "Include": "Adafruit_MLX90614.h",
+    "Includepath": "C:\\Users\\tiche\\Documents\\Arduino\\libraries\\Adafruit-MLX90614-Library-master"
+  },
+  {
+    "Sourcefile": "C:\\Users\\tiche\\Documents\\Arduino\\HEXADECIMAL\\sketch\\sketch_jul12a.ino.cpp",
+    "Include": "LiquidCrystal_I2C.h",
+    "Includepath": "C:\\Users\\tiche\\Documents\\Arduino\\libraries\\LiquidCrystal_I2C-1.1.2"
+  },
+  {
+    "Sourcefile": "C:\\Users\\tiche\\Documents\\Arduino\\HEXADECIMAL\\sketch\\sketch_jul12a.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\tiche\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.5\\libraries\\Wire\\src\\Wire.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\tiche\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.5\\libraries\\Wire\\src\\utility\\twi.c",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\tiche\\Documents\\Arduino\\libraries\\Adafruit-MLX90614-Library-master\\Adafruit_MLX90614.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\tiche\\Documents\\Arduino\\libraries\\LiquidCrystal_I2C-1.1.2\\LiquidCrystal_I2C.cpp",
+    "Include": "",
+    "Includepath": null
+  }
+]

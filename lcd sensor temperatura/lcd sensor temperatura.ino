@@ -1,55 +1,38 @@
-# 1 "C:\\Users\\tiche\\Documents\\Arduino\\sketch_jul12a\\sketch_jul12a.ino"
 /*************************************************** 
-
   This is a library example for the MLX90614 Temp Sensor
 
-
-
   Designed specifically to work with the MLX90614 sensors in the
-
   adafruit shop
-
   ----> https://www.adafruit.com/products/1747 3V version
-
   ----> https://www.adafruit.com/products/1748 5V version
 
-
-
   These sensors use I2C to communicate, 2 pins are required to  
-
   interface
-
   Adafruit invests time and resources providing this open source code, 
-
   please support Adafruit and open-source hardware by purchasing 
-
   products from Adafruit!
 
-
-
   Written by Limor Fried/Ladyada for Adafruit Industries.  
-
   BSD license, all text above must be included in any redistribution
-
  ****************************************************/
-# 19 "C:\\Users\\tiche\\Documents\\Arduino\\sketch_jul12a\\sketch_jul12a.ino"
-# 20 "C:\\Users\\tiche\\Documents\\Arduino\\sketch_jul12a\\sketch_jul12a.ino" 2
-# 21 "C:\\Users\\tiche\\Documents\\Arduino\\sketch_jul12a\\sketch_jul12a.ino" 2
-# 22 "C:\\Users\\tiche\\Documents\\Arduino\\sketch_jul12a\\sketch_jul12a.ino" 2
+
+#include <Wire.h>
+#include <Adafruit_MLX90614.h>
+#include <LiquidCrystal_I2C.h>
 Adafruit_MLX90614 mlx = Adafruit_MLX90614();
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 void setup() {
   Serial.begin(9600);
 
-  Serial.println("Adafruit MLX90614 test");
+  Serial.println("Adafruit MLX90614 test");  
   Wire.begin();
-  mlx.begin();
+  mlx.begin();  
     lcd.init();
   lcd.backlight();
 }
 
 void loop() {
-
+  
 
       lcd.setCursor(0, 0);
   Serial.print("Ambient = "); Serial.print(mlx.readAmbientTempC());
@@ -59,11 +42,11 @@ void loop() {
    lcd.setCursor(15, 0);
      lcd.print("C") ;
 
-       lcd.setCursor(0, 10);
+       lcd.setCursor(0, 2);
   lcd.print("ambiente=") ;
-  lcd.setCursor(10, 10);
+  lcd.setCursor(10, 2);
   lcd.print(mlx.readAmbientTempF());
-   lcd.setCursor(15, 10);
+   lcd.setCursor(15, 2);
      lcd.print("F") ;
 
 
@@ -72,7 +55,7 @@ void loop() {
 
 
   Serial.print("*C\tObject = "); Serial.print(mlx.readObjectTempC()); Serial.println("*C");
-  Serial.print("Ambient = "); Serial.print(mlx.readAmbientTempF());
+  Serial.print("Ambient = "); Serial.print(mlx.readAmbientTempF()); 
   Serial.print("*F\tObject = "); Serial.print(mlx.readObjectTempF()); Serial.println("*F");
 
   Serial.println();
