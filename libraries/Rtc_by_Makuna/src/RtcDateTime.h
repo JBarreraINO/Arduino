@@ -1,4 +1,28 @@
+/*-------------------------------------------------------------------------
+RTC library
 
+Written by Michael C. Miller.
+
+I invest time and resources providing this open source code,
+please support me by dontating (see https://github.com/Makuna/Rtc)
+
+-------------------------------------------------------------------------
+This file is part of the Makuna/Rtc library.
+
+Rtc is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as
+published by the Free Software Foundation, either version 3 of
+the License, or (at your option) any later version.
+
+Rtc is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with Rtc.  If not, see
+<http://www.gnu.org/licenses/>.
+-------------------------------------------------------------------------*/
 
 #ifndef __RTCDATETIME_H__
 #define __RTCDATETIME_H__
@@ -8,6 +32,17 @@
 #include <inttypes.h>
 #endif
 
+enum DayOfWeek
+{
+    DayOfWeek_Sunday = 0,
+    DayOfWeek_Monday,
+    DayOfWeek_Tuesday,
+    DayOfWeek_Wednesday,
+    DayOfWeek_Thursday,
+    DayOfWeek_Friday,
+    DayOfWeek_Saturday,
+};
+
 const uint16_t c_OriginYear = 2000;
 const uint32_t c_Epoch32OfOriginYear = 946684800;
 extern const uint8_t c_daysInMonth[] PROGMEM;
@@ -15,24 +50,27 @@ extern const uint8_t c_daysInMonth[] PROGMEM;
 class RtcDateTime
 {
 public:
-    RtcDateTime(uint32_t secondsFrom2000 = 0);
+    explicit RtcDateTime(uint32_t secondsFrom2000 = 0);
+
     RtcDateTime(uint16_t year,
-            uint8_t month,
-            uint8_t dayOfMonth,
-            uint8_t hour,
-            uint8_t minute,
-            uint8_t second) :
-            _yearFrom2000((year >= c_OriginYear) ? year - c_OriginYear : year),
-            _month(month),
-            _dayOfMonth(dayOfMonth),
-            _hour(hour),
-            _minute(minute),
-            _second(second)
+        uint8_t month,
+        uint8_t dayOfMonth,
+        uint8_t hour,
+        uint8_t minute,
+        uint8_t second) :
+        _yearFrom2000((year >= c_OriginYear) ? year - c_OriginYear : year),
+        _month(month),
+        _dayOfMonth(dayOfMonth),
+        _hour(hour),
+        _minute(minute),
+        _second(second)
     {
     }
 
     // RtcDateTime compileDateTime(__DATE__, __TIME__);
     RtcDateTime(const char* date, const char* time);
+
+    bool IsValid() const;
 
     uint16_t Year() const
     {
@@ -58,17 +96,29 @@ public:
     {
         return _second;
     }
+    // 0 = Sunday, 1 = Monday, ... 6 = Saturday
     uint8_t DayOfWeek() const;
 
-    // 32-bit times as seconds since 1/1/2000
-    uint32_t TotalSeconds() const;
-    uint64_t TotalSeconds64() const;
+    // 32-bit time; as seconds since 1/1/2000
+	uint32_t TotalSeconds() const;
 
+	// 64-bit time; as seconds since 1/1/2000
+	uint64_t TotalSeconds64() const;
+
+	// total days since 1/1/2000
+	uint16_t TotalDays() const;
+	
     // add seconds
     void operator += (uint32_t seconds)
     {
         RtcDateTime after = RtcDateTime( TotalSeconds() + seconds );
         *this = after;
+    }
+
+    RtcDateTime operator + (uint32_t seconds) const
+    {
+        RtcDateTime after = RtcDateTime(TotalSeconds() + seconds);
+        return after;
     }
 
     // remove seconds
@@ -78,10 +128,40 @@ public:
         *this = before;
     }
 
-    // allows for comparisons to just work (==, <, >, <=, >=, !=)
-    operator uint32_t() const
+    RtcDateTime operator - (uint32_t seconds) const
     {
-        return TotalSeconds();
+        RtcDateTime after = RtcDateTime(TotalSeconds() - seconds);
+        return after;
+    }
+
+    bool operator == (const RtcDateTime& right)
+    {
+        return (this->TotalSeconds() == right.TotalSeconds());
+    }
+
+    bool operator != (const RtcDateTime& right)
+    {
+        return (this->TotalSeconds() != right.TotalSeconds());
+    }
+
+    bool operator <= (const RtcDateTime& right)
+    {
+        return (this->TotalSeconds() <= right.TotalSeconds());
+    }
+
+    bool operator >= (const RtcDateTime& right)
+    {
+        return (this->TotalSeconds() >= right.TotalSeconds());
+    }
+
+    bool operator < (const RtcDateTime& right)
+    {
+        return (this->TotalSeconds() < right.TotalSeconds());
+    }
+
+    bool operator > (const RtcDateTime& right)
+    {
+        return (this->TotalSeconds() > right.TotalSeconds());
     }
 
     // Epoch32 support
@@ -102,6 +182,26 @@ public:
     void InitWithEpoch64Time(uint64_t time)
     {
         _initWithSecondsFrom2000<uint64_t>(time - c_Epoch32OfOriginYear);
+    }
+
+    void InitWithIso8601(const char* date);
+
+    
+    // convert our Day of Week to Rtc Day of Week 
+    // RTC Hardware Day of Week is 1-7, 1 = Monday
+    static uint8_t ConvertDowToRtc(uint8_t dow)
+    {
+        if (dow == 0)
+        {
+            dow = 7;
+        }
+        return dow;
+    }
+
+    // convert Rtc Day of Week to our Day of Week
+    static uint8_t ConvertRtcToDow(uint8_t rtcDow)
+    {
+        return (rtcDow % 7);
     }
 
 protected:
@@ -140,7 +240,6 @@ protected:
         }
         _dayOfMonth = days + 1;
     }
-
 };
 
 #endif // __RTCDATETIME_H__

@@ -1,36 +1,56 @@
 #include "BluetoothSerial.h"
-#include <WiFi.h>
 BluetoothSerial BT;
 #include <EEPROM.h>
-
-#include <Wire.h>
-#include <SPI.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SH1106.h>
-
-
-
-//#define WDT_TIMEOUT 3
-#define OLED_SDA 21
-#define OLED_SCL 22
 String ssid = "";
 String password = "";
 String listo = "";
 
 char WIFI_SSID[50] = "";      //IoT4.0
 char WIFI_PASSWORD[50] = "";  //Industria4.0Mtx
-int randomnumero;
 String HOST_NAME = "http://192.168.16.156";  // PC's IP address
 
 String PATH_NAME = "/iot/iot4.php";
 String queryString = "";
 #define EEPROM_SIZE 4
 #define DEBUG(a) BT.println(a);
+
+
+//////////////
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <Wire.h>
+#include <SPI.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SH1106.h>
+#include <esp_task_wdt.h>
+//#define WDT_TIMEOUT 3
+#define OLED_SDA 21
+#define OLED_SCL 22
+
+int i = 0;
+int last = millis();
+bool panic;
+
+Adafruit_SH1106 myOLED(21, 22);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void setup() {
   Serial.begin(115200);
   BT.begin("PROMEESP32");  //Bluetooth device name
   Serial.println("The device started, now you can pair it with bluetooth!");
-  EEPROM.begin(512);
+  EEPROM.begin(200);
   ssid = read_String(0);
   password = read_String(30);
   PATH_NAME = read_String(50);
@@ -290,7 +310,7 @@ void writeString(char add, String data) {
 
 String read_String(char add) {
   int i;
-  char data[500];  //Max 100 Bytes
+  char data[200];  //Max 100 Bytes
   int len = 0;
   unsigned char k;
   k = EEPROM.read(add);

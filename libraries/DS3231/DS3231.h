@@ -12,14 +12,14 @@
  */
 
 // Modified by Andy Wickert 5/15/11: Spliced in stuff from RTClib
-
+// Modified by Simon Gassner 11/28/2017: Changed Term "PM" to "PM_time" for compability with SAMD Processors
 #ifndef DS3231_h
 #define DS3231_h
 
 // Changed the following to work on 1.0
 //#include "WProgram.h"
 #include <Arduino.h>
-
+#include <time.h>
 #include <Wire.h>
 
 // DateTime (get everything at once) from JeeLabs / Adafruit
@@ -45,15 +45,17 @@ public:
     // OBTAIN TRUE UNIX TIME SINCE EPOCH, YOU MUST CALL THIS COMMAND AFTER
     // SETTING YOUR CLOCK TO UTC
     uint32_t unixtime(void) const;
-
 protected:
     uint8_t yOff, m, d, hh, mm, ss;
 };
 
+//checks if a year is a leap year
+bool isleapYear(const uint8_t);
+
 class RTClib {
   public:
 		// Get date and time snapshot
-    static DateTime now();
+    static DateTime now(TwoWire & _Wire = Wire);
 };
 
 // Eric's original code is everything below this line
@@ -62,13 +64,16 @@ class DS3231 {
 			
 		//Constructor
 		DS3231();
+		DS3231(TwoWire & w);
+
+		TwoWire & _Wire;
 
 		// Time-retrieval functions
     
 		// the get*() functions retrieve current values of the registers.
 		byte getSecond(); 
 		byte getMinute(); 
-		byte getHour(bool& h12, bool& PM); 
+		byte getHour(bool& h12, bool& PM_time); 
 			// In addition to returning the hour register, this function
 			// returns the values of the 12/24-hour flag and the AM/PM flag.
 		byte getDoW(); 
@@ -82,6 +87,10 @@ class DS3231 {
 		// Note that none of these check for sensibility: You can set the
 		// date to July 42nd and strange things will probably result.
 		
+		// set epoch function gives the epoch as parameter and feeds the RTC
+		// epoch = UnixTime and starts at 01.01.1970 00:00:00
+		void setEpoch(time_t epoch = 0, bool flag_localtime = false);
+
 		void setSecond(byte Second); 
 			// In addition to setting the seconds, this clears the 
 			// "Oscillator Stop Flag".
@@ -172,6 +181,9 @@ class DS3231 {
 			// Convert normal decimal numbers to binary coded decimal
 		byte bcdToDec(byte val); 
 			// Convert binary coded decimal to normal decimal numbers
+
+	protected:
+
 		byte readControlByte(bool which); 
 			// Read selected control byte: (0); reads 0x0e, (1) reads 0x0f
 		void writeControlByte(byte control, bool which); 

@@ -19,16 +19,16 @@ int S2 = A2;   // A1 conectado a S2     S2 DEL MULTIPLEXOR
 int S3 = A3;   // A2 conectado a S3     S3 DEL MULTIPLEXOR
 int led = 13;  // Led default de Arduino
 
-int pini = 9;
-int pwmi = 5;
-int pind = 6;
+int pini = 10;
+int pwmi = 11;
+int pind = 9;
 int pwmd = 3;
 
 int go = 8;   // Puerto donde se conecta el arrancador ( si el modulo no esta conectado, debe ponerse una resistencia pull-down)
 int rdy = 12;
 int boton_izq = 4; // boton izquierdo
 //int boton_der = 7; // boton derecho
-int lon = 11;
+
 //*******VARIABLES A UTILIZAR****************************************************************************************************
 
 
@@ -60,10 +60,9 @@ double CX = 0;
 
 void setup()
 {
- fan.attach(10);
+ fan.attach(6);
  fan.writeMicroseconds(1000);
-  pinMode ( led, OUTPUT);
-  pinMode(lon, OUTPUT);
+ 
   pinMode ( S0, OUTPUT);
   pinMode ( S1, OUTPUT);
   pinMode ( S2, OUTPUT);
@@ -78,7 +77,7 @@ void setup()
   pinMode(pwmi, OUTPUT);
   pinMode(pind, OUTPUT);
   pinMode(pwmd, OUTPUT);
-  digitalWrite(lon, HIGH);
+
 
 rutina1:
   

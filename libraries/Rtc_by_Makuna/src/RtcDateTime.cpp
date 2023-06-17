@@ -1,3 +1,28 @@
+/*-------------------------------------------------------------------------
+RTC library
+
+Written by Michael C. Miller.
+
+I invest time and resources providing this open source code,
+please support me by dontating (see https://github.com/Makuna/Rtc)
+
+-------------------------------------------------------------------------
+This file is part of the Makuna/Rtc library.
+
+Rtc is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as
+published by the Free Software Foundation, either version 3 of
+the License, or (at your option) any later version.
+
+Rtc is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with Rtc.  If not, see
+<http://www.gnu.org/licenses/>.
+-------------------------------------------------------------------------*/
 
 #include <Arduino.h>
 #include "RtcDateTime.h"
@@ -9,6 +34,55 @@ RtcDateTime::RtcDateTime(uint32_t secondsFrom2000)
     _initWithSecondsFrom2000<uint32_t>(secondsFrom2000);
 }
 
+bool RtcDateTime::IsValid() const
+{
+    // this just tests the most basic validity of the value ranges
+    // and valid leap years
+    // It does not check any time zone or daylight savings time
+    if ((_month > 0 && _month < 13) &&
+        (_dayOfMonth > 0 && _dayOfMonth < 32) &&
+        (_hour < 24) &&
+        (_minute < 60) &&
+        (_second < 60))
+    {
+        // days in a month tests
+        //
+        if (_month == 2)
+        {
+            if (_dayOfMonth > 29)
+            {
+                return false;
+            }
+            else if (_dayOfMonth > 28)
+            {
+                // leap day
+                // check year to make sure its a leap year
+                uint16_t year = Year();
+
+                if ((year % 4) != 0)
+                {
+                    return false;
+                }
+
+                if ((year % 100) == 0 &&
+                    (year % 400) != 0)
+                {
+                    return false;
+                }
+            }
+        }
+        else if (_dayOfMonth == 31)
+        {
+            if ((((_month - 1) % 7) % 2) == 1)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    return false;
+}
 
 uint8_t StringToUint8(const char* pString)
 {
@@ -32,18 +106,18 @@ uint8_t StringToUint8(const char* pString)
 
 RtcDateTime::RtcDateTime(const char* date, const char* time)
 {
-    // sample input: date = "Dec 26 2009", time = "12:34:56"
+    // sample input: date = "Dec 06 2009", time = "12:34:56"
     _yearFrom2000 = StringToUint8(date + 9);
     // Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
     switch (date[0])
     {
     case 'J':
         if ( date[1] == 'a' )
-	        _month = 1;
-	    else if ( date[2] == 'n' )
-	        _month = 6;
-	    else
-	        _month = 7;
+            _month = 1;
+        else if ( date[2] == 'n' )
+            _month = 6;
+        else
+            _month = 7;
         break;
     case 'F':
         _month = 2;
@@ -98,14 +172,65 @@ uint8_t RtcDateTime::DayOfWeek() const
     return (days + 6) % 7; // Jan 1, 2000 is a Saturday, i.e. returns 6
 }
 
+// 32-bit time; as seconds since 1/1/2000
 uint32_t RtcDateTime::TotalSeconds() const
 {
-    uint16_t days = DaysSinceFirstOfYear2000<uint16_t>(_yearFrom2000, _month, _dayOfMonth);
-    return SecondsIn<uint32_t>(days, _hour, _minute, _second);
+	uint16_t days = DaysSinceFirstOfYear2000<uint16_t>(_yearFrom2000, _month, _dayOfMonth);
+	return SecondsIn<uint32_t>(days, _hour, _minute, _second);
 }
 
+// 64-bit time; as seconds since 1/1/2000
 uint64_t RtcDateTime::TotalSeconds64() const
 {
-    uint32_t days = DaysSinceFirstOfYear2000<uint32_t>(_yearFrom2000, _month, _dayOfMonth);
-    return SecondsIn<uint64_t>(days, _hour, _minute, _second);
+	uint32_t days = DaysSinceFirstOfYear2000<uint32_t>(_yearFrom2000, _month, _dayOfMonth);
+	return SecondsIn<uint64_t>(days, _hour, _minute, _second);
+}
+
+// total days since 1/1/2000
+uint16_t RtcDateTime::TotalDays() const
+{
+	return DaysSinceFirstOfYear2000<uint16_t>(_yearFrom2000, _month, _dayOfMonth);
+}
+
+void RtcDateTime::InitWithIso8601(const char* date)
+{
+    // sample input: date = "Sat, 06 Dec 2009 12:34:56 GMT"
+    _yearFrom2000 = StringToUint8(date + 13);
+    // Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+    switch (date[8])
+    {
+    case 'J':
+        if (date[1 + 8] == 'a')
+            _month = 1;
+        else if (date[2 + 8] == 'n')
+            _month = 6;
+        else
+            _month = 7;
+        break;
+    case 'F':
+        _month = 2;
+        break;
+    case 'A':
+        _month = date[1 + 8] == 'p' ? 4 : 8;
+        break;
+    case 'M':
+        _month = date[2 + 8] == 'r' ? 3 : 5;
+        break;
+    case 'S':
+        _month = 9;
+        break;
+    case 'O':
+        _month = 10;
+        break;
+    case 'N':
+        _month = 11;
+        break;
+    case 'D':
+        _month = 12;
+        break;
+    }
+    _dayOfMonth = StringToUint8(date + 5);
+    _hour = StringToUint8(date + 17);
+    _minute = StringToUint8(date + 20);
+    _second = StringToUint8(date + 23);
 }

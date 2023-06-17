@@ -15,10 +15,10 @@ int LEDS = 13;
 #define s1 6  // Sensor Selection pins.
 #define s2 7  // Sensor Selection pins.
 #define s3 8  // Sensor Selection pins.
-#define OM A6  // Sensor Selection pins.
+int OM = A8; // Sensor Selection pins.
 int led = 13;  // Led default de Arduino
 
-int pini = 12;
+int pini = A2;
 int pwmi = 11;
 int pind = 10;
 int pwmd = 9;

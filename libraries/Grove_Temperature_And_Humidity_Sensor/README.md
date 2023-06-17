@@ -1,4 +1,4 @@
-Grove_Temperature_And_Humidity_Sensor
+Grove_Temperature_And_Humidity_Sensor  [![Build Status](https://travis-ci.com/Seeed-Studio/Grove_Temperature_And_Humidity_Sensor.svg?branch=master)](https://travis-ci.com/Seeed-Studio/Grove_Temperature_And_Humidity_Sensor)
 =====================================
 
 This is an Arduino library for the DHT series of low cost temperature/humidity sensors.
@@ -14,6 +14,10 @@ This is an Arduino library for the DHT series of low cost temperature/humidity s
 This temperature & humidity sensor provides a pre-calibrated digital output. A unique capacitive sensor element measures relative humidity and the temperature is measured by a negative temperature coefficient (NTC) thermistor. It has excellent reliability and long term stability. 
 
 For more information please visit [wiki DHT11](http://wiki.seeedstudio.com/Grove-TemperatureAndHumidity_Sensor/) and [wiki AM2302](http://wiki.seeedstudio.com/Grove-Temperature_and_Humidity_Sensor_Pro/)
+
+****
+
+Add support for DHT10 , The different from other DHT* device is that it uses i2c interface.  
 
 ----
 

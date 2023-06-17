@@ -170,7 +170,8 @@ uint8_t showBMP(char *nm, int x, int y)
             h = tft.height() - y;
 
         if (bmpDepth <= PALETTEDEPTH) {   // these modes have separate palette
-            bmpFile.seek(BMPIMAGEOFFSET); //palette is always @ 54
+            //bmpFile.seek(BMPIMAGEOFFSET); //palette is always @ 54
+            bmpFile.seek(bmpImageoffset - (4<<bmpDepth)); //54 for regular, diff for colorsimportant
             bitmask = 0xFF;
             if (bmpDepth < 8)
                 bitmask >>= bmpDepth;
@@ -216,10 +217,12 @@ uint8_t showBMP(char *nm, int x, int y)
                         r = 0;
                     }
                     switch (bmpDepth) {          // Convert pixel from BMP to TFT format
+                        case 32:
                         case 24:
                             b = sdbuffer[buffidx++];
                             g = sdbuffer[buffidx++];
                             r = sdbuffer[buffidx++];
+                            if (bmpDepth == 32) buffidx++; //ignore ALPHA
                             color = tft.color565(r, g, b);
                             break;
                         case 16:

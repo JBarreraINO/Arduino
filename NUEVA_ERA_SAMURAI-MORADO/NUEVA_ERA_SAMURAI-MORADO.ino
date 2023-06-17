@@ -2,14 +2,14 @@
 #include<Servo.h>
 
 Servo fan;
-int velocidad =120; // Velocidad crucero de robot max 255
+int velocidad =50; // Velocidad crucero de robot max 255
 
 float Kp = 0.7; // calibracion proporciona p = 0.145;
 float Kd = 3;  //  calibracion derivativod = 1.9;
 float Ki=0.003;
-int sensibilidad = 300;
-int frente = 190;   // Velocidad a la que ira el motor hacia adelante cuando pierda la linea max 255  198 para sensores cortos
-int reversa = 190;  // Velocidad a la que ira el motor hacia atras cuando pierda la linea    max 255  198 para sensores cortos
+int sensibilidad = 500;
+int frente = 20;   // Velocidad a la que ira el motor hacia adelante cuando pierda la linea max 255  198 para sensores cortos
+int reversa = 20;  // Velocidad a la que ira el motor hacia atras cuando pierda la linea    max 255  198 para sensores cortos
 
 int color = 1;      // 1 linea negra 2 linea blanca
 //********CONEXION DE PUERTOS****************************************************************************************************
@@ -102,8 +102,8 @@ TCCR2B_PRESCALER 11 Y 3
    DDRB &=~B00010001;//ENTRADAS 8,12
     analogReference(INTERNAL);
 
- fan.attach(6);
- fan.writeMicroseconds(1000);
+// fan.attach(6);
+ fan.writeMicroseconds(1900);
 rutina1:
   
   delay(1000);
@@ -285,7 +285,7 @@ off:
     goto PD;
   }
   analogWrite ( pwmi , 0); analogWrite ( pwmd, 0);
-  fan.write(1000);
+  fan.write(2000);
   goto off;
 
 

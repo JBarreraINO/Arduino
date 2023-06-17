@@ -133,6 +133,7 @@ void loop() {
   digitalWrite(LED, valor);
   digitalWrite(LED, nvalor);
   int RSSI = WiFi.RSSI();
+  
   myOLED.setCursor(0, 0);
   myOLED.print("RSSI:");
   myOLED.setCursor(110, 0);
