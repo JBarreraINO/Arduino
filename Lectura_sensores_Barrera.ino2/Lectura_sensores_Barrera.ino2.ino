@@ -1,9 +1,9 @@
 
-#define s0 A0 // Sensor Selection pins.
-#define s1 A1
-#define s2 A2
-#define s3 A3
-#define OM A4
+#define s0 5 // Sensor Selection pins.
+#define s1 6
+#define s2 7
+#define s3 8
+#define OM 3
 int sensores[16];
 void setup() {
 Serial.begin(115200);

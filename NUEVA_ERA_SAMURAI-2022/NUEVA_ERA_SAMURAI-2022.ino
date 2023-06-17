@@ -5,7 +5,7 @@ Servo fan;
 int velocidad =160; // Velocidad crucero de robot max 255
 
 float Kp = 0.7; // calibracion proporciona 0.7; 2; 1.1
-float Kd = 4.55;  //  calibracion derivativo 9.65
+float Kd = 4.55;  //  calibracion derivativo 9.65 4.55
 float Ki=0.003;
 int sensibilidad = 300;
 int frente = 160;   // Velocidad a la que ira el motor hacia adelante cuando pierda la linea max 255  198 para sensores cortos

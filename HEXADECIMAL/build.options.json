@@ -1,5 +1,5 @@
 {
-  "additionalFiles": "",
+  "additionalFiles": "..,..",
   "builtInLibrariesFolders": "C:\\Program Files\\arduino-1.8\\arduino-1.8.13\\libraries",
   "builtInToolsFolders": "C:\\Program Files\\arduino-1.8\\arduino-1.8.13\\tools-builder,C:\\Program Files\\arduino-1.8\\arduino-1.8.13\\hardware\\tools\\avr,C:\\Users\\tiche\\AppData\\Local\\Arduino15\\packages",
   "compiler.optimization_flags": "",
@@ -8,5 +8,5 @@
   "hardwareFolders": "C:\\Program Files\\arduino-1.8\\arduino-1.8.13\\hardware,C:\\Users\\tiche\\AppData\\Local\\Arduino15\\packages",
   "otherLibrariesFolders": "C:\\Users\\tiche\\Documents\\Arduino\\libraries",
   "runtime.ide.version": "10813",
-  "sketchLocation": "C:\\Users\\tiche\\Documents\\Arduino\\sketch_jul12a\\sketch_jul12a.ino"
+  "sketchLocation": "C:\\Users\\tiche\\AppData\\Local\\Temp\\arduino_modified_sketch_448613\\toneMelody.ino"
 }

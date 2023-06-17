@@ -1,50 +1,186 @@
-/*
-  Melody
 
-  Plays a melody
+#include "pitches.h" //add Equivalent frequency for musical note
+#include "themes2.h" //add Note vale and duration 
 
-  circuit:
-  - 8 ohm speaker on digital pin 8
 
-  created 21 Jan 2010
-  modified 30 Aug 2011
-  by Tom Igoe
+void poc()
+{ 
+  for (int thisNote = 0; thisNote < (sizeof(Pirates_note)/sizeof(int)); thisNote++) {
 
-  This example code is in the public domain.
-
-  http://www.arduino.cc/en/Tutorial/Tone
-*/
-
-#include "pitches.h"
-
-// notes in the melody:
-int melody[] = {
-  NOTE_C4, NOTE_G3, NOTE_G3, NOTE_A3, NOTE_G3, 0, NOTE_B3, NOTE_C4
-};
-
-// note durations: 4 = quarter note, 9 = eighth note, etc.:
-int noteDurations[] = {
-  4, 8, 8, 4, 4, 4, 4, 4
-};
-
-void setup() {
-  // iterate over the notes of the melody:
-  for (int thisNote = 0; thisNote < 9; thisNote++) {
-
-    // to calculate the note duration, take one second divided by the note type.
-    //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
-    int noteDuration = 1000 / noteDurations[thisNote];
-    tone(9, melody[thisNote], noteDuration);
-
-    // to distinguish the notes, set a minimum time between them.
-    // the note's duration + 30% seems to work well:
-    int pauseBetweenNotes = noteDuration * 1.30;
+    int noteDuration = 1000 / Pirates_duration[thisNote];//convert duration to time delay
+   if(thisNote%3==0){
+    
+   
+    tone(9, Pirates_note[thisNote], noteDuration);
+   }
+     if(thisNote%4==0){
+    
+   
+    tone(9, Pirates_note[thisNote], noteDuration);
+   }   if(thisNote%5==0){
+    
+   
+    tone(9, Pirates_note[thisNote], noteDuration);
+   }   else{
+    
+   
+    tone(9, Pirates_note[thisNote], noteDuration);
+   } 
+    int pauseBetweenNotes = noteDuration * 1.05; //Here 1.05 is tempo, increase to play it slower
     delay(pauseBetweenNotes);
-    // stop the tone playing:
-    noTone(9);
-  }
+    noTone(9); //stop music on pin 8 
+    }
+}
+void loop()
+{ 
+ poc();
+ cf();
+ mario();
+ ttn();
+ newn();
 }
 
-void loop() {
-  // no need to repeat the melody.
+void cf()
+{
+  for (int thisNote = 0; thisNote < (sizeof(CrazyFrog_note)/sizeof(int)); thisNote++) {
+
+    int noteDuration = 1000 / CrazyFrog_duration[thisNote]; //convert duration to time delay
+ if(thisNote%3==0){
+    
+   
+    tone(9, CrazyFrog_note[thisNote], noteDuration);
+   }
+     if(thisNote%4==0){
+    
+   
+    tone(9, CrazyFrog_note[thisNote], noteDuration);
+   }   if(thisNote%5==0){
+    
+   
+    tone(9, CrazyFrog_note[thisNote], noteDuration);
+   }   else{
+    
+   
+    tone(9, CrazyFrog_note[thisNote], noteDuration);
+   } 
+    int pauseBetweenNotes = noteDuration * 1.30;//Here 1.30 is tempo, decrease to play it faster
+    delay(pauseBetweenNotes);
+    noTone(9); //stop music on pin 8 
+    }
+}
+
+void mario()
+{
+    for (int thisNote = 0; thisNote < (sizeof(MarioUW_note)/sizeof(int)); thisNote++) {
+
+    int noteDuration = 1000 / MarioUW_duration[thisNote];//convert duration to time delay
+     if(thisNote%3==0){
+    
+   
+    tone(9, MarioUW_note[thisNote], noteDuration);
+   }
+     if(thisNote%4==0){
+    
+   
+    tone(9, MarioUW_note[thisNote], noteDuration);
+   }   if(thisNote%5==0){
+    
+   
+    tone(9, MarioUW_note[thisNote], noteDuration);
+   }   else{
+    
+   
+    tone(9, MarioUW_note[thisNote], noteDuration);
+   } 
+    int pauseBetweenNotes = noteDuration * 1.80;
+    delay(pauseBetweenNotes);
+    noTone(8); //stop music on pin 8 
+    }
+}
+
+void ttn()
+{
+    for (int thisNote = 0; thisNote < (sizeof(Titanic_note)/sizeof(int)); thisNote++) {
+
+    int noteDuration = 1000 / Titanic_duration[thisNote];//convert duration to time delay
+     if(thisNote%3==0){
+    
+   
+    tone(9, Titanic_note[thisNote], noteDuration);
+   }
+     if(thisNote%4==0){
+    
+   
+    tone(9, Titanic_note[thisNote], noteDuration);
+   }   if(thisNote%5==0){
+    
+   
+    tone(9, Titanic_note[thisNote], noteDuration);
+   }   else{
+    
+   
+    tone(9, Titanic_note[thisNote], noteDuration);
+   } 
+    int pauseBetweenNotes = noteDuration * 2.70;
+    delay(pauseBetweenNotes);
+    noTone(9); //stop music on pin 8 
+    }
+}
+void newn()
+{
+    for (int thisNote = 0; thisNote < (sizeof(new_note)/sizeof(int)); thisNote++) {
+
+    int noteDuration = 1000 / new_duration[thisNote];//convert duration to time delay
+     if(thisNote%3==0){
+    
+   
+    tone(9, new_note[thisNote], noteDuration);
+   }
+     if(thisNote%4==0){
+    
+   
+    tone(9, new_note[thisNote], noteDuration);
+   }   if(thisNote%5==0){
+    
+   
+    tone(9, new_note[thisNote], noteDuration);
+   }   else{
+    
+   
+    tone(9, new_note[thisNote], noteDuration);
+   } 
+    int pauseBetweenNotes = noteDuration * 2.70;
+    delay(pauseBetweenNotes);
+    noTone(9); //stop music on pin 8 
+    }
+}
+void desp(){
+   for (int thisNote = 0; thisNote < (sizeof(desp_note)/sizeof(int)); thisNote++) {
+
+    int noteDuration = 1000 / desp_duration[thisNote];//convert duration to time delay
+   if(thisNote%3==0){
+    
+   
+    tone(9, desp_note[thisNote], noteDuration);
+   }
+     if(thisNote%4==0){
+    
+   
+    tone(9, desp_note[thisNote], noteDuration);
+   }   if(thisNote%5==0){
+    
+   
+    tone(9, desp_note[thisNote], noteDuration);
+   }   else{
+    
+   
+    tone(9, desp_note[thisNote], noteDuration);
+   } 
+    int pauseBetweenNotes = noteDuration * 1.50; //Here 1.05 is tempo, increase to play it slower
+    delay(pauseBetweenNotes);
+    noTone(8); //stop music on pin 8 
+    }}
+void setup() {
+ //Button 4 with internal pull up
+Serial.begin(9600);
 }

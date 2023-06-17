@@ -2,7 +2,7 @@
 #include<Servo.h>
 
 Servo fan;
-int velocidad =250; // Velocidad crucero de robot max 255
+int velocidad =90; // Velocidad crucero de robot max 255
 
 float Kp = 0.15; // calibracion proporciona 0.7; 2; 1.1
 float Kd = 3.05;  //  calibracion derivativo 9.65
