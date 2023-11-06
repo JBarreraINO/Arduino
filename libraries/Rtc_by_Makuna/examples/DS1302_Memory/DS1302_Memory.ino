@@ -6,7 +6,6 @@
 // DS1302 VCC --> 3.3v - 5v
 // DS1302 GND --> GND
 
-#include <ThreeWire.h>  
 #include <RtcDS1302.h>
 
 ThreeWire myWire(4,5,2); // IO, SCLK, CE
@@ -119,7 +118,7 @@ void loop ()
 
 void printDateTime(const RtcDateTime& dt)
 {
-    char datestring[20];
+    char datestring[26];
 
     snprintf_P(datestring, 
             countof(datestring),
