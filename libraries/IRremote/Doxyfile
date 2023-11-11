@@ -58,7 +58,7 @@ PROJECT_LOGO           =
 # entered, it will be relative to the location where doxygen was started. If
 # left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = ..\Arduino-IRremote_gh-pages
+OUTPUT_DIRECTORY       =
 
 # If the CREATE_SUBDIRS tag is set to YES then doxygen will create 4096 sub-
 # directories (in 2 levels) under the output directory of each output format and
@@ -307,7 +307,7 @@ OPTIMIZE_OUTPUT_SLICE  = NO
 # Note that for custom extensions you also need to set FILE_PATTERNS otherwise
 # the files are not read by doxygen.
 
-EXTENSION_MAPPING      = ino=C++ cpp=C++ h=C++ hpp=C++
+EXTENSION_MAPPING      = ino=C++ cpp=C++ h=C++
 
 # If the MARKDOWN_SUPPORT tag is enabled then doxygen pre-processes all comments
 # according to the Markdown format, which allows for more readable
@@ -815,6 +815,7 @@ WARN_LOGFILE           =
 
 INPUT                  = src \
                          src/private \
+                         examples/MicroGirs \
                          .
 
 # This tag can be used to specify the character encoding of the source files
@@ -842,7 +843,7 @@ INPUT_ENCODING         = UTF-8
 # C comment), *.py, *.pyw, *.f90, *.f95, *.f03, *.f08, *.f18, *.f, *.for, *.vhd,
 # *.vhdl, *.ucf, *.qsf and *.ice.
 
-FILE_PATTERNS          = *.ino *.cpp *.c *.h *.hpp *.md
+FILE_PATTERNS          = *.ino *.cpp *.c *.h *.md
 
 # The RECURSIVE tag can be used to specify whether or not subdirectories should
 # be searched for input files as well.
@@ -1063,7 +1064,7 @@ VERBATIM_HEADERS       = YES
 # classes, structs, unions or interfaces.
 # The default value is: YES.
 
-ALPHABETICAL_INDEX     = NO
+ALPHABETICAL_INDEX     = YES
 
 # The COLS_IN_ALPHA_INDEX tag can be used to specify the number of columns in
 # which the alphabetical index list will be split.
@@ -1094,6 +1095,8 @@ GENERATE_HTML          = YES
 # it.
 # The default directory is: html.
 # This tag requires that the tag GENERATE_HTML is set to YES.
+
+# This name is selected to be able to easily publish with GitHub's gh-pages.
 
 HTML_OUTPUT            = docs
 
@@ -1454,7 +1457,7 @@ DISABLE_INDEX          = NO
 # The default value is: NO.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-GENERATE_TREEVIEW      = YES
+GENERATE_TREEVIEW      = NO
 
 # The ENUM_VALUES_PER_LINE tag can be used to set the number of enum values that
 # doxygen will group on one line in the generated HTML documentation.
