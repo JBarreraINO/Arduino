@@ -18,14 +18,14 @@ int LEDS = 13;
 #define OM A4  // Sensor Selection pins.
 int led = 13;  // Led default de Arduino
 
-//int pini = 10;
-//int pwmi = 11;
-//int pind = 9;
-//int pwmd = 3;
 int pini = 11;
 int pwmi = 12;
-int pind = 10;
-int pwmd = A2;
+int pind = 9;
+int pwmd = 10;
+//int pini = 11;
+//int pwmi = 12;
+//int pind = 10;
+//int pwmd = A2;
 //int pini = 9;
 //int pwmi = 5;
 //int pind = 6;

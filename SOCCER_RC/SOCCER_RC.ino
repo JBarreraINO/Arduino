@@ -25,7 +25,9 @@ const int maxThrottle = 1020;
 const int minBrake = 0;
 const int maxBrake = 1020;
 //VARIABLES DE MANDO
-float factorFiltro = 0.1;  // Ajusta el factor de filtro según tus necesidades
+float factorFiltro = 0.7;  // Ajusta el factor de filtro según tus necesidades
+float factorFiltroX = 0.9;  // Ajusta el factor de filtro según tus necesidades
+ int valorThrottleFiltrado,valorThrottleFiltradox;
 const int deadbandThreshold = 20;
 //TIPO DE CONTROL EN DRIVER : 1 PARA TLE5205, 0 PARA DRV8876
 bool BitOff = 0;
@@ -73,9 +75,9 @@ void setup() {
 
 
 
-  //ledcAttachPin(IN1_IZQUIERDA, IN1_IZQ);
+  ledcAttachPin(IN1_IZQUIERDA, IN1_IZQ);
   ledcAttachPin(IN2_IZQUIERDA, IN2_IZQ);
-  //ledcAttachPin(IN1_DERECHA,  IN1_DER);
+  ledcAttachPin(IN1_DERECHA,  IN1_DER);
   ledcAttachPin(IN2_DERECHA, IN2_DER);
 
   pinMode(IN1_IZQUIERDA, OUTPUT);
@@ -83,7 +85,6 @@ void setup() {
   pinMode(IN1_DERECHA, OUTPUT);
   //pinMode(IN2_DERECHA, OUTPUT);
   controlarMotores(velMIN, velMIN);
-  // To get the BD Address (MAC address) call:
 
 
   const uint8_t *addr = BP32.localBdAddress();
@@ -103,8 +104,8 @@ void setup() {
   BP32.setup(&onConnectedController, &onDisconnectedController);
 
   // "forgetBluetoothKeys()" should be called when the user performs
-  // a "device factory reset", or similar.
-  // Calling "forgetBluetoothKeys" in setup() just as an example.
+
+
   // Forgetting Bluetooth keys prevents "paired" gamepads to reconnect.
   // But might also fix some connection / re-connection issues.
   //  BP32.forgetBluetoothKeys();
@@ -175,9 +176,11 @@ void processGamepad(ControllerPtr gamepad) {
   valorBrake = applyDeadband(valorBrake, deadbandThreshold);
   valorAxisX = applyDeadband(valorAxisX, deadbandThreshold);
   //APLICO FILTRO
-  int valorThrottleFiltrado = valorThrottle;
-  int valorBrakeFiltrado = valorBrake;
-  // valorThrottle= aplicarFiltro(valorThrottle, valorThrottleFiltrado, factorFiltro);
+ 
+ // int valorBrakeFiltrado = valorBrake;
+  //valorThrottle= aplicarFiltro(valorThrottle, valorThrottleFiltrado, factorFiltro);
+  valorAxisX =aplicarFiltro(valorAxisX, valorThrottleFiltradox, factorFiltroX);
+  
   //valorBrake= aplicarFiltro(valorBrake, valorBrakeFiltrado, factorFiltro);
 
 
@@ -194,27 +197,27 @@ void processGamepad(ControllerPtr gamepad) {
 
     if (BitOff == true) {
       mapaxisX = mapaxisX * abs(mapThrottle) / 1023;
-      VelMI =(mapThrottle - mapaxisX) ;  //+ mapBrake;  // Aquí restamos mapaxisX "GIRO" SE MUEVE HACIA LA DERECHA
-      VelMD =( mapThrottle + mapaxisX) ;  //+ mapBrakeX;  // Aquí sumamos mapaxisX "GIRO" SE MUEVE HACIA LA IZQUIERDA
+      VelMI =(mapThrottle + mapaxisX) ;  //+ mapBrake;  // Aquí restamos mapaxisX "GIRO" SE MUEVE HACIA LA DERECHA
+      VelMD =( mapThrottle - mapaxisX) ;  //+ mapBrakeX;  // Aquí sumamos mapaxisX "GIRO" SE MUEVE HACIA LA IZQUIERDA
       
 
 
-      
-      if (VelMI > MINpwm) {
-       // VelMI = VelMI - (mapThrottle * 2) - (abs(mapaxisX) / 1.4);
-         //VelMD = MINpwm - VelMI;
-         VelMD= MINpwm-VelMI;
+
+  if (VelMI > MAXpwm) {
+        VelMD = (MAXpwm - VelMI);
+        // VelMI =  MAXpwm
+
+      } else if (VelMD > MAXpwm) {
+        VelMI = MAXpwm - VelMD;
       }
-      else if (VelMD > MINpwm) {
-        //VelMD = VelMD - (mapThrottle * 2) - (abs(mapaxisX) / 1.4);
-      //VelMI= map(VelMD,MINpwm,1550,-1023,0);
-      VelMI=MINpwm-VelMI;
-      }
-          // Serial.println("Velocidad izquierda: " + String(VelMI) + ", Velocidad derecha: " + String(VelMD) + ", mapaxisX: " + String(mapaxisX) + ",brake: " + String(mapBrake) + ",Throttle: " + String(mapThrottle));
+    
+
+    VelMD=map(VelMD, 1023, -1023, -1023,1023);
+    VelMI=map(VelMI, 1023, -1023, -1023,1023);
     VelMD = -VelMD;
     VelMI = -VelMI;
 
-
+//Serial.println("Velocidad izquierda: " + String(VelMI) + ", Velocidad derecha: " + String(VelMD) + ", mapaxisX: " + String(mapaxisX) + ",brake: " + String(mapBrake) + ",Throttle: " + String(mapThrottle));
 
     }
 
@@ -245,19 +248,10 @@ void processGamepad(ControllerPtr gamepad) {
       VelMI = mapBrake - mapaxisX;  // Aquí restamos mapaxisX "GIRO" SE MUEVE HACIA LA DERECHA
       VelMD = mapBrake + mapaxisX;  // Aquí sumamos mapaxisX "GIRO" SE MUEVE HACIA LA IZQUIERDA
 
-  
-      
-      if (VelMI > MINpwm) {
-       // VelMI = VelMI - (mapThrottle * 2) - (abs(mapaxisX) / 1.4);
-         //VelMD = MINpwm - VelMI;
-         VelMD= map(VelMI,MINpwm,2046,-1023,0);
-      }
-      else if (VelMD > MINpwm) {
-        //VelMD = VelMD - (mapThrottle * 2) - (abs(mapaxisX) / 1.4);
-      VelMI= map(VelMD,MINpwm,1550,-1023,0);
-      }
 
-
+        VelMD = -VelMD;
+        VelMI = -VelMI;
+       
 
     }
 
@@ -304,7 +298,7 @@ void controlarMotores(int velocidadMotorIzquierda, int velocidadMotorDerecha) {
   } else if (velocidadMotorIzquierda == 0) {
     digitalWrite(IN1_IZQUIERDA, BitOff);  // Detén el motor izquierdo
     digitalWrite(IN2_IZQUIERDA, BitOff);
-    if (BitOff == true) { ledcWrite(IN2_IZQ, 1023); }  //eliminar si se cambia de driver PWM/DIR
+    if (BitOff == true) { ledcWrite(IN2_IZQ, 1023); }  
     else if (BitOff == false) {
       ledcWrite(IN2_IZQ, BitOff);
     }
@@ -324,12 +318,13 @@ void controlarMotores(int velocidadMotorIzquierda, int velocidadMotorDerecha) {
   } else if (velocidadMotorDerecha == 0) {
     digitalWrite(IN1_DERECHA, BitOff);  // Detén el motor derecho
     digitalWrite(IN2_DERECHA, BitOff);
-    if (BitOff == true) { ledcWrite(IN2_DER, 1023); }  //eliminar si se cambia de driver PWM/DIR
+    if (BitOff == true) { ledcWrite(IN2_DER, 1023); }  
     else if (BitOff == false) {
       ledcWrite(IN2_DER, BitOff);
     }
   }
 }
+
 int applyDeadband(int value, int deadbandThreshold) {
   if (abs(value) < deadbandThreshold) {
     // Si el valor está dentro del rango del "deadband", establecerlo a cero
@@ -339,18 +334,15 @@ int applyDeadband(int value, int deadbandThreshold) {
     return value;
   }
 }
-void aplicarFiltro(int &valorActual, int &valorFiltrado, float factor) {
+int aplicarFiltro(int valorActual, int &valorFiltrado, float factor) {
   valorFiltrado = (1.0 - factor) * valorFiltrado + factor * valorActual;
+  return valorFiltrado;
 }
-
 
 
 // Arduino loop function. Runs in CPU 1
 void loop() {
-  // This call fetches all the controller info from the NINA (ESP32) module.
-  // Just call this function in your main loop.
-  // The controllers pointer (the ones received in the callbacks) gets updated
-  // automatically.
+
   BP32.update();
 
   // It is safe to always do this before using the controller API.

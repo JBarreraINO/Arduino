@@ -13,8 +13,8 @@
  *  Copyright (C) 2019-2020  Armin Joachimsmeyer
  *  armin.joachimsmeyer@gmail.com
  *
- *  This file is part of IRMP https://github.com/ukw100/IRMP.
- *  This file is part of Arduino-IRremote https://github.com/z3t0/Arduino-IRremote.
+ *  This file is part of IRMP https://github.com/IRMP-org/IRMP.
+ *  This file is part of Arduino-IRremote https://github.com/Arduino-IRremote/Arduino-IRremote.
  *
  *  IRMP is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,17 +23,18 @@
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *  See the GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/gpl.html>.
+ *  along with this program. If not, see <http://www.gnu.org/licenses/gpl.html>.
  *
  */
 
 #include <Arduino.h>
 
-#define IR_INPUT_PIN    3
+#define IR_INPUT_PIN    2
+//#define IR_INPUT_PIN    3
 
 /*
  * Helper macro for getting a macro definition as string
@@ -47,19 +48,22 @@ void setup()
 {
     pinMode(LED_BUILTIN, OUTPUT);
     Serial.begin(115200);
-#if defined(__AVR_ATmega32U4__) || defined(SERIAL_USB) || defined(SERIAL_PORT_USBVIRTUAL) || defined(ARDUINO_attiny3217)
-    delay(2000); // To be able to connect Serial monitor after reset or power up and before first printout
+#if defined(__AVR_ATmega32U4__) || defined(SERIAL_PORT_USBVIRTUAL) || defined(SERIAL_USB) /*stm32duino*/|| defined(USBCON) /*STM32_stm32*/|| defined(SERIALUSB_PID) || defined(ARDUINO_attiny3217)
+    delay(4000); // To be able to connect Serial monitor after reset or power up and before first print out. Do not wait for an attached Serial Monitor!
 #endif
     // Just to know which program is running on my Arduino
     Serial.println(F("START " __FILE__ " from " __DATE__));
 
 #if defined(EICRA) && defined(EIFR) && defined(EIMSK)
-    // enable interrupt on pin3 on both edges for ATmega328
-    EICRA |= _BV(ISC10);
-    // clear interrupt bit
-    EIFR |= 1 << INTF1;
-    // enable interrupt on next change
-    EIMSK |= 1 << INT1;
+#  if (IR_INPUT_PIN == 2)
+    EICRA |= _BV(ISC00);  // interrupt on any logical change
+    EIFR |= _BV(INTF0);     // clear interrupt bit
+    EIMSK |= _BV(INT0);     // enable interrupt on next change
+#  elif (IR_INPUT_PIN == 3)
+    EICRA |= _BV(ISC10);    // enable interrupt on pin3 on both edges for ATmega328
+    EIFR |= _BV(INTF1);     // clear interrupt bit
+    EIMSK |= _BV(INT1);     // enable interrupt on next change
+#  endif
 #else
     attachInterrupt(digitalPinToInterrupt(IR_INPUT_PIN), measureTimingISR, CHANGE);
 #endif
@@ -94,7 +98,7 @@ void processTmingValue(struct timingStruct *aTimingStruct, uint16_t aValue)
     if (aTimingStruct->SampleCount == 0)
     {
         // initialize values
-        aTimingStruct->minimum = 0xFFFF;
+        aTimingStruct->minimum = UINT16_MAX;
         aTimingStruct->maximum = 0;
         aTimingStruct->SumForAverage = 0;
     }
@@ -169,12 +173,12 @@ void loop()
              * Print analysis of mark and short spaces
              */
             Serial.println(F("Analysis  :"));
-            Serial.print(F(" Average (Mark + ShortSpace)/2="));
+            Serial.print(F(" (Average of mark + short space)/2 = "));
             int16_t MarkAndShortSpaceAverage = (Mark.average + ShortSpace.average) / 2;
             Serial.print(MarkAndShortSpaceAverage);
-            Serial.print(F("us   Delta (to NEC standard 560)="));
+            Serial.print(F(" us\r\n Delta (to NEC standard 560) = "));
             Serial.print(MarkAndShortSpaceAverage - 560);
-            Serial.print(F("us\r\n Mark - Average -> MarkExcess="));
+            Serial.print(F("us\r\n MARK_EXCESS_MICROS = (Average of mark - Average of mark and short space) = "));
             Serial.print((int16_t) Mark.average - MarkAndShortSpaceAverage);
             Serial.print(F("us"));
             Serial.println();
@@ -189,15 +193,18 @@ void loop()
  * The interrupt handler.
  * Just add to the appropriate timing structure.
  */
-#if defined(ESP8266)
-ICACHE_RAM_ATTR
-#elif defined(ESP32)
-IRAM_ATTR
-#endif
-#if defined(EICRA) && defined(EIFR) && defined(EIMSK)
-ISR(INT1_vect)
+#if defined(ESP8266) || defined(ESP32)
+void IRAM_ATTR measureTimingISR()
 #else
+#  if defined(EICRA) && defined(EIFR) && defined(EIMSK)
+#    if (IR_INPUT_PIN == 2)
+ISR(INT0_vect)
+#    elif (IR_INPUT_PIN == 3)
+ISR(INT1_vect)
+#    endif
+#  else
 void measureTimingISR()
+#  endif
 #endif
 {
     uint32_t tMicros = micros();
