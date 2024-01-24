@@ -110,7 +110,7 @@ void setup() {
   // But might also fix some connection / re-connection issues.
   //  BP32.forgetBluetoothKeys();
   int buttonState = digitalRead(Olvidar);
-  if (buttonState == true) {
+  if (buttonState == false) {
 
     BP32.forgetBluetoothKeys();
     Serial.print("dispositivo olvidado");
@@ -179,7 +179,7 @@ void processGamepad(ControllerPtr gamepad) {
  
  // int valorBrakeFiltrado = valorBrake;
   //valorThrottle= aplicarFiltro(valorThrottle, valorThrottleFiltrado, factorFiltro);
-  valorAxisX =aplicarFiltro(valorAxisX, valorThrottleFiltradox, factorFiltroX);
+     //valorAxisX =aplicarFiltro(valorAxisX, valorThrottleFiltradox, factorFiltroX);
   
   //valorBrake= aplicarFiltro(valorBrake, valorBrakeFiltrado, factorFiltro);
 
@@ -204,11 +204,12 @@ void processGamepad(ControllerPtr gamepad) {
 
 
   if (VelMI > MAXpwm) {
-        VelMD = (MAXpwm - VelMI);
-        // VelMI =  MAXpwm
+        //VelMD = (MAXpwm - VelMI);
+        VelMI =  MAXpwm;
 
       } else if (VelMD > MAXpwm) {
-        VelMI = MAXpwm - VelMD;
+        //VelMI = MAXpwm - VelMD;
+         VelMD =  MAXpwm;
       }
     
 
