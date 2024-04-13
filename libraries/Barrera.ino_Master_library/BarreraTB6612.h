@@ -12,7 +12,7 @@ class motores
 #define PWMA  6
 #define BIN1  8
 #define BIN2  7
-#define STBY  13
+
    void Motoriz(int value);
    void Motorde(int value);
    void Motor(int left, int righ);

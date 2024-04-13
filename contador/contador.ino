@@ -1,8 +1,8 @@
 
 // no cambiar las el const int
-const int  pulsador_asc = 16;    // pin 2 como entrada para el contador de pulsos 
+const int  pulsador_asc = 7;    // pin 2 como entrada para el contador de pulsos 
                                 // ascendentes
-const int  pulsador_des = 3;    // pin 3 como entrada para el contador de pulsos
+const int  pulsador_des = 4;    // pin 3 como entrada para el contador de pulsos
                                 // descendentes
                                 
 const int led_rojo = 9;          // Pin 13  como salida 

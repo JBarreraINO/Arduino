@@ -163,7 +163,7 @@ if(!BT.connected()){myOLED.drawBitmap(100, 0,btimages, 41, 21,BLACK,BLACK); myOL
     data.remove(0, 0);
     Serial.println(data);
 
-    if (data == "show") {
+    if (data == "show"||data == "help"||data == "ayuda") {
       BT.println("espere...");
       BT.print("BUZZER:"); BT.println(buzzerEN);
        BT.print("INTERVAL:");BT.println(interval);

@@ -44,8 +44,7 @@ if ( value >= 0 )
 }
 void motores::Motor(int left, int righ)
 {
-  pinMode(STBY,OUTPUT);
-  digitalWrite(STBY, HIGH);
+
   Motoriz(left);
   Motorde(righ);
 
@@ -53,8 +52,7 @@ void motores::Motor(int left, int righ)
 
 void motores::freno(boolean left, boolean righ, int value)
 {
-  pinMode(STBY,OUTPUT);
-  digitalWrite(STBY, HIGH);
+ 
   if ( left )
   {
 
