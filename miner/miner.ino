@@ -16,8 +16,8 @@ void setup()
   //pinMode (2,INPUT);
   //pinMode (3,INPUT);
   // pinMode (4,INPUT);
-  pinMode (52, INPUT);
-  pinMode (44, INPUT);
+  pinMode (19, INPUT);
+  pinMode (18, INPUT);
   //  pinMode (7,INPUT);
   // pinMode (8,INPUT);
   // pinMode (9,INPUT);// verificar canal no cambiar
@@ -25,8 +25,8 @@ void setup()
   //canal[0] = pulseIn (2, HIGH);
   // canal[1]= pulseIn (3, HIGH);
   //canal[2] = pulseIn (4, HIGH);
-  canal[3] = pulseIn (52, HIGH);
-  canal[4] = pulseIn (44, HIGH);
+  canal[3] = pulseIn (19, HIGH);
+  canal[4] = pulseIn (18, HIGH);
   //  canal[5]= pulseIn (7, HIGH);
   //  canal[6]= pulseIn (8, HIGH);
   // canal[7]= pulseIn (9, HIGH);
