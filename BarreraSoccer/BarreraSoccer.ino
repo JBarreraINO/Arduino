@@ -124,7 +124,7 @@ pulseIzquierdaDerecha = pulseIn(pinIzquierdaDerechaMotor, HIGH);
   Serial.println(" us");
 
   // Velocidad del motor controlada por el canal del acelerador
-  int velocidad = map(pulseAcelerador, 1000, 2000, 0, 1023); // Mapear a rango [-255, 255]
+  int velocidad = map(pulseAcelerador, 1000, 2000, 0, 1000); // Mapear a rango [-255, 255]
 
   // Dirección del motor controlada por los canales de adelante/atrás e izquierda/derecha
   int velocidadIzquierda = -velocidad;
