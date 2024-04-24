@@ -33,6 +33,10 @@ const int deadbandThreshold = 20;
 //TIPO DE CONTROL EN DRIVER : 1 PARA TLE5205, 0 PARA DRV8876
 bool BitOff = 0;
 
+
+  unsigned long pulseAcelerador ;
+  unsigned long pulseAdelanteAtras ;
+  unsigned long pulseIzquierdaDerecha ;
 //variables usadas
 int mapaxisX = 0;
 int valorThrottle;
@@ -74,16 +78,43 @@ void setup() {
   //pinMode(IN2_DERECHA, OUTPUT);
   controlarMotores(velMIN, velMIN);
 
+  pinMode(ledConected, OUTPUT);
+
+  while (true) {
+pulseAcelerador = pulseIn(pinAcelerador, HIGH);
+pulseAdelanteAtras = pulseIn(pinAdelanteAtrasMotor, HIGH);
+pulseIzquierdaDerecha = pulseIn(pinIzquierdaDerechaMotor, HIGH);
+ digitalWrite(ledConected,HIGH);
+  Serial.print("Acelerador: ");
+  Serial.print(pulseAcelerador);
+  Serial.print(" us, Adelante/Atrás: ");
+  Serial.print(pulseAdelanteAtras);
+  Serial.print(" us, Izquierda/Derecha: ");
+  Serial.print(pulseIzquierdaDerecha);
+  Serial.println(" us");
+ 
+   digitalWrite(ledConected,LOW);
+
+
+ if (pulseAcelerador<1100 && pulseAdelanteAtras>1800 ){
+ 
+ break;
+  digitalWrite(ledConected,HIGH);
+
+ }
+  }
 
 }
 
 void loop() {
 // Lee los pulsos PWM de cada canal
-  unsigned long pulseAcelerador = pulseIn(pinAcelerador, HIGH);
-  unsigned long pulseAdelanteAtras = pulseIn(pinAdelanteAtrasMotor, HIGH);
-  unsigned long pulseIzquierdaDerecha = pulseIn(pinIzquierdaDerechaMotor, HIGH);
+ pulseAcelerador = pulseIn(pinAcelerador, HIGH);
+pulseAdelanteAtras = pulseIn(pinAdelanteAtrasMotor, HIGH);
+pulseIzquierdaDerecha = pulseIn(pinIzquierdaDerechaMotor, HIGH);
+  digitalWrite(ledConected,HIGH);
 
-  // Imprime los valores de los pulsos PWM
+
+
   Serial.print("Acelerador: ");
   Serial.print(pulseAcelerador);
   Serial.print(" us, Adelante/Atrás: ");
@@ -99,26 +130,37 @@ void loop() {
   int velocidadIzquierda = -velocidad;
   int velocidadDerecha = -velocidad;
 
-  if (pulseAdelanteAtras < 1400) {
+  if (pulseAcelerador == 0 || pulseAdelanteAtras == 0 || pulseIzquierdaDerecha == 0) {
+
+while (pulseAcelerador==0)
+{
+pulseAcelerador = pulseIn(pinAcelerador, HIGH);
+   digitalWrite(ledConected,LOW);
+     controlarMotores(0,0);
+}
+
+  }
+
+  if (pulseAdelanteAtras < 1400 && pulseAdelanteAtras > 1000 ) {
     // Retroceder si se inclina hacia atrás
     velocidadIzquierda *= -1;
     velocidadDerecha *= -1;
   }
 
   
-  if (pulseAdelanteAtras > 1600) {
+  if (pulseAdelanteAtras > 1600 && pulseAdelanteAtras < 2000  ) {
     // Retroceder si se inclina hacia atrás
     velocidadIzquierda *= 1;
     velocidadDerecha *= 1;
   }
 
-  if (pulseIzquierdaDerecha > 1600) {
+  if (pulseIzquierdaDerecha > 1600 && pulseIzquierdaDerecha <2000) {
     // Girar a la izquierda si se inclina hacia la izquierda
     velocidadIzquierda *= -0.6; // Disminuye velocidad del motor izquierdo para girar
     velocidadDerecha *= 1.5; // Disminuye velocidad del motor izquierdo para girar
   } 
 
-   if (pulseIzquierdaDerecha < 1400) {
+   if (pulseIzquierdaDerecha < 1400 && pulseIzquierdaDerecha>1000) {
     // Girar a la izquierda si se inclina hacia la izquierda
     velocidadIzquierda *= 1.5; // Disminuye velocidad del motor izquierdo para girar
     velocidadDerecha *= -0.5; // Disminuye velocidad del motor izquierdo para girar
