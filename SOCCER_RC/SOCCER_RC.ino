@@ -7,6 +7,7 @@ const int IN1_IZQUIERDA = 27;  // Pin de dirección IN1 para motor izquierdo DIR
 const int IN2_IZQUIERDA = 26;  // Pin de dirección IN2 para motor izquierdo PWM
 const int IN1_DERECHA = 32;    // Pin de dirección IN1 para motor derecho DIR
 const int IN2_DERECHA = 33;    // Pin de dirección IN2 para motor derecho PWM
+
 const int Olvidar = 13;
 // propiedades PWM
 const int frecuencia = 5000;

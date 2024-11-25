@@ -18,10 +18,10 @@ int LEDS = 13;
 #define OM A4  // Sensor Selection pins.
 int led = 13;  // Led default de Arduino
 
-int pini = 10;//cambie 9 * 10 para direccion
-int pwmi = 11;//cambie 5*11 con el objetivo de usar el mismo timmer para el pwm 
-int pind = 9;//cambie 6 * 9
-int pwmd = 3;//cambie 5 * 3 
+int pini = 10;  //cambie 9 * 10 para direccion
+int pwmi = 11;  //cambie 5*11 con el objetivo de usar el mismo timmer para el pwm
+int pind = 9;   //cambie 6 * 9
+int pwmd = 3;   //cambie 5 * 3
 //int pini = 11;
 //int pwmi = 12;
 //int pind = 10;
@@ -57,7 +57,6 @@ void setup() {
   pinMode(pwmi, OUTPUT);
   pinMode(pind, OUTPUT);
   pinMode(pwmd, OUTPUT);
-
 }
 
 void loop() {
@@ -71,8 +70,9 @@ void loop() {
   }
   botones();
   lectura();
-  Serial.print((String) sensores[0]+"A"+sensores[1]+"B"+sensores[2]+"C" + sensores[3]+"D"+sensores[4]+"E"+sensores[5]+"F"+sensores[6]+"G"+sensores[7]+"H"+sensores[8]+"I" +sensores[9]+"J"+sensores[10]+"K"+sensores[11]+"L" +sensores[12]+"M"+sensores[13]+"N" +sensores[14]+"O"+sensores[15]+"P"+ valor7+"Q"+ valor4+"R"+ valorrdy+"S"+valorgo+"T"+ velocidadfan+"U"  "\n");
- fan.writeMicroseconds(velocidadfan);
+  Serial.print((String)sensores[0] + "A" + sensores[1] + "B" + sensores[2] + "C" + sensores[3] + "D" + sensores[4] + "E" + sensores[5] + "F" + sensores[6] + "G" + sensores[7] + "H" + sensores[8] + "I" + sensores[9] + "J" + sensores[10] + "K" + sensores[11] + "L" + sensores[12] + "M" + sensores[13] + "N" + sensores[14] + "O" + sensores[15] + "P" + valor7 + "Q" + valor4 + "R" + valorrdy + "S" + valorgo + "T" + velocidadfan + "U"
+                                                                                                                                                                                                                                                                                                                                                                                                                                           "\n");
+  fan.writeMicroseconds(velocidadfan);
   switch (c)
 
   {
@@ -106,20 +106,19 @@ void loop() {
       digitalWrite(LEDS, LOW);
       break;
 
-      case'6':
-      
-      break;
-      case'7':
-      fan.writeMicroseconds(0);
-     
-      break;
-      case'8':
-      fan.writeMicroseconds(2000);
-       delay(2000);
-       fan.writeMicroseconds(1000);
-       delay(5000);
-      break;
+    case '6':
 
+      break;
+    case '7':
+      fan.writeMicroseconds(0);
+
+      break;
+    case '8':
+      fan.writeMicroseconds(2000);
+      delay(2000);
+      fan.writeMicroseconds(1000);
+      delay(5000);
+      break;
   }
 }
 

@@ -141,18 +141,12 @@ pulseAcelerador = pulseIn(pinAcelerador, HIGH);
 
   }
 
-  if (pulseAdelanteAtras < 1400 && pulseAdelanteAtras > 1000 ) {
+  if (pulseAdelanteAtras < 1400 ) {
     // Retroceder si se inclina hacia atrás
     velocidadIzquierda *= -1;
     velocidadDerecha *= -1;
   }
 
-  
-  if (pulseAdelanteAtras > 1600 && pulseAdelanteAtras < 2000  ) {
-    // Retroceder si se inclina hacia atrás
-    velocidadIzquierda *= 1;
-    velocidadDerecha *= 1;
-  }
 
   if (pulseIzquierdaDerecha > 1600 && pulseIzquierdaDerecha <2000) {
     // Girar a la izquierda si se inclina hacia la izquierda

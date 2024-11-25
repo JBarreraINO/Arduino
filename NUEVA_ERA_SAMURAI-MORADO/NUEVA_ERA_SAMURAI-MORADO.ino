@@ -2,14 +2,14 @@
 #include<Servo.h>
 
 Servo fan;
-int velocidad =50; // Velocidad crucero de robot max 255
+int velocidad =60; // Velocidad crucero de robot max 255
 
-float Kp = 0.7; // calibracion proporciona p = 0.145;
-float Kd = 3;  //  calibracion derivativod = 1.9;
+float Kp = 0.32; // calibracion proporciona p = 0.145;
+float Kd = 2.5;  //  calibracion derivativod = 1.9;
 float Ki=0.003;
-int sensibilidad = 500;
-int frente = 20;   // Velocidad a la que ira el motor hacia adelante cuando pierda la linea max 255  198 para sensores cortos
-int reversa = 20;  // Velocidad a la que ira el motor hacia atras cuando pierda la linea    max 255  198 para sensores cortos
+int sensibilidad = 100;
+int frente = 80;   // Velocidad a la que ira el motor hacia adelante cuando pierda la linea max 255  198 para sensores cortos
+int reversa = 80;  // Velocidad a la que ira el motor hacia atras cuando pierda la linea    max 255  198 para sensores cortos
 
 int color = 1;      // 1 linea negra 2 linea blanca
 //********CONEXION DE PUERTOS****************************************************************************************************
@@ -102,8 +102,8 @@ TCCR2B_PRESCALER 11 Y 3
    DDRB &=~B00010001;//ENTRADAS 8,12
     analogReference(INTERNAL);
 
-// fan.attach(6);
- fan.writeMicroseconds(1900);
+fan.attach(6);
+fan.writeMicroseconds(1000);
 rutina1:
   
   delay(1000);
@@ -264,7 +264,7 @@ rutina4:
 
   if(valor_bd==LOW)
   {
-  fan.write(1800);//velocidad fan 
+  fan.write(1700);//velocidad fan 
    delay(150);
   }
   if ( valor_bi == HIGH && c == 1 ) {
@@ -285,7 +285,7 @@ off:
     goto PD;
   }
   analogWrite ( pwmi , 0); analogWrite ( pwmd, 0);
-  fan.write(2000);
+  fan.write(1000);
   goto off;
 
 
@@ -307,7 +307,7 @@ PD:
 
     lectura();
    
-    ERROR_POSICION = valor_sensor[0] * (-1) + valor_sensor[1] * (-1) + valor_sensor[2] * (-1) + valor_sensor[3] * (-.8) + valor_sensor[4] * (-.6) + valor_sensor[5] * (-.4) + valor_sensor[6] * (-.2) + valor_sensor[7] * (-.1) + valor_sensor[8] * (.1) + valor_sensor[9] * (.2) + valor_sensor[10] * (.4) + valor_sensor[11] * (.6) + valor_sensor[12] * (.8) + valor_sensor[13] * (1) + valor_sensor[14] * (1) + valor_sensor[15] * (1);
+    ERROR_POSICION = valor_sensor[0] * (-1) + valor_sensor[1] * (-2) + valor_sensor[2] * (-1) + valor_sensor[3] * (-.8) + valor_sensor[4] * (-.6) + valor_sensor[5] * (-.4) + valor_sensor[6] * (-.2) + valor_sensor[7] * (-.1) + valor_sensor[8] * (.1) + valor_sensor[9] * (.2) + valor_sensor[10] * (.4) + valor_sensor[11] * (.6) + valor_sensor[12] * (.8) + valor_sensor[13] * (1) + valor_sensor[14] * (2) + valor_sensor[15] * (1);
 
   
     double ERROR_D = (ERROR_POSICION - ERROR_ULTIMO);
@@ -360,6 +360,10 @@ PD:
     }
     
 
+
+
+    
+
     float r1 = abs(pwm1);
     float r2 = abs (pwm2);
 
@@ -376,9 +380,12 @@ PD:
     { analogWrite ( pwmd, reversa);  PORTB |=B00000010; //9 HIGH
       analogWrite ( pwmi, frente);   PORTB |=B00000100;// 10 HIGH
       // PORTB |=B00000100;// 10 HIGH
+
+
       // PORTB &=B11111011; //10 LOW
       //PORTB |=B00000010; //9 HIGH
       //PORTB &=B11111101; //9 LOW
+
     }
 
     if ( posicion == 1 )

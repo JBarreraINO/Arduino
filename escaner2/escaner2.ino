@@ -1,5 +1,5 @@
-#include <Servo.h>
-Servo fan;
+//#include <Servo.h>
+//Servo fan;
 int velocidad = 150;  // Velocidad crucero de robot max 255
 
 
@@ -15,18 +15,26 @@ int LEDS = 13;
 #define s1 6  // Sensor Selection pins.
 #define s2 7  // Sensor Selection pins.
 #define s3 8  // Sensor Selection pins.
-int OM = A8; // Sensor Selection pins.
+#define OM A2 // Sensor Selection pins.
 int led = 13;  // Led default de Arduino
 
-int pini = A2;
-int pwmi = 11;
-int pind = 10;
-int pwmd = 9;
+int pini = 0;//cambie 9 * 10 para direccion
+int pwmi = 0;//cambie 5*11 con el objetivo de usar el mismo timmer para el pwm 
+int pind = 0;//cambie 6 * 9
+int pwmd = 0;//cambie 5 * 3 
+//int pini = 11;
+//int pwmi = 12;
+//int pind = 10;
+//int pwmd = A2;
+//int pini = 9;
+//int pwmi = 5;
+//int pind = 6;
+//int pwmd = 3;
 
-int go = A3;  // Puerto donde se conecta el arrancador ( si el modulo no esta conectado, debe ponerse una resistencia pull-down)
-//int rdy = 12;
-int boton_izq = A3;  // boton izquierdo
-//int boton_der = 7;  // boton derecho
+int go = 0;  // Puerto donde se conecta el arrancador ( si el modulo no esta conectado, debe ponerse una resistencia pull-down)
+int rdy = 0;
+int boton_izq = 0;  // boton izquierdo
+int boton_der = 0;  // boton derecho
 bool valor7 = false, valor4 = false, valorgo = false, valorrdy = false;
 uint16_t sensores[16];
 
@@ -35,7 +43,7 @@ void setup() {
   Serial.begin(115200);  // opens serial port, sets data rate to 9600 bps
   pinMode(LEDS, OUTPUT);
  // fan.attach(6);
-  fan.writeMicroseconds(0);
+  //fan.writeMicroseconds(1000);
   pinMode(s0, OUTPUT);
   pinMode(s1, OUTPUT);
   pinMode(s2, OUTPUT);
@@ -43,12 +51,13 @@ void setup() {
   pinMode(OM, INPUT);
   pinMode(go, INPUT);
   pinMode(boton_izq, INPUT);
-  //pinMode(boton_der, INPUT);
-  //pinMode(rdy, INPUT);
+  pinMode(boton_der, INPUT);
+  pinMode(rdy, INPUT);
   pinMode(pini, OUTPUT);
   pinMode(pwmi, OUTPUT);
   pinMode(pind, OUTPUT);
   pinMode(pwmd, OUTPUT);
+
 }
 
 void loop() {
@@ -63,7 +72,7 @@ void loop() {
   botones();
   lectura();
   Serial.print((String) sensores[0]+"A"+sensores[1]+"B"+sensores[2]+"C" + sensores[3]+"D"+sensores[4]+"E"+sensores[5]+"F"+sensores[6]+"G"+sensores[7]+"H"+sensores[8]+"I" +sensores[9]+"J"+sensores[10]+"K"+sensores[11]+"L" +sensores[12]+"M"+sensores[13]+"N" +sensores[14]+"O"+sensores[15]+"P"+ valor7+"Q"+ valor4+"R"+ valorrdy+"S"+valorgo+"T"+ velocidadfan+"U"  "\n");
- fan.writeMicroseconds(velocidadfan);
+ //fan.writeMicroseconds(velocidadfan);
   switch (c)
 
   {
@@ -101,13 +110,13 @@ void loop() {
       
       break;
       case'7':
-      fan.writeMicroseconds(0);
+      //fan.writeMicroseconds(0);
      
       break;
       case'8':
-      fan.writeMicroseconds(2000);
+      //fan.writeMicroseconds(2000);
        delay(2000);
-       fan.writeMicroseconds(1000);
+       //fan.writeMicroseconds(1000);
        delay(5000);
       break;
 
@@ -230,8 +239,8 @@ void lectura() {
 
 
 void botones() {
- // valor7 = digitalRead(boton_der);
+  valor7 = digitalRead(boton_der);
   valor4 = digitalRead(boton_izq);
-  //valorrdy = digitalRead(rdy);
+  valorrdy = digitalRead(rdy);
   valorgo = digitalRead(go);
 }

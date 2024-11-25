@@ -11,14 +11,20 @@ int pinSensor1 = 27;
 int pinSensor2 = 13;
 int pinSensor3 = 12;
 int pinBuzzer = 2;  // Pin del buzzer
-bool buzzerEN=1;
+bool buzzerEN = 1;
+bool rotacion = 0;
+bool color = 0;
+bool logica = 0;
 int interval = 100;
 Adafruit_SH1106 myOLED(21, 22);
 unsigned long tiempoInicio = 0;
 unsigned long tiempoAnterior = 0;
 static int contadorVueltas = 0;
 bool condicionCumplida = false;  // Variable de bandera para controlar la ejecución
-int rssi ;
+unsigned long previousMillis = 0;
+unsigned long currentMillis = millis();
+int rssi;
+int velocidad = 0;
 
 String listo = "";
 String INTERVAL = "";
@@ -94,15 +100,15 @@ const unsigned char barreraLOGOBPM[] PROGMEM = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
-const unsigned char btimages [] PROGMEM = {
-0xff, 0xff, 0xf3, 0xff, 0xff, 0x80, 0xff, 0xff, 0xf1, 0xff, 0xff, 0x80, 0xff, 0xff, 0xf0, 0xff, 
-	0xff, 0x80, 0xff, 0xff, 0xf2, 0x7f, 0xff, 0x80, 0xff, 0xff, 0xf2, 0x3f, 0xff, 0x80, 0xff, 0xfe, 
-	0x73, 0x3f, 0xff, 0x80, 0xff, 0xff, 0x33, 0x3f, 0xff, 0x80, 0xff, 0xff, 0x92, 0x7f, 0xff, 0x80, 
-	0xff, 0xff, 0xc0, 0xff, 0xff, 0x80, 0xff, 0xff, 0xe1, 0xff, 0xff, 0x80, 0xff, 0xff, 0xe3, 0xff, 
-	0xff, 0x80, 0xff, 0xff, 0xe1, 0xff, 0xff, 0x80, 0xff, 0xff, 0xc0, 0xff, 0xff, 0x80, 0xff, 0xff, 
-	0x92, 0x7f, 0xff, 0x80, 0xff, 0xff, 0x33, 0x3f, 0xff, 0x80, 0xff, 0xfe, 0x73, 0x3f, 0xff, 0x80, 
-	0xff, 0xff, 0xf3, 0x3f, 0xff, 0x80, 0xff, 0xff, 0xf2, 0x7f, 0xff, 0x80, 0xff, 0xff, 0xf0, 0xff, 
-	0xff, 0x80, 0xff, 0xff, 0xf1, 0xff, 0xff, 0x80, 0xff, 0xff, 0xf3, 0xff, 0xff, 0x80
+const unsigned char btimages[] PROGMEM = {
+  0xff, 0xff, 0xf3, 0xff, 0xff, 0x80, 0xff, 0xff, 0xf1, 0xff, 0xff, 0x80, 0xff, 0xff, 0xf0, 0xff,
+  0xff, 0x80, 0xff, 0xff, 0xf2, 0x7f, 0xff, 0x80, 0xff, 0xff, 0xf2, 0x3f, 0xff, 0x80, 0xff, 0xfe,
+  0x73, 0x3f, 0xff, 0x80, 0xff, 0xff, 0x33, 0x3f, 0xff, 0x80, 0xff, 0xff, 0x92, 0x7f, 0xff, 0x80,
+  0xff, 0xff, 0xc0, 0xff, 0xff, 0x80, 0xff, 0xff, 0xe1, 0xff, 0xff, 0x80, 0xff, 0xff, 0xe3, 0xff,
+  0xff, 0x80, 0xff, 0xff, 0xe1, 0xff, 0xff, 0x80, 0xff, 0xff, 0xc0, 0xff, 0xff, 0x80, 0xff, 0xff,
+  0x92, 0x7f, 0xff, 0x80, 0xff, 0xff, 0x33, 0x3f, 0xff, 0x80, 0xff, 0xfe, 0x73, 0x3f, 0xff, 0x80,
+  0xff, 0xff, 0xf3, 0x3f, 0xff, 0x80, 0xff, 0xff, 0xf2, 0x7f, 0xff, 0x80, 0xff, 0xff, 0xf0, 0xff,
+  0xff, 0x80, 0xff, 0xff, 0xf1, 0xff, 0xff, 0x80, 0xff, 0xff, 0xf3, 0xff, 0xff, 0x80
 };
 // Array of all bitmaps for convenience. (Total bytes used to store images in PROGMEM = 1040)
 const int barreraallArray_LEN = 1;
@@ -111,187 +117,476 @@ const unsigned char* barreraallArray[1] = {
 };
 const int btallArray_LEN = 1;
 const unsigned char* btallArray[1] = {
-	btimages
+  btimages
 };
 
+String limpiarString(String str) {
+  String resultado = "";
 
+  for (int i = 0; i < str.length(); i++) {
+    char c = str.charAt(i);
+    if (isPrintable(c)) {  // Verifica si el carácter es imprimible
+      resultado += c;      // Agrega el carácter a la cadena resultado
+    }
+  }
+
+  return resultado;  // Retorna la cadena limpia
+}
 
 void setup() {
   EEPROM.begin(200);
   EEPROM.get(0, buzzerEN);
   EEPROM.get(5, interval);
-   EEPROM.get(10,pinSensor);
+  EEPROM.get(10, pinSensor);
+  EEPROM.get(15, color);
+  EEPROM.get(20, rotacion);
+  EEPROM.get(25, logica);
+
+  if (rotacion == 1) {
+    myOLED.setRotation(2);  // Rota el texto 180 grados
+  } else {
+    myOLED.setRotation(0);  // Rotación normal (0 grados)
+  }
+
+  // Condición para invertir la pantalla según el valor de 'color'
+
   myOLED.begin(SH1106_SWITCHCAPVCC, 0x3C);
   BT.begin("CRBarreraINO");
   myOLED.setTextColor(WHITE);
   myOLED.setTextSize(1);
   Serial.begin(115200);
-  pinMode(pinSensor, INPUT);
-  pinMode(pinSensor1, INPUT);
-  pinMode(pinSensor2, INPUT);
-  pinMode(pinSensor3, INPUT);
+  pinMode(pinSensor, INPUT_PULLDOWN);
+  pinMode(pinSensor1, INPUT_PULLDOWN);
+  pinMode(pinSensor2, INPUT_PULLDOWN);
+  pinMode(pinSensor3, INPUT_PULLDOWN);
 
   pinMode(pinBuzzer, OUTPUT);
   // Configurar el pin del buzzer como salida
   digitalWrite(pinBuzzer, LOW);
-  myOLED.drawBitmap(0, 0, barreraLOGOBPM, 128, 64,WHITE, BLACK);
+  myOLED.drawBitmap(0, 0, barreraLOGOBPM, 128, 64, WHITE, BLACK);
   myOLED.display();
   delay(1000);
   myOLED.setCursor(22, 50);  // Ajusta la posición vertical
   myOLED.print("ESTOY LISTO!!!");
+  if (color == 1) {
+    myOLED.invertDisplay(true);  // Invierte la pantalla
+    myOLED.display();
+  } else {
+    myOLED.invertDisplay(false);  // Pantalla normal (sin invertir)
+    myOLED.display();
+  }
+
   myOLED.display();
-// rssi=BT.getSignalStrength();
-
-
-  while(digitalRead(pinSensor)==LOW){
-    
-  if (condicionCumplida==false) {  // Si la condición no se ha cumplido aún
-if(BT.connected()){myOLED.drawBitmap(100, 0,btimages, 41, 21,BLACK,WHITE); myOLED.display();condicionCumplida = true;}}
-
-  if (condicionCumplida==true) {  // Si la condición no se ha cumplido aún
-if(!BT.connected()){myOLED.drawBitmap(100, 0,btimages, 41, 21,BLACK,BLACK); myOLED.display();condicionCumplida = false;}}
+  // rssi=BT.getSignalStrength();
 
 
 
-  if (BT.available()) {
-    //BT.print("waiting..");
-  
-  myOLED.display();
-    String data = BT.readStringUntil('\n');
-    int conteo = data.length();
-    data.remove(conteo - 1, 1);
-    data.remove(0, 0);
-    Serial.println(data);
 
-    if (data == "show"||data == "help"||data == "ayuda") {
-      BT.println("espere...");
-      BT.print("BUZZER:"); BT.println(buzzerEN);
-       BT.print("INTERVAL:");BT.println(interval);
-       BT.print("SENSOR:");BT.println(pinSensor);
-    } else
 
-      if (data == "interval" || data == "INTERVAL") {
-      BT.print("WRITE INTERVAL:");
-      while (true) {
-        if (BT.available()) {
+  while (true) {
 
-   String data = BT.readStringUntil('\n');
-    int conteo = data.length();
-    data.remove(conteo - 1, 1);
-    data.remove(0, 0);
-    Serial.println(data);
-      int temp = data.toInt(); 
-          EEPROM.put(5,temp);
-          EEPROM.commit();
+    if (condicionCumplida == false) {  // Si la condición no se ha cumplido aún
+      if (BT.connected()) {
+        myOLED.drawBitmap(100, 0, btimages, 41, 21, BLACK, WHITE);
+        myOLED.display();
+        delay(1000);
 
-          BT.print("INTERVAL changed to:");
-          EEPROM.get(5, interval);
-          BT.print(interval);
-          break;
-        }
+        condicionCumplida = true;
       }
-    }  //data if
-
-
-    else
-
-      if (data == "sensor" || data == "SENSOR") {
-      BT.print("WRITE MAIN SENSOR:");
-      while (true) {
-        if (BT.available()) {
-
-   String data = BT.readStringUntil('\n');
-    int conteo = data.length();
-    data.remove(conteo - 1, 1);
-    data.remove(0, 0);
-    Serial.println(data);
-      int temp = data.toInt(); 
-          EEPROM.put(10,temp);
-          EEPROM.commit();
-
-          BT.print("SENSOR changed to:");
-          EEPROM.get(10,pinSensor);
-          BT.print(pinSensor);
-          break;
-        }
-      }
-    }  //data if
-
-    else
-
-      if (data == "buzzer" || data == "BUZZER") {
-      BT.print("ENABLE BUZZER:");
-      while (true) {
-        if (BT.available()) {
-
-   String data = BT.readStringUntil('\n');
-    int conteo = data.length();
-    data.remove(conteo - 1, 1);
-    data.remove(0, 0);
-    Serial.println(data);
-      int temp = data.toInt(); 
-      if (temp == 0 || temp == 1) {
-  // La condición se cumple cuando miValor es igual a 0 o 1
-          EEPROM.put(0,temp);
-          EEPROM.commit();
-          BT.print("buzzer changed to:");
-          EEPROM.get(0,buzzerEN);
-          BT.print(buzzerEN);
-          if (buzzerEN ==1){BT.println("ENABLE");}else BT.println("DISABLE");
-          break;
-} else {
-  // La condición no se cumple cuando miValor es diferente de 0 y 1
-  BT.print("value must be 0 or 1");
-}
-         
-        }
-      }
-    } 
-
-
-    else
-
-      if (data == "reset") {
-      BT.print("reset...");
-      ESP.restart();
     }
 
-    else
+    if (condicionCumplida == true) {  // Si la condición no se ha cumplido aún
+      if (!BT.connected()) {
+        myOLED.drawBitmap(100, 0, btimages, 41, 21, BLACK, BLACK);
+        myOLED.display();
+        delay(1000);
+        condicionCumplida = false;
+      }
+    }
 
-      if (data == "help") {
+    if (digitalRead(pinSensor) == HIGH) {
+      break;
+    }
+
+
+
+    if (BT.available()) {
+      //BT.print("waiting..");
+
+      myOLED.display();
+      String data = BT.readStringUntil('\n');
+
+      data = limpiarString(data);  // Llamar a la función para limpiar el string
+
+      Serial.println(data);
+      BT.print("comando:");
+      BT.println(data);
+      if (data == "show" || data == "mostrar" || data == "variables") {
+
+        BT.print("BUZZER:");
+        BT.println(buzzerEN);
+        BT.print("INTERVAL:");
+        BT.println(interval);
+        BT.print("SENSOR:");
+        BT.println(pinSensor);
+        BT.print("color:");
+        BT.println(color);
+        BT.print("rotacion:");
+        BT.println(rotacion);
+        BT.print("logica:");
+        BT.println(logica);
+      } else
+
+        if (data == "interval" || data == "INTERVAL") {
+        BT.print("comando:");
+        BT.println(data);
+        BT.print("WRITE INTERVAL:");
+        while (true) {
+          if (BT.available()) {
+
+            String data = BT.readStringUntil('\n');
+            data = limpiarString(data);  // Llamar a la función para limpiar el string
+
+            Serial.println(data);
+            int temp = data.toInt();
+            EEPROM.put(5, temp);
+            EEPROM.commit();
+
+            BT.print("INTERVAL cambiado a:");
+            EEPROM.get(5, interval);
+            BT.print(interval);
+            break;
+          }
+        }
+      }  //data if
+
+
+      else
+
+        if (data == "sensor" || data == "SENSOR") {
+        BT.print("comando:");
+        BT.println(data);
+        BT.print("WRITE MAIN SENSOR:");
+        while (true) {
+          if (BT.available()) {
+
+            String data = BT.readStringUntil('\n');
+            data = limpiarString(data);  // Llamar a la función para limpiar el string
+
+            Serial.println(data);
+            int temp = data.toInt();
+
+            if (temp == 12 || temp == 13 || temp == 14 || temp == 27) {
+              EEPROM.put(10, temp);
+              EEPROM.commit();
+
+              BT.print("SENSOR cambiado a:");
+              EEPROM.get(10, pinSensor);
+              BT.print(pinSensor);
+              break;
+            } else {
+              // La condición no se cumple cuando temp es diferente de 0 y 1
+              BT.print("deber ser  12 o 13 o 14 o 27");
+            }
+          }
+        }
+      }  //data if
+
+      else
+
+        if (data == "buzzer" || data == "BUZZER") {
+        BT.print("comando:");
+        BT.println(data);
+        BT.print("ENABLE BUZZER:");
+        while (true) {
+          if (BT.available()) {
+
+            String data = BT.readStringUntil('\n');
+            data = limpiarString(data);  // Llamar a la función para limpiar el string
+
+            Serial.println(data);
+            int temp = data.toInt();
+            if (temp == 0 || temp == 1) {
+              // La condición se cumple cuando miValor es igual a 0 o 1
+              EEPROM.put(0, temp);
+              EEPROM.commit();
+              BT.print("buzzer cambiado a:");
+              EEPROM.get(0, buzzerEN);
+              BT.print(buzzerEN);
+              if (buzzerEN == 1) {
+                BT.println("ENABLE");
+              } else BT.println("DISABLE");
+              break;
+            } else {
+              // La condición no se cumple cuando miValor es diferente de 0 y 1
+              BT.print("deber ser  0 or 1");
+            }
+          }
+        }
+      } else if (data == "color" || data == "COLOR") {
+        BT.print("comando:");
+        BT.println(data);
+        BT.print("Elija color:");
+        while (true) {
+          if (BT.available()) {
+            String data = BT.readStringUntil('\n');
+            data = limpiarString(data);  // Llamar a la función para limpiar el string
+
+            Serial.println(data);
+
+            int temp = data.toInt();
+            if (temp == 0 || temp == 1) {
+              // La condición se cumple cuando temp es igual a 0 o 1
+              EEPROM.put(15, temp);
+              EEPROM.commit();
+              BT.print("color cambiado a:");
+
+              EEPROM.get(15, color);
+              BT.print(color);
+              if (color == 1) {
+                BT.println(" fondo blanco");
+              } else {
+                BT.println(" fondo negro ");
+              }
+              break;
+            } else {
+              // La condición no se cumple cuando temp es diferente de 0 y 1
+              BT.print("deber ser  0 or 1");
+            }
+          }
+        }
+      }
+
+      else if (data == "rotacion" || data == "ROTACION") {
+        BT.print("comando:");
+        BT.println(data);
+        BT.print("SET ROTACION (1 = 0°, 0 = 180° ):");
+        while (true) {
+          if (BT.available()) {
+            String data = BT.readStringUntil('\n');
+            data = limpiarString(data);  // Llamar a la función para limpiar el string
+
+            Serial.println(data);
+
+            int temp = data.toInt();
+            if (temp == 0 || temp == 1) {
+              // La condición se cumple cuando temp es igual a 0 o 1
+              EEPROM.put(20, temp);
+              EEPROM.commit();
+              BT.print("rotacion cambiado a:");
+
+              EEPROM.get(20, rotacion);
+              BT.print(rotacion);
+
+              if (rotacion == 1) {
+                BT.println(" 0 degrees (0°)");
+              } else {
+                BT.println(" 180 degrees (180°)");
+              }
+              break;
+            } else {
+              // La condición no se cumple cuando temp es diferente de 0 y 1
+              BT.print("deber ser  0 or 1");
+            }
+          }
+        }
+      }
+
+
+      else
+
+        if (data == "reset") {
+        BT.print("reset...");
+        ESP.restart();
+      }
+
+      else
+
+        if (data == "help" || data == "ayuda") {
         BT.println("commands for change");
-      BT.println("buzzer= 1 o 0");
-      BT.println("sensors= (1 to 4)");
-      BT.println("interval= (50 to 1000)ms");
+
+        BT.println("buzzer= 1 o 0");
+        BT.println("sensors= (1 a4)");
+        BT.println("interval= (50 a 1000)ms");
+        BT.println("rotacion= 1 o 0");
+        BT.println("color= (1 o 0)");
+
+        BT.println("Logica= (1 o 0)");
+      }
+
+
+
+      else if (data == "logica" || data == "LOGICA") {
+              BT.print("comando:");
+              BT.println(data);
+              BT.print("Logica de sensor:");
+              while (true) {
+                if (BT.available()) {
+
+                  String data = BT.readStringUntil('\n');
+                  data = limpiarString(data);  // Llamar a la función para limpiar el string
+
+                  Serial.println(data);
+                  int temp = data.toInt();
+                  if (temp == 0 || temp == 1) {
+                    // La condición se cumple cuando miValor es igual a 0 o 1
+                    EEPROM.put(25, temp);
+                    EEPROM.commit();
+                    BT.print("logica cambiada a:");
+                    EEPROM.get(25, logica);
+                    BT.print(logica);
+                    if (logica == 1) {
+                      BT.println("HIGH");
+                    } else BT.println("LOW");
+                    break;
+                  } else {
+                    // La condición no se cumple cuando miValor es diferente de 0 y 1
+                    BT.print("deber ser  0 or 1");
+                  }
+                }
+              }
+            }
+
+      else
+
+        if (data == "ok" || data == "save") {
+        BT.println("brake and exit");
+        break;
+      }
+
+      if (data == "guardar") {
+
+
+        while (true) {
+          if (BT.available()) {
+
+            String data = BT.readStringUntil('\n');
+            data = limpiarString(data);  // Llamar a la función para limpiar el string
+            BT.println(data);
+            Serial.println(data);
+
+            char inputBuffer[data.length() + 1];  // +1 para el carácter nulo
+            data.toCharArray(inputBuffer, data.length() + 1);
+
+            char* token = strtok(inputBuffer, ",");
+
+            if (token != NULL) {
+              pinSensor = atoi(token);  // Convertir el token a entero (ejemplo)
+              int temp = pinSensor;
+
+              if (temp == 12 || temp == 13 || temp == 14 || temp == 27) {
+                EEPROM.put(10, temp);
+                EEPROM.commit();
+                EEPROM.get(10, pinSensor);
+
+
+              } else {
+                BT.print("dato invalido");
+              }
+            }
+
+
+            
+
+            // Obtener el siguiente token
+            token = strtok(NULL, ",");
+
+            if (token != NULL) {
+              buzzerEN = atoi(token);  // Convertir el token a entero (ejemplo)
+              int temp = buzzerEN;
+              if (temp == 0 || temp == 1) {
+                // La condición se cumple cuando miValor es igual a 0 o 1
+                EEPROM.put(0, temp);
+                EEPROM.commit();
+
+              } else {
+                // La condición no se cumple cuando miValor es diferente de 0 y 1
+                BT.print("dato invalido");
+              }
+            }
+            token = strtok(NULL, ",");
+
+            if (token != NULL) {
+              interval = atoi(token);
+
+              EEPROM.put(5, interval);
+              EEPROM.commit();
+            }
+
+            token = strtok(NULL, ",");
+
+            if (token != NULL) {
+              color = atoi(token);  // Convertir el token a entero (ejemplo)
+              int temp = color;
+              if (temp == 0 || temp == 1) {
+                // La condición se cumple cuando temp es igual a 0 o 1
+                EEPROM.put(15, temp);
+                EEPROM.commit();
+
+              } else {
+                // La condición no se cumple cuando temp es diferente de 0 y 1
+                BT.print("dato invalido");
+              }
+            }
+
+            token = strtok(NULL, ",");
+
+            if (token != NULL) {
+              rotacion = atoi(token);  // Convertir el token a entero (ejemplo)
+              int temp = rotacion;
+              if (temp == 0 || temp == 1) {
+                // La condición se cumple cuando temp es igual a 0 o 1
+                EEPROM.put(20, temp);
+                EEPROM.commit();
+              } else {
+                // La condición no se cumple cuando temp es diferente de 0 y 1
+                BT.print("dato invalido");
+              }
+            }
+
+            Serial.println("Datos guardados en EEPROM.");
+            BT.println("guardando..");
+            break;
+          }
+        }
+      }
+
+      if (data == "leer") {
+        BT.print("datos:,");
+        EEPROM.begin(200);
+        EEPROM.get(0, buzzerEN);
+        EEPROM.get(5, interval);
+        EEPROM.get(10, pinSensor);
+        EEPROM.get(15, color);
+        EEPROM.get(20, rotacion);
+        String result = String(pinSensor) + "," + String(buzzerEN) + "," + String(interval) + "," + String(color) + "," + String(rotacion);
+
+        // Imprimimos la cadena en el monitor serial
+        Serial.println(result);
+        BT.print(result);
+      }
+
+
+
+
+
+
+      //if bt available
     }
-
-    else
-
-      if (data == "ok" ||  data == "save" ) {
-         BT.println("brake and exit");
-       break;
-    }
-
-
-
-
-    //if bt available
   }
-  }
-
 }
 
 
 void loop() {
   int estadoSensor = digitalRead(pinSensor);
-  if (estadoSensor == LOW && tiempoInicio == 0) {
+  if (estadoSensor == !logica && tiempoInicio == 0) {
     tiempoInicio = millis();
     myOLED.clearDisplay();  // Borra la pantalla OLED después de 5 vueltas
-    delay(interval);             // Pequeño retardo para estabilidad
+    delay(interval);        // Pequeño retardo para estabilidad
   }
 
-  if (estadoSensor == HIGH && tiempoInicio != 0) {
-   delay(interval);
+  if (estadoSensor == logica && tiempoInicio != 0) {
+    delay(interval);
     tiempoAnterior = tiempoInicio;
     tiempoInicio = millis();
     unsigned long tiempoVuelta = tiempoInicio - tiempoAnterior;
