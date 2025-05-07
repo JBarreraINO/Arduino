@@ -16,7 +16,7 @@ int derecho = 23;
 int izquierdo = 16;
 int Dderecho = 19;    // Sensor diagonal derecho
 int Dizquierdo = 17;  // Sensor diagonal izquierdo
-
+int Desplegar=0;
 // Sensores de piso
 int piso1 = 25;
 int piso2 = 15;
@@ -27,10 +27,10 @@ int MOTOR1_IN2 = 26;  // PWM izquierdo
 int MOTOR2_IN1 = 32;  // PWM derecho
 int MOTOR2_IN2 = 33;  // PWM derecho
 #define VELOCIDAD_ATAQUE 1000
-#define VELOCIDAD_AVANCE  500
+#define VELOCIDAD_AVANCE 500
 #define VELOCIDAD_BUSQUEDA 700
 #define VELOCIDAD_LENTA 170
-#define  VELOCIDAD_BUSQUEDALENTA 300
+#define VELOCIDAD_BUSQUEDALENTA 450
 
 
 
@@ -55,6 +55,7 @@ const int velMIN = 0;
 int dsw;
 int opnente_det;
 int bandera_inicio;
+int bandera_estretegia=0;
 int timeout_str;
 int control_md, control_mi;
 const int sens = 12;
@@ -103,18 +104,22 @@ void setup() {
   pinMode(piso1, INPUT);
   pinMode(piso2, INPUT);
   pinMode(MODULOSTART, INPUT);
-  
+
   pinMode(LED1, OUTPUT);
-
-
   pinMode(DIPSW2, INPUT);
   pinMode(DIPSW3, INPUT);
   pinMode(DIPSW4, INPUT);
   // Inicializar motores apagados
   controlarMotores(0, 0);
-myOLED.clrScr();
+  myOLED.clrScr();
   int Analogpw = digitalRead(MODULOSTART);
   while (Analogpw == LOW) {
+
+       if (Analogpw == HIGH) {
+      calibrar();
+      myOLED.clrScr();
+      break;
+    }
     myOLED.clrScr();
     lectura();
     myOLED.setFont(TinyFont);
@@ -143,9 +148,8 @@ myOLED.clrScr();
     switch (dsw) {
       case 0:
         {  //ESPERAR DE FRENTE --1 3 4 OFF
-          control_md = 200;
-          control_mi = 220;
-          timeout_str = 1000;
+   
+          timeout_str = 200;
           opnente_det = 110;  //OPONENETE A IZQUIERDA
           myOLED.print("esperar de frente", LEFT, 32);
           myOLED.print("1 3 4 OFF", CENTER, 40);
@@ -156,10 +160,11 @@ myOLED.clrScr();
         }
       case 1:
         {  //OPOENTE DE DERECHA DIAGONAL --2 ON 3 4 OFF
-          control_mi = VELOCIDAD_BUSQUEDA * 2 / 4;
-          control_md = VELOCIDAD_BUSQUEDA;
-          timeout_str = 300;
+          control_mi = VELOCIDAD_ATAQUE / 2;
+          control_md = VELOCIDAD_ATAQUE ;
+          timeout_str = 500;
           opnente_det = 1;  //OPONENETE A DERECHA
+   
           myOLED.print("OP de derecha diagonal", CENTER, 32);
           myOLED.print("1 ON 3 4 OFF", CENTER, 40);
           break;
@@ -168,7 +173,7 @@ myOLED.clrScr();
         {  //OPOENTE DE ATRAS CENTRO DE PISTA - GIRO DE UNA --2 OFF 3ON 4 OFF
           control_md = VELOCIDAD_BUSQUEDA;
           control_mi = -VELOCIDAD_BUSQUEDA;
-          timeout_str = 300;
+          timeout_str = 200;
           opnente_det = 1000;  //OPONENETE A IZQUIERDA
           myOLED.print("OP de espalda GIRO D1", CENTER, 32);
           myOLED.print("1 OFF 3 ON 4 OFF", CENTER, 40);
@@ -178,7 +183,7 @@ myOLED.clrScr();
         {  //OPOENTE DE DERECHA GIRO COMPLETO --2 ON 3ON 4 OFF
           control_md = VELOCIDAD_BUSQUEDA;
           control_mi = -VELOCIDAD_BUSQUEDA;
-          timeout_str = 200;
+          timeout_str = 100;
           opnente_det = 1;  //OPONENETE A DERECHA
           myOLED.print("OP de derecha giro 180°", CENTER, 32);
           myOLED.print("1 ON 3 ON 4 OFF", CENTER, 40);
@@ -188,8 +193,8 @@ myOLED.clrScr();
         {
           //OPOENTE DE IZQUIERDA DIAGONAL --2 OFF 3 OFF 4 ON
           control_mi = VELOCIDAD_BUSQUEDA;
-          control_md = VELOCIDAD_BUSQUEDA * 3 / 4;
-          timeout_str = 200;
+          control_md = VELOCIDAD_BUSQUEDA /2;
+          timeout_str = 500;
           opnente_det = 100;  //OPONENETE A IZQUIERDA
           myOLED.print("OP de izquierda diagonal ", CENTER, 32);
           myOLED.print("1 OFF 3 OFF 4 ON", CENTER, 40);
@@ -209,7 +214,7 @@ myOLED.clrScr();
         {  //OPOENTE DE IZQUIERDA GIRO TOTAL --2 OFF 3 ON 4 ON
           control_md = -VELOCIDAD_BUSQUEDA;
           control_mi = VELOCIDAD_BUSQUEDA;
-          timeout_str = 200;
+          timeout_str = 100;
           opnente_det = 1000;  //OPONENETE A IZQUIERDA
           myOLED.print("OP de izquierda giro 180° ", CENTER, 32);
           myOLED.print("1 OFF 3 ON 4 ON", CENTER, 40);
@@ -217,9 +222,9 @@ myOLED.clrScr();
         }
       case 7:
         {  //OPONENTE ATRAS EN BORDE DE PISTA MINISUMO--2 3 4 ON
-          control_md = -VELOCIDAD_BUSQUEDA;
-          control_mi = -VELOCIDAD_BUSQUEDA;
-          timeout_str = 400;
+          control_md = VELOCIDAD_BUSQUEDA;
+          control_mi = VELOCIDAD_BUSQUEDA/2;
+          timeout_str = 500;
           opnente_det = 1000;  //OPONENETE A IZQUIERDA
           myOLED.print("OP atras en borde de pista ", CENTER, 32);
           myOLED.print("1 3 4 ON", CENTER, 40);
@@ -238,95 +243,74 @@ myOLED.clrScr();
     Analogpw = digitalRead(MODULOSTART);
     myOLED.print("Esperando go...", CENTER, 56);
     myOLED.update();
-    if (Analogpw == HIGH) {
-      calibrar();
-      myOLED.clrScr();
-    }
+ 
   }
 }
 void ejecutarEstrategia() {
   static unsigned long tiempo_inicio = millis();
   unsigned long tiempo_actual = millis();
-static unsigned long tiempoInicio = millis();   // Marca el inicio del ciclo
-static unsigned long tiempoAnterior = tiempoInicio; // Tiempo de la última fase
-unsigned long tiempoVuelta = 0;                 // Tiempo transcurrido en esta vuelta
-static bool avanzando = true;                  // Indica si está avanzando o retrocediendo
-tiempoInicio = millis();
-tiempoVuelta = tiempoInicio - tiempoAnterior;
 
   estrategiaSeleccionada = leer_dipsw();
   switch (estrategiaSeleccionada) {
     case 0:  // Estrategia 1: Avanzar directamente
-if (tiempoVuelta >= timeout_str) {
-  tiempoAnterior = tiempoInicio;  // Actualiza el tiempo para la próxima fase
-  avanzando = !avanzando;         // Cambia de estado (avanzar/retroceder)
-} if (avanzando) {
-  AvanzarLento();  // Robot avanza hacia adelante
-} else {
-  controlarMotores(-VELOCIDAD_LENTA, -VELOCIDAD_LENTA);  // Robot retrocede
-}
-
+   MovDes();
       break;
 
-    case 1:  // Estrategia 2: Rotación completa
-      if (tiempo_actual - tiempo_inicio < 1000) {
-        Derecha();
-      } else {
-        controlarMotores(0, 0);
-        //estado_actual = SEARCH;
-      }
-            if (tiempo_actual - tiempo_inicio < 700) {
-        Avanzar();
-      } else if (tiempo_actual - tiempo_inicio < 1000) {
+    case 1:  // Estrategia :derecha diagonL
+
+      if (tiempo_actual - tiempo_inicio < timeout_str) {
+        controlarMotores(control_mi, control_md);
+      } else if (tiempo_actual - tiempo_inicio <timeout_str+200) {
         Izquierda();
-      } else if (tiempo_actual - tiempo_inicio < 1700) {
-        Avanzar();
+      } else if (tiempo_actual - tiempo_inicio < timeout_str+300) {
+        Atacar();
       } else {
+        
         controlarMotores(0, 0);
-        //estado_actual = SEARCH;
+       MovDes();
       }
       break;
 
-    case 2:  // Estrategia 3: Zigzag
+    case 2:  // oponeten de espaldas
 
-      if (tiempo_actual - tiempo_inicio < timeout_str/3) {
+      if (tiempo_actual - tiempo_inicio < timeout_str / 3) {
         Retroceder();
-      
-       
-      } else if (tiempo_actual - tiempo_inicio < timeout_str+timeout_str/2) {
+
+
+      } else if (tiempo_actual - tiempo_inicio < timeout_str + timeout_str / 3) {
         Izquierda();
 
-     
-      } else if (tiempo_actual - tiempo_inicio < timeout_str*2+timeout_str/2) {
-
-       
-        Avanzar();
+      } else if (tiempo_actual - tiempo_inicio < timeout_str * 2 + timeout_str / 3) {
+        AvanzarLento();
       } else {
         controlarMotores(0, 0);
-        //estado_actual = SEARCH;
+        MovDes();
       }
 
       break;
 
-    case 3:  // Estrategia 4: Giro inicial hacia la derecha
-      if (tiempo_actual - tiempo_inicio < 500) {
+    case 3:  //OP de derecha giro 180°
+      if (tiempo_actual - tiempo_inicio < timeout_str) {
+        Izquierda();
+      } else if (tiempo_actual - tiempo_inicio < timeout_str * 3) {
+        AvanzarLento();
+      } else {
+        controlarMotores(0, 0);
+        busquedaestrategica();
+      }
+      break;
+
+    case 4://izquierda diagonL
+    if (tiempo_actual - tiempo_inicio < timeout_str) {
+        controlarMotores(control_mi, control_md);
+      } else if (tiempo_actual - tiempo_inicio <timeout_str+200) {
         Derecha();
-      } else if (tiempo_actual - tiempo_inicio < 1500) {
-        Avanzar();
+      } else if (tiempo_actual - tiempo_inicio < timeout_str+300) {
+        Atacar();
       } else {
+        
         controlarMotores(0, 0);
-        //estado_actual = SEARCH;
-      }
-      break;
-
-    case 4:  
-      if (tiempo_actual - tiempo_inicio < 500) {
-        Izquierda();
-      } else if (tiempo_actual - tiempo_inicio < 1500) {
-        Avanzar();
-      } else {
-        controlarMotores(0, 0);
-        //estado_actual = SEARCH;
+       MovDes();
       }
       break;
 
@@ -341,29 +325,71 @@ if (tiempoVuelta >= timeout_str) {
       }
       break;
 
-    case 6:  // Estrategia 7: Movimiento aleatorio
-      if (tiempo_actual - tiempo_inicio < 200) {
-        Avanzar();
-      } else if (tiempo_actual - tiempo_inicio < 300) {
-        (random(0, 2) == 0) ? Izquierda() : Derecha();
-      } else {
-        controlarMotores(0, 0);
-        //estado_actual = SEARCH;
-      }
-      break;
+    case 6:
 
-    case 7:  // Estrategia 8: Búsqueda lenta y precisa
-      if (tiempo_actual - tiempo_inicio < 1000) {
+      if (tiempo_actual - tiempo_inicio < timeout_str) {
+        Derecha();
+      } else if (tiempo_actual - tiempo_inicio < timeout_str * 3) {
         AvanzarLento();
       } else {
         controlarMotores(0, 0);
-        //estado_actual = SEARCH;
+        busquedaestrategica();
       }
+
       break;
 
+    case 7:  // Rodear a partir de la espalda (sin delay)
+      static unsigned long tiempo_anterior = millis();
+      static int estado = 0; // Subestado para las fases
+
+      // Máquina de estados para la estrategia 7
+      switch (estado) {
+        case 0: // Retroceder
+          Retroceder();
+          if (tiempo_actual - tiempo_anterior >= 40) {
+            estado++;
+            tiempo_anterior = tiempo_actual;
+          }
+          break;
+        case 1: // Girar a la izquierda
+          Izquierda();
+          if (tiempo_actual - tiempo_anterior >= 100) {
+            estado++;
+            tiempo_anterior = tiempo_actual;
+          }
+          break;
+        case 2: // Controlar motores
+          controlarMotores(control_mi, control_md);
+          if (tiempo_actual - tiempo_anterior >= 500) {
+            estado++;
+            tiempo_anterior = tiempo_actual;
+          }
+          break;
+        case 3: // Girar a la izquierda nuevamente
+          Izquierda();
+          if (tiempo_actual - tiempo_anterior >= 100) {
+            estado++;
+            tiempo_anterior = tiempo_actual;
+          }
+          break;
+        case 4: // Atacar
+          Atacar();
+          if (tiempo_actual - tiempo_anterior >= 100) {
+            estado++;
+            tiempo_anterior = tiempo_actual;
+          }
+          break;
+        case 5: // Detener motores y finalizar
+          controlarMotores(0, 0);
+          MovDes(); // Llama a la próxima acción
+          estado = 0; // Reinicia el flujo
+          break;
+      }
+      break;
+      
     default:
-      controlarMotores(0, 0);
-     // estado_actual = SEARCH;
+      MovDes();
+      // estado_actual = SEARCH;
       break;
   }
 }
@@ -375,8 +401,8 @@ void loop() {
   //Serial.println(Analogpw);
   if (Analogpw == LOW) {
     controlarMotores(0, 0);
-    while (1);  //SE APAGA
- 
+    while (1)
+      ;  //SE APAGA
   }
 
   lectura();
@@ -413,20 +439,26 @@ void loop() {
 
 
   if (estado1x > sens && estado2x > sens)  //Los sensores de piso detectaron el borde
-  { Retroceder();   }                        //El robot debe retroceder
+  { 
+    Retroceder();
+    retornar();
+  
+  }                        //El robot debe retroceder
 
   else if (estado1x > sens)  //Los sensores de piso detectaron el borde
   {
-    RetrocederDerecha();
+  Retroceder();
+    retornar();
   }  //El robot debe retroceder
 
   else if (estado2x > sens)   //Los sensores de piso detectaron el borde
-  { RetrocederIzquierda(); }  //El robot debe retroceder
+  {  Retroceder();
+    retornar(); }  //El robot debe retroceder
 
 
   else if (digitalRead(frontal) == 1)  //El sensor frontal detecto al oponente (EL VALOR CAMBIA DEPENDEINDO DEL SENSOR EN MI CASO MI SENSOR TIENE VALOR DE 100 O MAYOR CUANDO DETECTA ALGO)
   {
-    Avanzar();
+    Atacar();
   }  //El robot debe avanzar y embestir al oponente y recordar el ultimo sensor que lo vio
 
   else if (digitalRead(derecho) == 1)  //El sensor derecho detecto al oponente
@@ -464,19 +496,22 @@ void loop() {
   } else if ((digitalRead(frontal) == 1) && (digitalRead(Dderecho) == 1) && (digitalRead(Dizquierdo) == 1)) {
     Atacar();
     ;
-  }
-  else if (ultimo_sensor== 0)  //El robot recuerda que vio al oponente con su sensor derecho
+  } else if (ultimo_sensor == 0)  //El robot recuerda que vio al oponente con su sensor derecho
   {
     DerechaLento();
-  } else if (ultimo_sensor== 1)  //El robot recuerda que vio al oponente con su sensor izquierdo
+  } else if (ultimo_sensor == 1)  //El robot recuerda que vio al oponente con su sensor izquierdo
   {
     IzquierdaLento();
   }
 
- //no sensores no piso 
+  //no sensores no piso
   else {
     {
-    ejecutarEstrategia();
+      ejecutarEstrategia();
+      if(bandera_estretegia==1){
+        busquedaestrategica();
+      }
+    
     }
   }
 }
@@ -509,15 +544,15 @@ void Retroceder() {
 }
 
 void RetrocederDerecha() {
-  controlarMotores(-VELOCIDAD_ATAQUE/2, -VELOCIDAD_ATAQUE);
+  controlarMotores(-VELOCIDAD_ATAQUE / 2, -VELOCIDAD_ATAQUE);
 }
 
 void RetrocederIzquierda() {
-  controlarMotores(-VELOCIDAD_ATAQUE, -VELOCIDAD_ATAQUE/2);
+  controlarMotores(-VELOCIDAD_ATAQUE, -VELOCIDAD_ATAQUE / 2);
 }
 
 void Derecha() {
-  controlarMotores(VELOCIDAD_BUSQUEDA , -VELOCIDAD_BUSQUEDA );
+  controlarMotores(VELOCIDAD_BUSQUEDA, -VELOCIDAD_BUSQUEDA);
 }
 
 void DerechaLento() {
@@ -525,82 +560,156 @@ void DerechaLento() {
 }
 
 void Izquierda() {
-  controlarMotores(-VELOCIDAD_BUSQUEDA , VELOCIDAD_BUSQUEDA);
+  controlarMotores(-VELOCIDAD_BUSQUEDA, VELOCIDAD_BUSQUEDA);
 }
 
 void IzquierdaLento() {
-  controlarMotores(-VELOCIDAD_BUSQUEDALENTA,VELOCIDAD_BUSQUEDALENTA);
+  controlarMotores(-VELOCIDAD_BUSQUEDALENTA, VELOCIDAD_BUSQUEDALENTA);
 }
 
 void Parar() {
   controlarMotores(0, 0);
 }
-void avanceconestrategia(){
-  controlarMotores( control_mi, control_md);
+void avanceconestrategia() {
+  controlarMotores(control_mi, control_md);
 }
 void AvanzarLento() {
   controlarMotores(VELOCIDAD_LENTA, VELOCIDAD_LENTA);
 }
-void calibrar() {
-  lectura();
-  //if (estado1 > maxs1) { maxs1 = estado1; }
-  if (estado1 > mins1) { mins1 = estado1; }
+void RetrocederLento() {
+  controlarMotores(-VELOCIDAD_LENTA, -VELOCIDAD_LENTA);
+}
+void MovDes() {
+  static unsigned long tiempoAnterior = millis(); // Tiempo de la última transición
+  static int avanzando = 0;                       // Estado actual (0: detener, 1: avanzar, 2: retroceder)
 
-  //if (estado2 > maxs2) { maxs2 = estado2; }
-  if (estado2 > mins2) { mins2 = estado2; }
+  unsigned long tiempoActual = millis();          // Tiempo actual
 
-  maxs1 = 255 + mins1;
-  maxs2 = 255 + mins2;
+  // Verifica si ha pasado el tiempo necesario para cambiar de estado
+  if (tiempoActual - tiempoAnterior >= timeout_str) {
+    tiempoAnterior = tiempoActual;  // Actualiza el tiempo de la última transición
+    avanzando++;                    // Cambia al siguiente estado
+
+    if (avanzando > 10) {            // Reinicia la secuencia después del último estado
+      avanzando = 0;
+    }
+  }
+
+  // Realiza la acción correspondiente al estado actual
+  if (avanzando == 1) {
+    AvanzarLento();                 // Robot avanza lentamente
+  } else if (avanzando == 2) {
+    controlarMotores(-VELOCIDAD_LENTA, -VELOCIDAD_LENTA); // Robot retrocede lentamente
+  } else if (avanzando == 3) {
+    controlarMotores(0, 0);         // Robot se detiene
+  }
+  
 }
 
-void lectura() {
-  estado1 = analogRead(piso1) / 16;
-  estado2 = analogRead(piso2) / 16;
+void busquedaestrategica() {
+  static unsigned long tiempoAnterior = millis(); // Tiempo de la última transición
+  static int avanzando = 0;                       // Estado actual (0: detener, 1: avanzar, 2: retroceder)
 
+  unsigned long tiempoActual = millis();          // Tiempo actual
 
+  // Verifica si ha pasado el tiempo necesario para cambiar de estado
+  if (tiempoActual - tiempoAnterior >= timeout_str) {
+    tiempoAnterior = tiempoActual;  // Actualiza el tiempo de la última transición
+    avanzando++;                    // Cambia al siguiente estado
 
-  // 2 para linea negre, el robot normalmente da maximo en blanco minimo en negro
-  if (line_data == 2) {
-
-    estado1 = abs(255 - estado1);
-    estado2 = abs(255 - estado2);
-  }
-}
-int leer_dipsw(void) {
-  int value;
-  int buttonState = digitalRead(DIPSW2);
-  Serial.print("  SW2 : ");
-  Serial.print(buttonState);
-  if (buttonState > 0) {
-    digitalWrite(LED1, LOW);
-    value = 0;
-  } else {
-    digitalWrite(LED1, HIGH);
-    value = 1;
+    if (avanzando > 8) {            // Reinicia la secuencia después del último estado
+      avanzando = 0;
+    }
   }
 
-  buttonState = digitalRead(DIPSW3);
-  Serial.print("  SW3 : ");
-  Serial.print(buttonState);
-  if (buttonState > 0) {
-
-  } else {
-
-    value = value + 2;
+  // Realiza la acción correspondiente al estado actual
+   if (avanzando == 1) {
+    AvanzarLento();  }               // Robot avanza lentamente
+ else if (avanzando == 2) {
+   IzquierdaLento();
   }
+   else if (avanzando == 3) {
+   DerechaLento();
+   }
+    else if (avanzando == 4) {
+   DerechaLento();
+   }
 
-  buttonState = digitalRead(DIPSW4);
-  Serial.print("  SW4 : ");
-  Serial.print(buttonState);
-  if (buttonState > 0) {
-    //digitalWrite(LED2, HIGH);
-  } else {
-    //digitalWrite(LED2, HIGH);
-    value = value + 4;
-  }
+    else if (avanzando == 5) {
+   IzquierdaLento();
+   }
 
-  return value;
+
+ 
 }
 
 
 
+void retornar(){
+
+    Izquierda();
+    delay(100);
+
+      
+}
+
+  void calibrar() {
+    lectura();
+    //if (estado1 > maxs1) { maxs1 = estado1; }
+    if (estado1 > mins1) { mins1 = estado1; }
+
+    //if (estado2 > maxs2) { maxs2 = estado2; }
+    if (estado2 > mins2) { mins2 = estado2; }
+
+    maxs1 = 255 + mins1;
+    maxs2 = 255 + mins2;
+  }
+
+  void lectura() {
+    estado1 = analogRead(piso1) / 16;
+    estado2 = analogRead(piso2) / 16;
+
+
+
+    // 2 para linea negre, el robot normalmente da maximo en blanco minimo en negro
+    if (line_data == 2) {
+
+      estado1 = abs(255 - estado1);
+      estado2 = abs(255 - estado2);
+    }
+  }
+  int leer_dipsw(void) {
+    int value;
+    int buttonState = digitalRead(DIPSW2);
+    Serial.print("  SW2 : ");
+    Serial.print(buttonState);
+    if (buttonState > 0) {
+      digitalWrite(LED1, LOW);
+      value = 0;
+    } else {
+      digitalWrite(LED1, HIGH);
+      value = 1;
+    }
+
+    buttonState = digitalRead(DIPSW3);
+    Serial.print("  SW3 : ");
+    Serial.print(buttonState);
+    if (buttonState > 0) {
+
+    } else {
+
+      value = value + 2;
+    }
+
+    buttonState = digitalRead(DIPSW4);
+    Serial.print("  SW4 : ");
+    Serial.print(buttonState);
+    if (buttonState > 0) {
+      //digitalWrite(LED2, HIGH);
+    } else {
+      //digitalWrite(LED2, HIGH);
+      value = value + 4;
+    }
+
+    return value;
+  }

@@ -38,8 +38,11 @@ void loop() {
     sensores[i] = analogRead(OM);
 
     // Print the sensor value
-    Serial.print(sensores[i]);
-    Serial.print("\t");
+    Serial.print("sensor");
+Serial.print(i);
+Serial.print(":");
+Serial.print(sensores[i]);
+Serial.print("\t");
   }
 
   // Print a new line after printing all sensor values

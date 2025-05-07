@@ -1,34 +1,58 @@
-const int irPin = 2;
+#include <IRremote.h>
+
+const int RECV_PIN = 2;  // Pin donde conectamos el receptor IR
+IRrecv irrecv(RECV_PIN);
+decode_results results;
+#define rojo 13
+#define verde 12
+#define azul 13
+
 
 void setup() {
-  
-  Serial.begin(115200);
-  pinMode(irPin, INPUT);
+    Serial.begin(9600);
+    irrecv.enableIRIn();  // Iniciar el receptor IR
+    Serial.println("Receptor IR listo...");
+
+    pinMode(verde,OUTPUT);
+    pinMode(rojo,OUTPUT);
+    pinMode(azul,OUTPUT);
+
+
 }
 
 void loop() {
-  int key = getIrKey();
-  
-  if(key != 0)
-    Serial.println(key);
-}
-
-int getIrKey(){
-  int len = pulseIn(irPin,LOW);
-  int key, temp;
-  key = 0;
-  //Serial.print("len=");
-  //Serial.println(len);
-  if(len > 500) {
-    for(int i=1;i<=32;i++){
-      temp = pulseIn(irPin,HIGH);
-      if(temp > 50)
-        key = key + (1<<(i-17));
+    if (irrecv.decode(&results)) {
+        Serial.print("Código recibido: ");
+        Serial.println(results.value, HEX);  // Imprimir código en hexadecimal
+        irrecv.resume();  // Recibir el siguiente código
     }
-  }
-  if(key < 0 )
-    key = -key;
 
-  delay(2);
-  return key;
+
+    if (results.value==0x19DF){
+digitalWrite(verde, HIGH);
+
+    }
+
+    
+    if (results.value==0x11DE){
+digitalWrite(verde, LOW);
+digitalWrite(rojo, HIGH);
+
+
+    }
+
+
+       if (results.value==0x12DE){
+digitalWrite(verde, LOW);
+digitalWrite(rojo, LOW);
+
+
+    }
+
+
+
+
+
+
+
 }
