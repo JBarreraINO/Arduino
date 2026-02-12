@@ -1,5 +1,5 @@
 
-#define s0 A0 // Sensor Selection pins.
+#define s0 5 // Sensor Selection pins.
 #define s1 A1
 #define s2 A2
 #define s3 A3
@@ -156,9 +156,9 @@ void loop() {
     Serial.print("s");
     Serial.print(i+1);Serial.print(":");
     Serial.print(value);
-    Serial.print("         ");
+    Serial.print(" ");
     
   }
-  delay(10);
+ 
   Serial.println(""); 
    }

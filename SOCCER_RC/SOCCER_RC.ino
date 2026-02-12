@@ -1,4 +1,3 @@
-
 #include <Bluepad32.h>
 
 
@@ -7,8 +6,8 @@ const int IN1_IZQUIERDA = 27;  // Pin de dirección IN1 para motor izquierdo DIR
 const int IN2_IZQUIERDA = 26;  // Pin de dirección IN2 para motor izquierdo PWM
 const int IN1_DERECHA = 32;    // Pin de dirección IN1 para motor derecho DIR
 const int IN2_DERECHA = 33;    // Pin de dirección IN2 para motor derecho PWM
-
-const int Olvidar = 13;
+const int Olvidar = 23;
+//const int Olvidar = 13;v1
 // propiedades PWM
 const int frecuencia = 5000;
 const int IN1_IZQ = 0;
@@ -48,6 +47,12 @@ ControllerPtr myControllers[BP32_MAX_CONTROLLERS];
 void setup() {
   // Initialize serial
   Serial.begin(115200);
+  while (!Serial) {
+    // wait for serial port to connect.
+    // You don't have to do this in your game. This is only for debugging
+    // purposes, so that you can see the output in the serial console.
+    ;
+  }
   pinMode(Olvidar, INPUT);
   pinMode(ledConected,OUTPUT);
   if (BitOff == true) {
@@ -104,11 +109,12 @@ void setup() {
   // Forgetting Bluetooth keys prevents "paired" gamepads to reconnect.
   // But might also fix some connection / re-connection issues.
   //  BP32.forgetBluetoothKeys();
+  /**/
   int buttonState = digitalRead(Olvidar);
-  if (buttonState == false) {
+  if (buttonState == true) {
 
-    BP32.forgetBluetoothKeys();
-    Serial.print("dispositivo olvidado");
+   // BP32.forgetBluetoothKeys();
+   // Serial.print("dispositivo olvidado");
   }
 }
 
@@ -171,23 +177,109 @@ void processGamepad(ControllerPtr gamepad) {
   valorBrake = applyDeadband(valorBrake, deadbandThreshold);
   valorAxisX = applyDeadband(valorAxisX, deadbandThreshold);
   //APLICO FILTRO
- 
+
  // int valorBrakeFiltrado = valorBrake;
   //valorThrottle= aplicarFiltro(valorThrottle, valorThrottleFiltrado, factorFiltro);
-     //valorAxisX =aplicarFiltro(valorAxisX, valorThrottleFiltradox, factorFiltroX);
-  
+  valorAxisX =aplicarFiltro(valorAxisX, valorThrottleFiltradox, factorFiltroX);
+
   //valorBrake= aplicarFiltro(valorBrake, valorBrakeFiltrado, factorFiltro);
 
 
   int MapBateria = map(bateria, 0, 255, 0, 100);
   int mapThrottle = map(valorThrottle, minThrottle, maxThrottle, MINpwm, MAXpwm);  // Rango ajustado a 0 a 1023// si se cambia de driver debe invertir la señal min por max
   int mapBrake = map(valorBrake, minBrake, maxBrake, MINpwm, MAXpwm);              // Rango ajustado a -1023 a 1023
- int  mapAxisX = map(valorAxisX, -550, 550, -1023, 1023);
+  mapaxisX = map(valorAxisX, -550, 550, -1023, 1023);
 
-// Calcular mezcla diferencial
-int  VelMI = mapThrottle + mapAxisX;
-int VelMD = mapThrottle - mapAxisX;
-  
+
+
+  // Ajusta mapBrake y mapaxisX en función de mapThrottle
+  if (valorThrottle > valorBrake) {
+
+
+    if (BitOff == true) {
+      mapaxisX = mapaxisX * abs(mapThrottle) / 1023;
+      VelMI =(mapThrottle + mapaxisX) ;  //+ mapBrake;  // Aquí restamos mapaxisX "GIRO" SE MUEVE HACIA LA DERECHA
+      VelMD =( mapThrottle - mapaxisX) ;  //+ mapBrakeX;  // Aquí sumamos mapaxisX "GIRO" SE MUEVE HACIA LA IZQUIERDA
+
+
+
+
+  if (VelMI > MAXpwm) {
+        VelMD = (MAXpwm - VelMI);
+        // VelMI =  MAXpwm
+
+      } else if (VelMD > MAXpwm) {
+        VelMI = MAXpwm - VelMD;
+
+      }
+
+
+    VelMD=map(VelMD, 1023, -1023, -1023,1023);
+    VelMI=map(VelMI, 1023, -1023, -1023,1023);
+    VelMD = -VelMD;
+    VelMI = -VelMI;
+
+//Serial.println("Velocidad izquierda: " + String(VelMI) + ", Velocidad derecha: " + String(VelMD) + ", mapaxisX: " + String(mapaxisX) + ",brake: " + String(mapBrake) + ",Throttle: " + String(mapThrottle));
+
+    }
+
+    else {
+
+      mapaxisX = mapaxisX * abs(mapThrottle) / 1023;
+      VelMI = (mapThrottle - mapaxisX);  //+ mapBrake;  // Aquí restamos mapaxisX "GIRO" SE MUEVE HACIA LA DERECHA
+      VelMD = (mapThrottle + mapaxisX);  //+ mapBrakeX;  // Aquí sumamos mapaxisX "GIRO" SE MUEVE HACIA LA IZQUIERDA
+
+      if (VelMI > MAXpwm) {
+        VelMD = (MAXpwm - VelMI);
+        // VelMI =  MAXpwm
+
+      } else if (VelMD > MAXpwm) {
+        VelMI = MAXpwm - VelMD;
+      }
+    }
+    VelMD = -VelMD;
+    VelMI = -VelMI;
+
+
+  } else if (valorBrake > valorThrottle) {
+
+
+    if (BitOff == true) {
+      // Si se aplica el brake con fuerza (ajusta el valor según tu necesidad), el vehículo se mueve en reversa
+      mapaxisX = mapaxisX * abs(mapBrake) / 1023;
+      VelMI = mapBrake - mapaxisX;  // Aquí restamos mapaxisX "GIRO" SE MUEVE HACIA LA DERECHA
+      VelMD = mapBrake + mapaxisX;  // Aquí sumamos mapaxisX "GIRO" SE MUEVE HACIA LA IZQUIERDA
+
+
+        VelMD = -VelMD;
+        VelMI = -VelMI;
+
+
+    }
+
+    else {
+
+      mapaxisX = mapaxisX * abs(mapBrake) / 1023;
+      VelMI = (mapBrake - mapaxisX);  //+ mapBrake;  // Aquí restamos mapaxisX "GIRO" SE MUEVE HACIA LA DERECHA
+      VelMD = (mapBrake + mapaxisX);  //+ mapBrakeX;  // Aquí sumamos mapaxisX "GIRO" SE MUEVE HACIA LA IZQUIERDA
+
+
+      if (VelMI > MAXpwm) {
+        VelMD = (MAXpwm - VelMI);
+        // VelMI =  MAXpwm
+
+      } else if (VelMD > MAXpwm) {
+        VelMI = MAXpwm - VelMD;
+      }
+    }
+  }
+
+
+  if (valorThrottle == 0 && valorBrake == 0) {
+    // En este caso, Throttle es igual a Brake, puedes tomar medidas adicionales si es necesario.
+    VelMI = velMIN;
+    VelMD = velMIN;
+  }
   //Serial.println("Velocidad izquierda: " + String(VelMI) + ", Velocidad derecha: " + String(VelMD) + ", mapaxisX: " + String(mapaxisX) + ",brake: " + String(mapBrake) + ",Throttle: " + String(mapThrottle));
   // Asegura que los valores estén dentro del rango -1023 a 1023
   VelMI = constrain(VelMI, -1023, 1023);

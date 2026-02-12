@@ -3,8 +3,8 @@
 #include <RF24.h>
 
 // Definimos los pines CE y CSN para el NRF24L01
-#define CE_PIN 4  // D4 en ESP32
-#define CSN_PIN 5 // D5 en ESP32
+#define CE_PIN 7  // D4 en ESP32
+#define CSN_PIN 8 // D5 en ESP32
 #define canal 45
 
 // Creamos el objeto radio
@@ -18,14 +18,14 @@ int receivedValues[11]; // Ajusta el tamaño según el número de sensores
 
 void setup() {
   // Iniciamos la comunicación serial
-  Serial.begin(9600);
-
-  // Iniciamos el módulo NRF24L01
+  Serial.begin(115200);
+ Serial.println("iniciando");
+  //Iniciamos el módulo NRF24L01
   if (!radio.begin()) {
     Serial.println("Error al iniciar el NRF24L01");
     while (1);
   }
-
+  Serial.println("iniciado nfr24");
   // Configuramos la máxima potencia y la velocidad de transmisión más alta
   radio.setPALevel(RF24_PA_MAX);   // Máxima potencia
   radio.setDataRate(RF24_2MBPS);  // Velocidad de transmisión más alta (2 Mbps)

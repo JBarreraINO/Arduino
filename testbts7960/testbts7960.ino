@@ -1,8 +1,8 @@
 // Definir los pines PWM para los motores
-const int pwmMotor1A = 9;
-const int pwmMotor1B = 10;
-const int pwmMotor2A = 11;
-const int pwmMotor2B = 12;
+const int pwmMotor1A = 26;
+const int pwmMotor1B = 27;
+const int pwmMotor2A = 32;
+const int pwmMotor2B = 33;
 
 void setup() {
   // Configurar los pines PWM como salidas

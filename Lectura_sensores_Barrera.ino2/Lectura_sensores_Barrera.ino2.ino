@@ -1,8 +1,8 @@
-#define s0      35
-#define s1      32
-#define s2      33
-#define s3      25
-#define OM      34
+#define s0 16
+#define s1 17
+#define s2 18
+#define s3 19
+#define OM 4
 
 int sensores[16];
 void setup() {

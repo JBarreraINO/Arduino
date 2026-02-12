@@ -1,8 +1,8 @@
-#define s0      16
-#define s1      17
-#define s2      18
-#define s3      19
-#define OM      4
+#define s0      A0
+#define s1      A1
+#define s2      A2
+#define s3      A3
+#define OM      A4
 #define LED     13
 
 int sensores[16];
@@ -12,7 +12,7 @@ int umbral=750;
 int linea=1;
 ///////////////////////////////////////////
 
- x+y=x;
+
 void setup() {
 Serial.begin(115200);
 pinMode(s0,OUTPUT);
@@ -44,14 +44,6 @@ sensores[i] = analogRead(OM);
  Serial.print("\t");
 }
 Serial.println(" ");
-/*
-for(int i=0;i<16;i++){
-  if(sensores[i]<=umbral){
-    sensores[i]=0;
-  }
-  Serial.print(sensores[i]);
-  Serial.print("\t");
-}
-Serial.println(" ");*/
+
 
 }

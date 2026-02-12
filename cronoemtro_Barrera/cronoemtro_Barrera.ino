@@ -1,15 +1,18 @@
 #include <Arduino.h>
 #include "BluetoothSerial.h"
 BluetoothSerial BT;
-#include <SPI.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SH1106.h>
 #include <EEPROM.h>
+#include <SPI.h>
+#include <nRF24L01.h>
+#include <RF24.h>
 int pinSensor = 14;
 int pinSensor1 = 27;
 int pinSensor2 = 13;
 int pinSensor3 = 12;
+int pinSensor4 = 35;
 int pinBuzzer = 2;  // Pin del buzzer
 bool buzzerEN = 1;
 bool rotacion = 0;
@@ -25,13 +28,28 @@ unsigned long previousMillis = 0;
 unsigned long currentMillis = millis();
 int rssi;
 int velocidad = 0;
-
+const unsigned long TIEMPO_MINIMO_VALIDO = interval * 3;
 String listo = "";
 String INTERVAL = "";
 String BUZEN = "";
 
+
 #define EEPROM_SIZE 4
 #define DEBUG(a) BT.println(a);
+
+RF24 radio(4, 5); // CE, CSN
+const uint64_t canal = 0xE8E8F0F0E1LL;
+
+
+
+
+const int pinPWM = 17;         // GPIO donde se genera la señal
+const int canalPWM = 0;        // Canal de PWM (0–15)
+const int frecuencia = 38000;  // Frecuencia en Hz
+const int resolucion = 8;      // Resolución en bits (0–20), 8 bits → 0–255 duty
+
+
+char mensaje[] = "RADIO LISTO";
 
 // 'LOGOBPM', 128x64px
 const unsigned char barreraLOGOBPM[] PROGMEM = {
@@ -132,8 +150,31 @@ String limpiarString(String str) {
 
   return resultado;  // Retorna la cadena limpia
 }
+void setupRadio() {
+ 
+  Serial.println("iniciado radio ");
+  radio.begin();
+  radio.setDataRate(RF24_250KBPS);
+  radio.setPALevel(RF24_PA_HIGH);
+  radio.openWritingPipe(canal);
+  radio.stopListening(); // modo TX
 
-void setup() {
+     radio.write(&mensaje, sizeof(mensaje));
+   delay(2000);
+}
+
+void setup() { 
+  Serial.begin(9600);
+  ledcSetup(canalPWM, frecuencia, resolucion);
+  Serial.println("cronometro Barrera");
+   
+
+    
+  // Asignar canal al pin 17
+  ledcAttachPin(pinPWM, canalPWM);
+
+  // Activar la señal con 50% de duty cycle (127/255)
+  ledcWrite(canalPWM, 127);
   EEPROM.begin(200);
   EEPROM.get(0, buzzerEN);
   EEPROM.get(5, interval);
@@ -141,6 +182,22 @@ void setup() {
   EEPROM.get(15, color);
   EEPROM.get(20, rotacion);
   EEPROM.get(25, logica);
+
+  // Validar y asignar valores por defecto si están corruptos o vacíos
+if (buzzerEN != 0 ||  buzzerEN != 1) {buzzerEN = 1;   EEPROM.put(0, buzzerEN); } // valor por defecto
+if (interval <= 0 || interval > 5000) {interval = 10;EEPROM.put(5, interval);}
+if (pinSensor < 0 || pinSensor > 100) {pinSensor = 13;EEPROM.put(10, pinSensor);}
+if (color != 0 || color != 1) {color = 0; EEPROM.put(15, color);}
+if (rotacion  != 0 || rotacion != 1) {rotacion = 0;  EEPROM.put(20, rotacion);}
+if (logica != 0 || logica != 1) {logica = 1;  EEPROM.put(25, logica);}
+
+  // (Opcional) Guardar otra vez en EEPROM si detectaste que estaban mal
+
+  
+  
+ 
+
+
 
   if (rotacion == 1) {
     myOLED.setRotation(2);  // Rota el texto 180 grados
@@ -154,11 +211,12 @@ void setup() {
   BT.begin("CRBarreraINO");
   myOLED.setTextColor(WHITE);
   myOLED.setTextSize(1);
-  Serial.begin(115200);
+
   pinMode(pinSensor, INPUT_PULLDOWN);
   pinMode(pinSensor1, INPUT_PULLDOWN);
   pinMode(pinSensor2, INPUT_PULLDOWN);
-  pinMode(pinSensor3, INPUT_PULLDOWN);
+  pinMode(pinSensor4, INPUT_PULLDOWN);
+
 
   pinMode(pinBuzzer, OUTPUT);
   // Configurar el pin del buzzer como salida
@@ -168,6 +226,7 @@ void setup() {
   delay(1000);
   myOLED.setCursor(22, 50);  // Ajusta la posición vertical
   myOLED.print("ESTOY LISTO!!!");
+   
   if (color == 1) {
     myOLED.invertDisplay(true);  // Invierte la pantalla
     myOLED.display();
@@ -179,18 +238,26 @@ void setup() {
   myOLED.display();
   // rssi=BT.getSignalStrength();
 
-
+  Serial.println(pinSensor);
+  Serial.println(color);
+  Serial.println(rotacion);
+  Serial.println(logica);
 
 
 
   while (true) {
+
 
     if (condicionCumplida == false) {  // Si la condición no se ha cumplido aún
       if (BT.connected()) {
         myOLED.drawBitmap(100, 0, btimages, 41, 21, BLACK, WHITE);
         myOLED.display();
         delay(1000);
-
+        Serial.println("CONECTADO A BT.");
+        Serial.println(pinSensor);
+        Serial.println(color);
+        Serial.println(rotacion);
+        Serial.println(logica);
         condicionCumplida = true;
       }
     }
@@ -203,14 +270,14 @@ void setup() {
         condicionCumplida = false;
       }
     }
-
-    if (digitalRead(pinSensor) == HIGH) {
+ 
+    if (digitalRead(pinSensor) == logica) {
       break;
     }
 
 
 
-    if (BT.available()) {
+    if (BT.available() || Serial.available()) {
       //BT.print("waiting..");
 
       myOLED.display();
@@ -276,7 +343,7 @@ void setup() {
             Serial.println(data);
             int temp = data.toInt();
 
-            if (temp == 12 || temp == 13 || temp == 14 || temp == 27) {
+            if (temp == 12 || temp == 13 || temp == 14 || temp == 27 || temp == 35 || temp == 23 ) {
               EEPROM.put(10, temp);
               EEPROM.commit();
 
@@ -286,7 +353,7 @@ void setup() {
               break;
             } else {
               // La condición no se cumple cuando temp es diferente de 0 y 1
-              BT.print("deber ser  12 o 13 o 14 o 27");
+              BT.print("deber ser  12 o 13 o 14 o 27 o 35 o 23");
             }
           }
         }
@@ -417,35 +484,35 @@ void setup() {
 
 
       else if (data == "logica" || data == "LOGICA") {
-              BT.print("comando:");
-              BT.println(data);
-              BT.print("Logica de sensor:");
-              while (true) {
-                if (BT.available()) {
+        BT.print("comando:");
+        BT.println(data);
+        BT.print("Logica de sensor:");
+        while (true) {
+          if (BT.available()) {
 
-                  String data = BT.readStringUntil('\n');
-                  data = limpiarString(data);  // Llamar a la función para limpiar el string
+            String data = BT.readStringUntil('\n');
+            data = limpiarString(data);  // Llamar a la función para limpiar el string
 
-                  Serial.println(data);
-                  int temp = data.toInt();
-                  if (temp == 0 || temp == 1) {
-                    // La condición se cumple cuando miValor es igual a 0 o 1
-                    EEPROM.put(25, temp);
-                    EEPROM.commit();
-                    BT.print("logica cambiada a:");
-                    EEPROM.get(25, logica);
-                    BT.print(logica);
-                    if (logica == 1) {
-                      BT.println("HIGH");
-                    } else BT.println("LOW");
-                    break;
-                  } else {
-                    // La condición no se cumple cuando miValor es diferente de 0 y 1
-                    BT.print("deber ser  0 or 1");
-                  }
-                }
-              }
+            Serial.println(data);
+            int temp = data.toInt();
+            if (temp == 0 || temp == 1) {
+              // La condición se cumple cuando miValor es igual a 0 o 1
+              EEPROM.put(25, temp);
+              EEPROM.commit();
+              BT.print("logica cambiada a:");
+              EEPROM.get(25, logica);
+              BT.print(logica);
+              if (logica == 1) {
+                BT.println("HIGH");
+              } else BT.println("LOW");
+              break;
+            } else {
+              // La condición no se cumple cuando miValor es diferente de 0 y 1
+              BT.print("deber ser  0 or 1");
             }
+          }
+        }
+      }
 
       else
 
@@ -474,7 +541,7 @@ void setup() {
               pinSensor = atoi(token);  // Convertir el token a entero (ejemplo)
               int temp = pinSensor;
 
-              if (temp == 12 || temp == 13 || temp == 14 || temp == 27) {
+              if (temp == 12 || temp == 13 || temp == 14 || temp == 27 || temp == 35) {
                 EEPROM.put(10, temp);
                 EEPROM.commit();
                 EEPROM.get(10, pinSensor);
@@ -486,7 +553,7 @@ void setup() {
             }
 
 
-            
+
 
             // Obtener el siguiente token
             token = strtok(NULL, ",");
@@ -574,35 +641,63 @@ void setup() {
       //if bt available
     }
   }
+
+  setupRadio();
 }
 
 
 void loop() {
+  ledcWrite(canalPWM, 127);
+  // Formateamos el mensaje
+   
   int estadoSensor = digitalRead(pinSensor);
   if (estadoSensor == !logica && tiempoInicio == 0) {
+
     tiempoInicio = millis();
     myOLED.clearDisplay();  // Borra la pantalla OLED después de 5 vueltas
-    delay(interval);        // Pequeño retardo para estabilidad
   }
 
   if (estadoSensor == logica && tiempoInicio != 0) {
-    delay(interval);
+
     tiempoAnterior = tiempoInicio;
     tiempoInicio = millis();
-    unsigned long tiempoVuelta = tiempoInicio - tiempoAnterior;
-    digitalWrite(pinBuzzer, buzzerEN);  // Activar el buzzer cuando se activa el sensor
+
+    long tiempoCalculado = (long)(tiempoInicio - tiempoAnterior) - interval;
+    unsigned long tiempoVuelta = (tiempoCalculado < 0) ? 0 : (unsigned long)tiempoCalculado;
+
     // Mostramos el tiempo de vuelta en una nueva línea en la pantalla OLED
+
+
+    if (tiempoVuelta < TIEMPO_MINIMO_VALIDO) {
+      return;  // Salir sin imprimir ni contar vuelta
+    }
+
+    String mensaje = "Tiempo de vuelta ";
+    mensaje += String(contadorVueltas + 1);
+    mensaje += ": ";
+    mensaje += formatoTiempoTranscurrido(tiempoVuelta);
+
+    digitalWrite(pinBuzzer, buzzerEN);          // Activar el buzzer cuando se activa el sensor
     myOLED.setCursor(0, contadorVueltas * 10);  // Ajusta la posición vertical
     myOLED.print("Vuelta ");
     myOLED.print(contadorVueltas + 1);
     myOLED.print(": ");
     myOLED.print(formatoTiempoTranscurrido(tiempoVuelta));
+
+   
     myOLED.display();
 
+
+ 
     Serial.print("Tiempo de vuelta ");
     Serial.print(contadorVueltas + 1);
     Serial.print(": ");
     Serial.println(formatoTiempoTranscurrido(tiempoVuelta));
+
+  char buffer[32];
+ formatoTiempoTranscurrido(tiempoVuelta).toCharArray(buffer, sizeof(buffer));
+
+    radio.write(&buffer, sizeof(buffer));               // enviar solo lo que ocupa
 
     BT.print("Tiempo de vuelta ");
     BT.print(contadorVueltas + 1);
@@ -645,7 +740,7 @@ void writeString(char add, String data) {
 
 
 String read_String(char add) {
-  int i;
+ 
   char data[200];  //Max 100 Bytes
   int len = 0;
   unsigned char k;

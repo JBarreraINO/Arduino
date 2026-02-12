@@ -25,9 +25,6 @@ int izquierdo = 35;
 int Dderecho = 13;   // Sensor diagonal derecho
 int Dizquierdo = 2;  // Sensor diagonal izquierdo
 int Desplegar = 0;
-// Sensores de piso
-int piso1 = 25;
-int piso2 = 15;
 
 // Declaración pines motores
 int MOTOR1_IN1 = 27;  // PWM izquierdo
@@ -46,6 +43,7 @@ bool calibrado = false;
 #define DIPSW2 35
 #define DIPSW3 5
 #define DIPSW4 4
+
 
 #define LED1 5
 

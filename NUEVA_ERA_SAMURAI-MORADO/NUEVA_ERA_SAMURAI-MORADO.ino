@@ -2,10 +2,9 @@
 #include<Servo.h>
 
 Servo fan;
-int velocidad =60; // Velocidad crucero de robot max 255
-
-float Kp = 0.32; // calibracion proporciona p = 0.145;
-float Kd = 2.5;  //  calibracion derivativod = 1.9;
+int velocidad =55; // Velocidad crucero de robot max 255
+float Kp = 0.4; // calibracion proporciona p = 0.145;
+float Kd = 5.5;  //  calibracion derivativod = 1.9;
 float Ki=0.003;
 int sensibilidad = 100;
 int frente = 80;   // Velocidad a la que ira el motor hacia adelante cuando pierda la linea max 255  198 para sensores cortos
@@ -14,18 +13,22 @@ int reversa = 80;  // Velocidad a la que ira el motor hacia atras cuando pierda 
 int color = 1;      // 1 linea negra 2 linea blanca
 //********CONEXION DE PUERTOS****************************************************************************************************
 int OP = A4;   // A0 conectdado a OP    SALIDA DEL MULTIPLEXOR
-
 int led = 13;  // Led default de Arduino
+int S0 = A0;   // A4 conectado a S0     S0 DEL MULTIPLEXOR
+int S1 = A1;   // A3 conectado a S1     S1 DEL MULTIPLEXOR
+int S2 = A2;   // A1 conectado a S2     S2 DEL MULTIPLEXOR
+int S3 = A3;   // A2 conectado a S3     S3 DEL MULTIPLEXOR
+
 
 int pini = 10;//cambie 9 * 10 para direccion
 int pwmi = 11;//cambie 5*11 con el objetivo de usar el mismo timmer para el pwm 
 int pind = 9;//cambie 6 * 9
 int pwmd = 3;//cambie 5 * 3 
 
-//int go = 8;   // Puerto donde se conecta el arrancador ( si el modulo no esta conectado, debe ponerse una resistencia pull-down)
-//int rdy = 12;
-//int boton_izq = 4; // boton izquierdo
-//int boton_der = 7; // boton derecho
+int go = 8;   // Puerto donde se conecta el arrancador ( si el modulo no esta conectado, debe ponerse una resistencia pull-down)
+int rdy = 12;
+int boton_izq = 4; // boton izquierdo
+int boton_der = 7; // boton derecho
 //int lon = 11;
 //*******VARIABLES A UTILIZAR****************************************************************************************************
 
@@ -94,12 +97,30 @@ TCCR2B_PRESCALER 11 Y 3
   TCCR2A =   B00000011;  // Fast PWM MODE - OCA DISCONETED
   TCCR2B =  (TCCR2A & B11110111) ;  
  //TIMSK2 = (TIMSK2 & B11111000) | 0x07;
-
+/*
   DDRC=B00001111;//pinmode(s0,s1,s2,s3,output)
   DDRD=B00100000;//pinmode(3,5output) PORTD=B01000000;
   DDRB=B00100110;//pinmode(9,11,10,13,output ) // pendiente por decidir si poner como salidas los pwm 
    DDRD &=~B10010000;//ENTRADAS 4,7
    DDRB &=~B00010001;//ENTRADAS 8,12
+   */
+
+    pinMode ( led, OUTPUT);
+ // pinMode(lon, OUTPUT);
+  pinMode ( S0, OUTPUT);
+  pinMode ( S1, OUTPUT);
+  pinMode ( S2, OUTPUT);
+  pinMode ( S3, OUTPUT);
+  pinMode ( OP, INPUT);
+  pinMode ( go, INPUT);
+  pinMode ( boton_izq, INPUT);
+//  pinMode ( boton_der, INPUT);
+  pinMode(rdy, INPUT);
+
+  pinMode(pini, OUTPUT);
+  pinMode(pwmi, OUTPUT);
+  pinMode(pind, OUTPUT);
+  pinMode(pwmd, OUTPUT);
     analogReference(INTERNAL);
 
 fan.attach(6);
@@ -458,6 +479,7 @@ void lectura() {
   state_rdy = (PINB >> 4 &   B00010000 >> 4);
 
 //s0
+/*
 PORTC=B00000000;
 ADMUX |= B00000100;
 ADMUX |=B11000000;
@@ -575,6 +597,7 @@ ADCSRA |= B11000000;
 while (bit_is_set(ADCSRA, ADSC));
 valor_sensor[15] =(ADCL | (ADCH << 8))/4;
 
+*/
 
 
 
@@ -584,7 +607,6 @@ valor_sensor[15] =(ADCL | (ADCH << 8))/4;
 
 
 
-/*
 for(int i=0;i<16;i++){
   digitalWrite(S0,i&0x01);
   digitalWrite(S1,i&0x02);
@@ -592,7 +614,7 @@ for(int i=0;i<16;i++){
   digitalWrite(S3,i&0x08);
    valor_sensor[i]=analogRead(OP)/4;
 }
-*/
+
 
 
 

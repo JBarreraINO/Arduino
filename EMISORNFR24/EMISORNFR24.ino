@@ -6,7 +6,8 @@
 #include <ESPAsyncWebServer.h>
 #include <Preferences.h>
 #include <Bluepad32.h>
-
+#include "soc/soc.h"
+#include "soc/rtc_cntl_reg.h"
 ControllerPtr myControllers[BP32_MAX_GAMEPADS];
 #define CE_PIN 4
 #define CSN_PIN 5
@@ -14,18 +15,19 @@ ControllerPtr myControllers[BP32_MAX_GAMEPADS];
 #define LED_PIN 13
 #define POWER_PIN 17
 
-int contador = 0;        // Variable del contador
+int contador = 0;  // Variable del contador
 
 int estado_pulsador_asc = 0;  // estado actual del pulsador
 int lastButtonState_asc = 1;  // estado anterior del pulsador
 
 const char* ssid = "BARRERA_RF_CONFIG";
 const char* password = "12345678";
-const int analogPins[] = { 13, 15, 2, 21, 22, 14, 27, 12, 34, 35, 32, 33, 25, 26 };
+//const int analogPins[] = { 13, 15, 2, 21, 22, 14, 27, 12, 34, 35, 32, 33, 25, 26 };
+const int analogPins[] = { 2, 25, 12, 27, 14, 26, 36, 39, 34, 35, 15 };
 const int numSensors = sizeof(analogPins) / sizeof(analogPins[0]);
 int sensorValues[numSensors];
 
-int channel = 76;
+int channel = 45;
 int powerLevel = 3;
 bool systemActive = true;
 bool buttonHeld = false;
@@ -122,15 +124,15 @@ const char index_html[] PROGMEM = R"rawliteral(
 </html>
 )rawliteral";
 bool configMode = false;
-bool gameMode = false; // Variable para guardar el modo seleccionado
+bool gameMode = false;  // Variable para guardar el modo seleccionado
 
-int operationMode = 0; // 0 = Modo RC, 1 = Modo Juego
+int operationMode = 0;  // 0 = Modo RC, 1 = Modo Juego
 
 void loadSettings() {
   preferences.begin("nrf24", true);
-  channel = preferences.getInt("channel", 76);
+  channel = preferences.getInt("channel", 45);
   powerLevel = preferences.getInt("power", 3);
-  operationMode = preferences.getInt("mode", 0); // Cargar el modo de operación
+  operationMode = preferences.getInt("mode", 0);  // Cargar el modo de operación
   preferences.end();
   Serial.print("Canal guardado en EEPROM: ");
   Serial.println(channel);
@@ -144,7 +146,7 @@ void saveSettings(int ch, int pw, int mode) {
   preferences.begin("nrf24", false);
   preferences.putInt("channel", ch);
   preferences.putInt("power", pw);
-  preferences.putInt("mode", mode); // Guardar el modo de operación
+  preferences.putInt("mode", mode);  // Guardar el modo de operación
   preferences.end();
   Serial.println("Configuracion guardada en EEPROM.");
 }
@@ -162,6 +164,16 @@ String processor(const String& var) {
 
 void setupRadio() {
   radio.begin();
+
+  if (radio.begin()) {
+    Serial.println("iniciado correctamente");
+  }
+
+  if (!radio.begin()) {
+    Serial.println("Error al iniciar el NRF24L01");
+    while (1)
+      ;
+  }
   radio.setChannel(channel);
   radio.setPALevel((rf24_pa_dbm_e)powerLevel);
   radio.setDataRate(RF24_2MBPS);  // Velocidad de transmisión más alta (2 Mbps)
@@ -174,11 +186,11 @@ void setupRadio() {
 
 void enterSleepMode() {
   digitalWrite(LED_PIN, HIGH);
-    digitalWrite(16,LOW);
+  digitalWrite(16, LOW);
   digitalWrite(POWER_PIN, HIGH);  // Activa el pin de apagado
   Serial.println("Sistema en modo reposo");
-BP32.forgetBluetoothKeys();
-    Serial.print("dispositivo olvidado");
+  BP32.forgetBluetoothKeys();
+  Serial.print("dispositivo olvidado");
   // Deshabilitar periféricos
   radio.powerDown();
   WiFi.disconnect(true);
@@ -189,23 +201,24 @@ BP32.forgetBluetoothKeys();
 }
 
 void setup() {
+  WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);
   pinMode(LED_PIN, OUTPUT);
   pinMode(POWER_PIN, OUTPUT);
-   pinMode(16, OUTPUT);
+  pinMode(16, OUTPUT);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   digitalWrite(POWER_PIN, LOW);
-   loadSettings();
+  loadSettings();
   Serial.begin(115200);
-    delay(3000);
+  delay(3000);
 
   if (digitalRead(BUTTON_PIN) == LOW) {
 
     buttonHeld = true;
-    operationMode =0;
+    operationMode = 0;
   }
 
   if (buttonHeld) {
-     BP32.setup(&onConnectedController, &onDisconnectedController);
+    BP32.setup(&onConnectedController, &onDisconnectedController);
     configMode = true;
     digitalWrite(LED_PIN, HIGH);
     WiFi.softAP(ssid, password);
@@ -222,9 +235,9 @@ void setup() {
     server.on("/save", HTTP_GET, [](AsyncWebServerRequest* request) {
       if (request->hasParam("channel")) channel = request->getParam("channel")->value().toInt();
       if (request->hasParam("power")) powerLevel = request->getParam("power")->value().toInt();
-       if (request->hasParam("mode")) operationMode = request->getParam("mode")->value().toInt();
+      if (request->hasParam("mode")) operationMode = request->getParam("mode")->value().toInt();
       saveSettings(channel, powerLevel, operationMode);
-       request->send(200, "text/html", "<meta http-equiv='refresh' content='3;url=/' /><p>Configuración guardada. Reiniciando...</p>");
+      request->send(200, "text/html", "<meta http-equiv='refresh' content='3;url=/' /><p>Configuración guardada. Reiniciando...</p>");
       delay(1000);
       ESP.restart();
     });
@@ -236,10 +249,9 @@ void setup() {
     });
 
     server.begin();
-  } else   if (operationMode == 1) {
-    enterSleepMode(); // Entrar en modo de sueño si está en Modo Juego
-  }
-  else {
+  } else if (operationMode == 1) {
+    enterSleepMode();  // Entrar en modo de sueño si está en Modo Juego
+  } else {
     loadSettings();
     setupRadio();
     Serial.println("Modo Transmision Activado");
@@ -251,7 +263,6 @@ void setup() {
 
     // Setup the Bluepad32 callbacks
     BP32.setup(&onConnectedController, &onDisconnectedController);
-
   }
 }
 
@@ -267,70 +278,66 @@ void loop() {
   if (!configMode) {
 
 
- if (millis() - lastBlink > 10) {
+    if (millis() - lastBlink > 10) {
       digitalWrite(LED_PIN, !digitalRead(LED_PIN));
       lastBlink = millis();
     }
-    /*
-    for (int i = 0; i < numSensors; i++) {
-        sensorValues[i] = analogRead(analogPins[i]);
-    }
-   // {13, 15, 2, 21, 22, 14, 27, 12, 34, 35, 32, 33, 25, 26};
-*/
-    sensorValues[0] = analogRead(15);
-    sensorValues[1] = analogRead(21);
-    sensorValues[2] = analogRead(22);
-    sensorValues[3] = analogRead(14);
-    sensorValues[4] = analogRead(27);
-    sensorValues[5] = analogRead(12);
-    sensorValues[6] = analogRead(34);
-    sensorValues[7] = analogRead(35);
-    sensorValues[8] = analogRead(32);
-    sensorValues[9] = analogRead(33);
-    sensorValues[10] = analogRead(25);
-    sensorValues[11] = analogRead(26);
-   radio.write(&sensorValues, sizeof(sensorValues));
-  
-    //Serial.println(ok ? "Datos enviados correctamente" : "Error al enviar los datos");
-  }
 
-  
+
+    sensorValues[0] = analogRead(36);
+    sensorValues[1] = analogRead(39);
+    sensorValues[2] = analogRead(34);
+    sensorValues[3] = analogRead(25);
+    sensorValues[4] = analogRead(35);
+    sensorValues[5] = analogRead(12);
+    sensorValues[6] = analogRead(32);
+    sensorValues[7] = analogRead(27);
+    sensorValues[8] = analogRead(14);
+    sensorValues[9] = analogRead(33);
+    sensorValues[10] = analogRead(15);
+    sensorValues[11] = analogRead(26);
+
+
+    radio.write(&sensorValues, sizeof(sensorValues));
+
+    //    Serial.println(ok ? "Datos enviados correctamente" : "Error al enviar los datos");
+  }
 }
 
 
 void onConnectedController(ControllerPtr ctl) {
-    bool foundEmptySlot = false;
-    for (int i = 0; i < BP32_MAX_GAMEPADS; i++) {
-        if (myControllers[i] == nullptr) {
-            Serial.printf("CALLBACK: Controller is connected, index=%d\n", i);
-            // Additionally, you can get certain gamepad properties like:
-            // Model, VID, PID, BTAddr, flags, etc.
-            ControllerProperties properties = ctl->getProperties();
-            Serial.printf("Controller model: %s, VID=0x%04x, PID=0x%04x\n", ctl->getModelName().c_str(), properties.vendor_id,
-                           properties.product_id);
-            myControllers[i] = ctl;
-            foundEmptySlot = true;
-            break;
-        }
+  bool foundEmptySlot = false;
+  for (int i = 0; i < BP32_MAX_GAMEPADS; i++) {
+    if (myControllers[i] == nullptr) {
+      Serial.printf("CALLBACK: Controller is connected, index=%d\n", i);
+      // Additionally, you can get certain gamepad properties like:
+      // Model, VID, PID, BTAddr, flags, etc.
+      ControllerProperties properties = ctl->getProperties();
+      Serial.printf("Controller model: %s, VID=0x%04x, PID=0x%04x\n", ctl->getModelName().c_str(), properties.vendor_id,
+                    properties.product_id);
+      myControllers[i] = ctl;
+      foundEmptySlot = true;
+      break;
     }
-    if (!foundEmptySlot) {
-        Serial.println("CALLBACK: Controller connected, but could not found empty slot");
-    }
+  }
+  if (!foundEmptySlot) {
+    Serial.println("CALLBACK: Controller connected, but could not found empty slot");
+  }
 }
 
 void onDisconnectedController(ControllerPtr ctl) {
-    bool foundController = false;
+  bool foundController = false;
 
-    for (int i = 0; i < BP32_MAX_GAMEPADS; i++) {
-        if (myControllers[i] == ctl) {
-            Serial.printf("CALLBACK: Controller disconnected from index=%d\n", i);
-            myControllers[i] = nullptr;
-            foundController = true;
-            break;
-        }
+  for (int i = 0; i < BP32_MAX_GAMEPADS; i++) {
+    if (myControllers[i] == ctl) {
+      Serial.printf("CALLBACK: Controller disconnected from index=%d\n", i);
+      myControllers[i] = nullptr;
+      foundController = true;
+      break;
     }
+  }
 
-    if (!foundController) {
-        Serial.println("CALLBACK: Controller disconnected, but not found in myControllers");
-    }
+  if (!foundController) {
+    Serial.println("CALLBACK: Controller disconnected, but not found in myControllers");
+  }
 }

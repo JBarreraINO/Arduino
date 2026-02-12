@@ -1,9 +1,22 @@
+/*
+
+
 #define s0 8  // Sensor Selection pin S0.
 #define s1 7   // Sensor Selection pin S1.
 #define s2 6   // Sensor Selection pin S2.
 #define s3 5   // Sensor Selection pin S3.
 #define s4 4   // Sensor Selection pin S4.
 #define OM A5  // Output pin of the multiplexer.
+*/
+
+
+#define s0 A2  // Sensor Selection pin S0.
+#define s1 5   // Sensor Selection pin S1.
+#define s2 6   // Sensor Selection pin S2.
+#define s3 7   // Sensor Selection pin S3.
+#define s4 8   // Sensor Selection pin S4.
+#define OM A5  // Output pin of the multiplexer.
+
 
 int sensores[27];
 

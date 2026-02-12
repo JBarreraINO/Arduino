@@ -1,7 +1,7 @@
 #include <Servo.h>
 
 Servo esc;
-const int escPin = 9;  // Señal del ESC en el pin D9
+const int escPin = 2;  // Señal del ESC en el pin D9
 int velocidad = 1000;  // Valor inicial (reposo)
 
 void setup() {
